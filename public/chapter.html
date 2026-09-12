@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Đọc Chương - Omakase Blog</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+  <!-- Site Navigation Header -->
+  <header class="site-header-translucent">
+    <div class="site-header-inner-full">
+      <a href="/omakase/" class="brand-logo-link" title="Trang chủ Omasake">
+        <img id="brandLogo" src="https://files.cdn-files-a.com/uploads/12065718/400_69f17ca68bc4f.png" alt="Omasake Logo" class="brand-logo-img">
+        <span class="brand-title-text" id="siteTitleText">OMASAKE</span>
+      </a>
+
+      <div class="nav-buttons-right">
+        <a href="/omakase/" class="nav-btn-equal" title="Trang chủ">
+          <span class="btn-text">Trang Chủ</span>
+        </a>
+        <a id="backToStoryLink" href="/omakase/stories" class="nav-btn-equal" title="Danh sách chương">
+          <span class="btn-icon">📚</span><span class="btn-text">Danh Sách Chương</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Reader Container -->
+  <main class="container reader-container" style="margin-top: 30px;">
+    
+    <div class="reader-box" id="readerBox">
+      
+      <!-- Reader Header -->
+      <div class="reader-header">
+        <div id="readerStoryTitle" class="reader-story-title">Đang tải...</div>
+        <h1 id="readerChapTitle" class="reader-chap-title">Đang tải tên chương...</h1>
+      </div>
+
+      <!-- Reader Controls Bar -->
+      <div class="reader-controls">
+        <a id="btnPrevChap" href="#" class="btn-nav-chap disabled">← Chương trước</a>
+        
+        <select id="selectChapterNav" onchange="window.location.href='/omakase/chapter/'+this.value" class="form-select" style="width: auto; max-width: 220px; font-weight: 600;">
+          <!-- Options populated dynamically -->
+        </select>
+
+        <a id="btnNextChap" href="#" class="btn-nav-chap disabled">Chương tiếp →</a>
+      </div>
+
+      <!-- Reader Customization Toolbar -->
+      <div style="display: flex; justify-content: flex-end; align-items: center; gap: 10px; margin-bottom: 25px; padding: 8px 16px; background: #f6fbf7; border-radius: 8px; font-size: 0.88rem;">
+        <span style="font-weight: 600; color: var(--text-muted);">Cỡ chữ:</span>
+        <button onclick="changeFontSize(-1)" class="tab-btn" style="padding: 2px 8px;">A-</button>
+        <button onclick="changeFontSize(1)" class="tab-btn" style="padding: 2px 8px;">A+</button>
+
+        <span style="font-weight: 600; color: var(--text-muted); margin-left: 15px;">Nền:</span>
+        <button onclick="setReaderTheme('#f2f8f4', '#193324')" style="background: #f2f8f4; border: 1px solid #c3e2cc; border-radius: 50%; width: 22px; height: 22px; cursor: pointer;"></button>
+        <button onclick="setReaderTheme('#ffffff', '#1c1c1c')" style="background: #ffffff; border: 1px solid #ccc; border-radius: 50%; width: 22px; height: 22px; cursor: pointer;"></button>
+        <button onclick="setReaderTheme('#fcf8ed', '#2c251e')" style="background: #fcf8ed; border: 1px solid #e2d7be; border-radius: 50%; width: 22px; height: 22px; cursor: pointer;"></button>
+      </div>
+
+      <!-- Main Chapter Text & Embedded Image Links Body -->
+      <article id="readerContent" class="reader-content">
+        Đang tải nội dung chương...
+      </article>
+
+      <!-- Bottom Navigation Controls -->
+      <div class="reader-controls" style="margin-top: 40px; margin-bottom: 0;">
+        <a id="btnPrevChapBot" href="#" class="btn-nav-chap disabled">← Chương trước</a>
+        <a id="backToStoryBot" href="#" class="nav-link" style="font-weight: 700;">📚 Mục lục chương</a>
+        <a id="btnNextChapBot" href="#" class="btn-nav-chap disabled">Chương tiếp →</a>
+      </div>
+
+    </div>
+
+  </main>
+
+  <script>
+    const chapterId = window.location.pathname.split('/chapter/')[1];
+    let currentFontSize = 1.15;
+
+    function changeFontSize(delta) {
+      currentFontSize = Math.max(0.95, Math.min(1.6, currentFontSize + (delta * 0.08)));
+      document.getElementById('readerContent').style.fontSize = currentFontSize + 'rem';
+    }
+
+    function setReaderTheme(bgColor, textColor) {
+      const box = document.getElementById('readerBox');
+      box.style.backgroundColor = bgColor;
+      document.getElementById('readerContent').style.color = textColor;
+    }
+
+    function formatChapterHtml(content) {
+      if (!content) return '';
+      let html = content;
+
+      // Render Markdown images ![alt](url)
+      html = html.replace(/!\[(.*?)\]\((.*?)\)/g, (match, alt, url) => {
+        return `<div class="img-wrapper"><img src="${url.trim()}" alt="${alt || 'Ảnh minh họa'}" class="chapter-img" loading="lazy" /><span class="img-caption">${alt || ''}</span></div>`;
+      });
+
+      // Render standalone image URLs
+      const lines = html.split('\n');
+      return lines.map(line => {
+        const trimmed = line.trim();
+        if (trimmed.match(/^https?:\/\/.+\.(jpg|jpeg|png|webp|gif|svg)(\?.*)?$/i)) {
+          return `<div class="img-wrapper"><img src="${trimmed}" alt="Ảnh minh họa" class="chapter-img" loading="lazy" /></div>`;
+        }
+        if (trimmed.startsWith('<div class="img-wrapper">')) return trimmed;
+        return trimmed ? `<p>${trimmed}</p>` : '';
+      }).join('');
+    }
+
+    async function loadSettings() {
+      try {
+        const res = await fetch('/api/v1/user/settings');
+        const json = await res.json();
+        if (json.success && json.data) {
+          const s = json.data;
+          if (s.announcementText) document.getElementById('topAnnouncement').innerHTML = s.announcementText;
+          if (s.headerBannerUrl) document.getElementById('headerBannerImg').src = s.headerBannerUrl;
+          if (s.logoUrl) document.getElementById('brandLogo').src = s.logoUrl;
+          if (s.siteTitle) document.getElementById('siteTitleText').textContent = s.siteTitle;
+        }
+      } catch (e) {}
+    }
+
+    async function loadChapterContent() {
+      if (!chapterId) return;
+      try {
+        const res = await fetch(`/api/v1/user/chapters/${chapterId}`);
+        const json = await res.json();
+
+        if (json.success && json.data) {
+          const chap = json.data;
+          document.title = `${chap.title} - ${chap.storyTitle}`;
+          document.getElementById('readerStoryTitle').textContent = chap.storyTitle || 'Omakase Novel';
+          document.getElementById('readerChapTitle').textContent = chap.title;
+          
+          document.getElementById('readerContent').innerHTML = formatChapterHtml(chap.content);
+
+          const storyUrl = `/omakase/story/${chap.storyId}`;
+          document.getElementById('backToStoryLink').href = storyUrl;
+          document.getElementById('backToStoryBot').href = storyUrl;
+
+          // Populate select dropdown
+          const select = document.getElementById('selectChapterNav');
+          select.innerHTML = (chap.allChapters || []).map(c => `
+            <option value="${c._id}" ${c._id === chap._id ? 'selected' : ''}>
+              Chương ${c.chapterNumber}: ${c.title}
+            </option>
+          `).join('');
+
+          // Prev button
+          const btnPrev = document.getElementById('btnPrevChap');
+          const btnPrevBot = document.getElementById('btnPrevChapBot');
+          if (chap.prevChapter) {
+            btnPrev.href = `/omakase/chapter/${chap.prevChapter._id}`;
+            btnPrev.classList.remove('disabled');
+            btnPrevBot.href = `/omakase/chapter/${chap.prevChapter._id}`;
+            btnPrevBot.classList.remove('disabled');
+          } else {
+            btnPrev.classList.add('disabled');
+            btnPrevBot.classList.add('disabled');
+          }
+
+          // Next button
+          const btnNext = document.getElementById('btnNextChap');
+          const btnNextBot = document.getElementById('btnNextChapBot');
+          if (chap.nextChapter) {
+            btnNext.href = `/omakase/chapter/${chap.nextChapter._id}`;
+            btnNext.classList.remove('disabled');
+            btnNextBot.href = `/omakase/chapter/${chap.nextChapter._id}`;
+            btnNextBot.classList.remove('disabled');
+          } else {
+            btnNext.classList.add('disabled');
+            btnNextBot.classList.add('disabled');
+          }
+        }
+      } catch (e) {
+        console.error('Lỗi tải nội dung chương:', e);
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      loadSettings();
+      loadChapterContent();
+    });
+  </script>
+
+  <!-- Admin Portal Access Badge (Bottom Left Gear Icon) -->
+  <a href="/omakase/admin/dashboard" class="admin-gear-btn" title="Bảng quản trị Admin">
+    ⚙️
+  </a>
+</body>
+</html>

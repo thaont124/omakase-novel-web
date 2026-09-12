@@ -1,0 +1,1556 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bảng Quản Trị Admin - Omasake</title>
+  <link rel="shortcut icon" href="https://files.cdn-files-a.com/uploads/12065718/400_69f17ca68bc4f.png"
+    type="image/x-icon">
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    @keyframes toastSlideDown {
+      0% {
+        opacity: 0;
+        transform: translate(-50%, -35px) scale(0.95);
+      }
+
+      100% {
+        opacity: 1;
+        transform: translate(-50%, 0) scale(1);
+      }
+    }
+
+    @keyframes toastFadeOut {
+      0% {
+        opacity: 1;
+        transform: translate(-50%, 0) scale(1);
+      }
+
+      100% {
+        opacity: 0;
+        transform: translate(-50%, -20px) scale(0.95);
+      }
+    }
+
+    .floating-toast-alert {
+      position: fixed;
+      top: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 999999;
+      width: max-content;
+      min-width: 340px;
+      max-width: 90vw;
+      padding: 14px 22px;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.22), 0 4px 12px rgba(0, 0, 0, 0.1);
+      box-sizing: border-box;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      backdrop-filter: blur(8px);
+    }
+
+    /* STICKY TOOLBAR FOR EDITOR INSERTER & MODE TABS */
+    .editor-sticky-toolbar {
+      position: sticky;
+      top: 68px;
+      z-index: 990;
+      background: rgba(244, 251, 247, 0.98);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      padding: 10px 14px;
+      border-radius: 14px;
+      border: 1px solid rgba(11, 46, 28, 0.18);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    @media (min-width: 768px) {
+      .editor-sticky-toolbar {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+      }
+    }
+
+    .editor-sticky-toolbar .quick-img-inserter-row {
+      margin-bottom: 0 !important;
+      width: 100%;
+    }
+
+    @media (min-width: 768px) {
+      .editor-sticky-toolbar .quick-img-inserter-row {
+        width: auto;
+      }
+    }
+
+    .editor-sticky-toolbar .quick-img-inserter {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      width: 100%;
+    }
+
+    .editor-sticky-toolbar #quickImgUrl {
+      flex: 1;
+      min-width: 160px;
+    }
+
+    .editor-sticky-toolbar .preview-tabs-wrap {
+      margin-bottom: 0 !important;
+      position: static !important;
+      top: auto !important;
+      box-shadow: none !important;
+      padding: 4px !important;
+      width: fit-content;
+    }
+
+    /* FULL HEIGHT FILL LAYOUT FOR MAIN CONTENT CARDS ONLY */
+    main.admin-container {
+      min-height: calc(100vh - 120px);
+      display: flex;
+      flex-direction: column;
+    }
+
+    header .admin-container,
+    .site-header-inner {
+      min-height: auto !important;
+      height: auto !important;
+    }
+
+    main.admin-container>.admin-card {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-height: calc(100vh - 160px);
+    }
+
+    #chapterForm {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .editor-split-container {
+      flex: 1;
+      min-height: 520px;
+    }
+
+    #editorRawWrap,
+    #editorPreviewWrap {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    #chapContent.form-textarea {
+      flex: 1;
+      min-height: 480px;
+      max-height: none;
+    }
+
+    .preview-box {
+      flex: 1;
+      min-height: 480px;
+      max-height: none;
+      overflow-y: auto;
+    }
+  </style>
+</head>
+
+<body class="admin-page-body">
+
+  <!-- Site Navigation Header -->
+  <header class="site-header"
+    style="background: rgba(186, 242, 227, 0.95) !important; padding: 12px 24px; box-shadow: 0 4px 15px rgba(11,46,28,0.1); width: 100%; border-bottom: 1px solid rgba(255,255,255,0.7);">
+    <div class="admin-container site-header-inner"
+      style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin: 0 auto;">
+      <div class="brand-area" style="display: flex; align-items: center; gap: 12px;">
+        <a href="/omakase/" style="display: flex; align-items: center;">
+          <img id="brandLogo" src="https://files.cdn-files-a.com/uploads/12065718/400_69f17ca68bc4f.png" alt="Logo"
+            style="height: 44px !important; width: 44px !important; max-height: 44px !important; max-width: 44px !important; border-radius: 50% !important; object-fit: cover !important; border: 2px solid #0b2e1c; box-shadow: 0 2px 8px rgba(0,0,0,0.15); display: block;" />
+        </a>
+        <div>
+          <a href="/omakase/" class="brand-title"
+            style="color: #0b2e1c !important; font-weight: 700; font-size: 1.3rem; text-transform: uppercase; text-decoration: none; text-shadow: none;">Omasake
+            Admin Portal</a>
+        </div>
+      </div>
+      <nav class="main-nav" style="display: flex; align-items: center; gap: 12px;">
+        <a href="/omakase/" class="nav-link" target="_blank"
+          style="background: #ffffff !important; color: #0b2e1c !important; border: 1px solid rgba(11,46,28,0.2); padding: 7px 16px; border-radius: 20px; font-weight: 700; font-size: 0.85rem; text-decoration: none; box-shadow: 0 2px 8px rgba(0,0,0,0.06);">🌐
+          Xem Trực Tiếp Web</a>
+
+        <!-- 3-DASH HAMBURGER MENU DROPDOWN (HEADER) -->
+        <div class="admin-menu-dropdown-wrap">
+          <button type="button" class="admin-menu-toggle-btn" onclick="toggleAdminMenu(event)"
+            style="background: #ffffff !important; color: #0b2e1c !important; border: 1px solid rgba(11,46,28,0.2) !important;">
+            ☰ <span style="color: #0b2e1c !important;">Menu Quản Trị</span>
+          </button>
+          <div class="admin-menu-dropdown" id="adminHeaderDropdown">
+            <button type="button" class="admin-menu-item active" data-tab="tab-stories"
+              onclick="selectAdminTab('tab-stories')">
+              📚 Quản Lý Truyện
+            </button>
+            <button type="button" class="admin-menu-item" data-tab="tab-editor" onclick="selectAdminTab('tab-editor')">
+              ✏️ Biên Soạn
+            </button>
+            <button type="button" class="admin-menu-item" data-tab="tab-accounts"
+              onclick="selectAdminTab('tab-accounts')">
+              👤 Quản Lý Tài Khoản
+            </button>
+            <button type="button" class="admin-menu-item" data-tab="tab-settings"
+              onclick="selectAdminTab('tab-settings')">
+              🖼️ Thay Nền Home
+            </button>
+          </div>
+        </div>
+
+        <button onclick="logoutAdmin()" class="btn-danger"
+          style="padding: 7px 16px; font-size: 0.85rem; border-radius: 20px; font-weight: 700;">Đăng Xuất</button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="admin-container" style="margin-top: 25px; margin-bottom: 50px;">
+
+    <!-- Status Notification Alert (Floating Popup Toast) -->
+    <div id="statusAlert" class="floating-toast-alert" style="display: none;">
+      <div style="display: flex; align-items: center; gap: 12px; flex: 1;">
+        <span id="statusAlertIcon" style="font-size: 1.25rem; flex-shrink: 0; line-height: 1;"></span>
+        <span id="statusAlertText" style="flex: 1; word-break: break-word; line-height: 1.4;"></span>
+      </div>
+      <button type="button" onclick="closeAlert()"
+        style="background: transparent; border: none; font-size: 1.15rem; cursor: pointer; opacity: 0.7; padding: 0 4px; line-height: 1; color: inherit; font-weight: 700;"
+        title="Đóng thông báo">✕</button>
+    </div>
+
+    <!-- =========================================================
+         TAB 1: QUẢN LÝ TRUYỆN & CHƯƠNG
+         ========================================================= -->
+    <div id="tab-stories" class="admin-card">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <h3 style="color: var(--global-main-color); font-size: 1.3rem;">Danh Sách Truyện Đã Đăng</h3>
+        <button class="btn-primary" onclick="openCreateStoryModal()">+ Thêm Truyện Mới</button>
+      </div>
+
+      <div id="adminStoriesList">
+        <p style="color: var(--text-muted);">Đang tải danh sách truyện...</p>
+      </div>
+    </div>
+
+    <!-- =========================================================
+         TAB 2: BIÊN SOẠN & PREVIEW TRƯỚC KHI ĐĂNG
+         ========================================================= -->
+    <div id="tab-editor" class="admin-card" style="display: none;">
+      <h3 style="color: var(--global-main-color); font-size: 1.3rem; margin-bottom: 16px;">
+        📝 Bộ Soạn Thảo Đăng Chương & Xem Trước (Preview)
+      </h3>
+
+      <form id="chapterForm" onsubmit="saveChapter(event)">
+        <input type="hidden" id="chapEditId" value="" />
+
+        <div class="chapter-form-grid"
+          style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px;">
+          <div class="form-group">
+            <label class="form-label">Chọn Truyện (*)</label>
+            <select id="chapStorySelect" class="form-select" required>
+              <!-- Populated dynamically -->
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Tiêu Đề Chương (*)</label>
+            <input type="text" id="chapTitle" class="form-input" placeholder="Ví dụ: Chương 1: Khởi đầu mới..."
+              required />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Số Chương</label>
+            <input type="number" id="chapNumber" class="form-input" value="1" min="1" required />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" style="display: flex; align-items: center; justify-content: space-between;">
+              <span>⏰ Đặt Lịch Đăng Tự Động</span>
+              <small style="font-weight: normal; color: var(--text-muted); font-size: 0.75rem;">(Trống = Đăng
+                ngay)</small>
+            </label>
+            <input type="datetime-local" id="chapPublishAt" class="form-input" style="font-size: 0.88rem;" />
+          </div>
+        </div>
+
+        <!-- Sticky Editor Toolbar (Quick Image Inserter & Mode Switcher Tabs) -->
+        <div class="editor-sticky-toolbar">
+          <!-- Quick Image URL Inserter Helper -->
+          <div class="quick-img-inserter-row">
+            <div class="quick-img-inserter" style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+              <input type="url" id="quickImgUrl" class="form-input" placeholder="Dán link ảnh (https://...)"
+                style="width: 320px; max-width: 100%; padding: 8px 14px; font-size: 0.88rem;" />
+              <button type="button" onclick="insertQuickImage()" class="btn-primary"
+                style="padding: 8px 16px; font-size: 0.88rem; white-space: nowrap;">
+                + Chèn Link Ảnh
+              </button>
+            </div>
+          </div>
+
+          <!-- Mode Switcher Tabs -->
+          <div class="preview-tabs-wrap" id="editorMobileTabs">
+            <button type="button" id="btnEditTab" class="btn-preview-toggle active" onclick="toggleEditorView('edit')">
+              ✏️ Soạn Thảo
+            </button>
+            <button type="button" id="btnPreviewTab" class="btn-preview-toggle" onclick="toggleEditorView('preview')">
+              👁️ Xem Trước
+            </button>
+          </div>
+        </div>
+
+        <!-- Split View Container (2 Screens on Desktop, 1 Screen on Mobile) -->
+        <div class="editor-split-container">
+          <!-- Raw Content Textarea (Left Pane / Soạn Thảo) -->
+          <div id="editorRawWrap">
+            <div style="font-weight: 700; color: var(--global-main-color); margin-bottom: 8px; font-size: 0.95rem;">
+              ✏️ Ô Nhập Content & Link Ảnh:
+            </div>
+            <textarea id="chapContent" class="form-textarea" rows="16"
+              placeholder="Nhập nội dung văn bản. Chèn hình ảnh bằng cú pháp Markdown: ![Mô tả ảnh](https://link-anh.jpg) hoặc dán đường dẫn link URL trực tiếp vào dòng riêng..."
+              required></textarea>
+            <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 6px;">
+              💡 Hướng dẫn chèn ảnh bằng link: Sử dụng dạng <code>![Tên ảnh](https://domain.com/photo.jpg)</code> hoặc
+              paste link ảnh <code>https://...</code>. Server không cần lưu file!
+            </div>
+          </div>
+
+          <!-- Real-time Live Preview Window (Right Pane / Xem Trước) -->
+          <div id="editorPreviewWrap">
+            <div style="font-weight: 700; color: var(--global-main-color); margin-bottom: 8px; font-size: 0.95rem;">
+              🔍 Live Preview (Xem Trước Thời Gian Thực):
+            </div>
+            <div id="previewRenderArea" class="preview-box reader-content">
+              <p style="color: var(--text-muted); font-style: italic;">Nội dung xem trước sẽ hiển thị ở đây...</p>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top: 24px; display: flex; gap: 12px;">
+          <button type="submit" class="btn-primary" style="font-size: 1rem; padding: 12px 30px;">
+            🚀 Cập Nhật Chương
+          </button>
+          <button type="button" class="btn-preview-toggle" onclick="resetChapterForm()">
+            Hủy
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- =========================================================
+         TAB 3: THAY NỀN HOME & CẤU HÌNH GIAO DIỆN
+         ========================================================= -->
+    <div id="tab-settings" class="admin-card" style="display: none;">
+      <h3 style="color: var(--global-main-color); font-size: 1.3rem; margin-bottom: 10px;">
+        🖼️ Thay Nền Home & Cấu Hình Giao Diện
+      </h3>
+      <p style="color: var(--text-muted); font-size: 0.92rem; margin-bottom: 24px;">
+        Cho phép tùy chỉnh các URL hình ảnh giao diện (Logo, Banner Hero, Ảnh Footer) và câu chữ tiêu đề chuẩn trang mẫu
+        Site123 <code>69f1762c56fd3.site123.me</code>.
+      </p>
+
+      <form id="settingsForm" onsubmit="saveSettings(event)">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+          <div class="form-group">
+            <label class="form-label">Tên Thương Hiệu (Site Title)</label>
+            <input type="text" id="setSiteTitle" class="form-input" placeholder="Omasake" required />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Tiêu Đề Lớn Banner (Hero Title)</label>
+            <input type="text" id="setHeroTitle" class="form-input" placeholder="JimmySea - Avocean" required />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Dòng Phụ Tiêu Đề Banner (Hero Subtitle)</label>
+          <input type="text" id="setHeroSubtitle" class="form-input" placeholder="Chữa lành cùng gia đình vợ chồng già"
+            required />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">URL Link Ảnh Logo Website</label>
+          <input type="url" id="setLogoUrl" class="form-input" placeholder="https://..."
+            oninput="previewSettingsImages()" required />
+          <div style="margin-top: 8px;">
+            <span style="font-size: 0.85rem; color: var(--text-muted);">Preview Logo:</span><br>
+            <img id="prevLogoImg" src="" alt="Preview Logo"
+              style="height: 60px; width: 60px; border-radius: 50%; object-fit: cover; border: 2px solid var(--global-main-color); margin-top: 4px;"
+              onError="this.src='https://files.cdn-files-a.com/uploads/12065718/400_69f17ca68bc4f.png'" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">URL Link Ảnh Banner Hero Top</label>
+          <input type="url" id="setHeaderBannerUrl" class="form-input" placeholder="https://..."
+            oninput="previewSettingsImages()" required />
+          <div style="margin-top: 8px;">
+            <span style="font-size: 0.85rem; color: var(--text-muted);">Preview Banner Hero:</span><br>
+            <img id="prevHeaderBannerImg" src="" alt="Preview Banner"
+              style="width: 100%; max-height: 140px; object-fit: cover; border-radius: 8px; border: 1px solid var(--menu-thin-border); margin-top: 4px;"
+              onError="this.src='https://files.cdn-files-a.com/uploads/12065718/2000_69f18eadc4f57.jpg'" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">URL Link Ảnh Nền Footer</label>
+          <input type="url" id="setFooterBgUrl" class="form-input" placeholder="https://..."
+            oninput="previewSettingsImages()" />
+          <div style="margin-top: 8px;">
+            <span style="font-size: 0.85rem; color: var(--text-muted);">Preview Nền Footer:</span><br>
+            <img id="prevFooterBgImg" src="" alt="Preview Footer"
+              style="width: 100%; max-height: 100px; object-fit: cover; border-radius: 8px; border: 1px solid var(--menu-thin-border); margin-top: 4px;"
+              onError="this.src='https://files.cdn-files-a.com/uploads/12065718/secure/2000_69f18f459e85b.jpg'" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Link Fanpage Facebook Omasake</label>
+          <input type="url" id="setFacebookUrl" class="form-input" placeholder="https://www.facebook.com/..." />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Nội Dung Thanh Thông Báo Top Announcement</label>
+          <input type="text" id="setAnnouncementText" class="form-input" placeholder="Chữ thông báo..." />
+        </div>
+
+        <button type="submit" class="btn-primary" style="padding: 12px 28px;">
+          💾 Lưu Cấu Hình Giao Diện Site123
+        </button>
+      </form>
+    </div>
+
+    <!-- =========================================================
+         TAB 4: QUẢN LÝ TÀI KHOẢN ADMIN
+         ========================================================= -->
+    <div id="tab-accounts" class="admin-card" style="display: none;">
+      <div
+        style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 10px;">
+        <div>
+          <h3 style="color: var(--global-main-color); font-size: 1.3rem;">👤 Quản Lý Tài Khoản Admin</h3>
+          <p style="font-size: 0.88rem; color: var(--text-muted); margin-top: 4px;">Tạo mới, đổi mật khẩu và quản lý
+            danh sách tài khoản được phép truy cập Admin Portal.</p>
+        </div>
+        <button class="btn-primary" onclick="openCreateAccountModal()">+ Tạo Tài Khoản Mới</button>
+      </div>
+
+      <!-- CREDENTIALS INFORMATION NOTICE -->
+      <div
+        style="margin-bottom: 20px; font-size: 0.88rem; color: #0b2e1c; background: #e8f5e9; padding: 14px 18px; border-radius: 10px; border-left: 5px solid #21783d; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
+        <div style="font-size: 0.95rem; font-weight: 700; color: #1b5e20; margin-bottom: 4px;">🔑 Quản Lý Bảo Mật Tài Khoản:</div>
+        <ul style="margin-left: 20px; line-height: 1.6;">
+          <li><b>Cơ chế bảo mật:</b> Mật khẩu lưu trong hệ thống được mã hóa một chiều bằng thuật toán <b>Bcrypt</b> để bảo mật tuyệt đối.</li>
+          <li><b>Đặt lại mật khẩu:</b> Bạn có thể tạo tài khoản mới hoặc bấm trực tiếp nút <b>🔑 Đổi Mật Khẩu</b> ở dòng tài khoản tương ứng bên dưới để cập nhật mật khẩu mới.</li>
+        </ul>
+      </div>
+
+      <div id="adminAccountsList">
+        <p style="color: var(--text-muted);">Đang tải danh sách tài khoản...</p>
+      </div>
+    </div>
+
+    <!-- =========================================================
+         TAB 5: CHI TIẾT TRUYỆN FULL TRANG (URL: /omakase/admin/story/detail/:id)
+         ========================================================= -->
+    <div id="tab-story-detail" class="admin-card" style="display: none;">
+      <!-- Top Bar with Back Button -->
+      <div
+        style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 2px solid var(--menu-thin-border); padding-bottom: 16px; flex-wrap: wrap; gap: 10px;">
+        <button type="button" class="btn-preview-toggle" onclick="goBackToStoriesList()"
+          style="padding: 8px 18px; font-weight: 700; font-size: 0.9rem;">
+          ← Quay Lại Danh Sách Truyện
+        </button>
+        <h3 style="color: var(--global-main-color); font-size: 1.3rem;">📖 Chi Tiết Truyện</h3>
+      </div>
+
+      <!-- Hero Banner / Story Header Info -->
+      <div
+        style="display: flex; gap: 20px; margin-bottom: 24px; background: #f6fbf7; border: 1px solid var(--menu-thin-border); padding: 20px; border-radius: 12px; flex-wrap: wrap;">
+        <img id="fullDetailCoverImg" src=""
+          style="width: 120px; height: 160px; object-fit: cover; border-radius: 10px; flex-shrink: 0; box-shadow: 0 4px 12px rgba(0,0,0,0.1);"
+          onError="this.src='https://files.cdn-files-a.com/uploads/12065718/2000_69f18eadc4f57.jpg'" />
+        <div style="flex: 1; min-width: 250px;">
+          <h2 id="fullDetailStoryTitle" style="color: var(--global-main-color); font-size: 1.5rem; margin-bottom: 8px;">
+            Chi Tiết Truyện</h2>
+          <div id="fullDetailStoryMeta"
+            style="font-size: 0.92rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 10px;"></div>
+          <div id="fullDetailStoryDesc"
+            style="font-size: 0.9rem; color: #333; line-height: 1.5; margin-bottom: 12px; background: #fff; padding: 10px 14px; border-radius: 8px; border: 1px dashed #ccd;">
+          </div>
+          <div id="fullDetailStoryAudit"
+            style="font-size: 0.82rem; color: #555; display: flex; gap: 8px; flex-wrap: wrap;"></div>
+        </div>
+      </div>
+
+      <!-- Action Buttons Bar -->
+      <div
+        style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 10px;">
+        <h4 style="color: var(--global-main-color); font-size: 1.15rem;">📚 Danh Sách Tất Cả Các Chương (<span
+            id="fullDetailChapterCount">0</span> chương)</h4>
+        <div style="display: flex; gap: 10px;">
+          <button class="btn-preview-toggle" style="padding: 8px 18px; font-weight: 700; font-size: 0.88rem;"
+            id="fullBtnEditCurrentStory">✏️ Sửa Thông Tin Truyện</button>
+          <button class="btn-primary" style="padding: 8px 18px; font-weight: 700; font-size: 0.88rem;"
+            id="fullBtnAddChapterCurrentStory">+ Thêm Chương Mới</button>
+        </div>
+      </div>
+
+      <!-- Full Chapters List Area -->
+      <div id="fullDetailChaptersList">
+        <p style="color: var(--text-muted);">Đang tải danh sách chương...</p>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- CREATE / EDIT STORY MODAL -->
+  <div id="storyModal"
+    style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 2000; align-items: center; justify-content: center; padding: 20px;">
+    <div class="admin-card"
+      style="width: 100%; max-width: 550px; background: white; max-height: 90vh; overflow-y: auto;">
+      <h3 id="storyModalTitle" style="color: var(--global-main-color); margin-bottom: 16px;">Tạo Truyện Mới</h3>
+
+      <form id="storyForm" onsubmit="saveStory(event)">
+        <input type="hidden" id="storyEditId" value="" />
+
+        <div class="form-group">
+          <label class="form-label">Tên Truyện (*)</label>
+          <input type="text" id="modalStoryTitle" class="form-input" required />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Link Ảnh Bìa URL (*)</label>
+          <input type="url" id="modalStoryCover" class="form-input" placeholder="https://..."
+            oninput="document.getElementById('modalCoverPrev').src=this.value" required />
+          <img id="modalCoverPrev" src="https://files.cdn-files-a.com/uploads/12065718/2000_69f18eadc4f57.jpg"
+            style="height: 110px; border-radius: 6px; margin-top: 8px; object-fit: cover;" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Tác Giả</label>
+          <input type="text" id="modalStoryAuthor" class="form-input" value="JimmySea - Avocean" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Trạng Thái</label>
+          <select id="modalStoryStatus" class="form-select">
+            <option value="Đang tiến hành">Đang tiến hành</option>
+            <option value="Hoàn thành">Hoàn thành</option>
+            <option value="Tạm ngưng">Tạm ngưng</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Thể Loại (Phân cách bằng dấu phẩy)</label>
+          <input type="text" id="modalStoryGenres" class="form-input" placeholder="Chữa Lành, Tình Cảm, Đời Thường" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Mô Tả Tóm Tắt</label>
+          <textarea id="modalStoryDesc" class="form-textarea" rows="4"></textarea>
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; gap: 10px;">
+          <button type="button" class="btn-preview-toggle" onclick="closeStoryModal()">Hủy</button>
+          <button type="submit" class="btn-primary">Lưu Truyện</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- CREATE / EDIT ADMIN ACCOUNT MODAL -->
+  <div id="accountModal"
+    style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 2000; align-items: center; justify-content: center; padding: 20px;">
+    <div class="admin-card"
+      style="width: 100%; max-width: 480px; background: white; max-height: 90vh; overflow-y: auto;">
+      <h3 id="accountModalTitle" style="color: var(--global-main-color); margin-bottom: 16px;">Tạo Tài Khoản Admin Mới
+      </h3>
+
+      <form id="accountForm" onsubmit="saveAccount(event)">
+        <input type="hidden" id="accountEditId" value="" />
+
+        <div class="form-group">
+          <label class="form-label">Tên Đăng Nhập (*)</label>
+          <input type="text" id="modalAccountUsername" class="form-input" placeholder="Ví dụ: admin2" required />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" id="modalAccountPasswordLabel">Mật Khẩu (*)</label>
+          <div style="position: relative;">
+            <input type="password" id="modalAccountPassword" class="form-input" placeholder="Tối thiểu 6 ký tự"
+              style="padding-right: 45px;" />
+            <button type="button" onclick="toggleShowPassword('modalAccountPassword', this)"
+              style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; font-size: 1.1rem; cursor: pointer; color: #555;"
+              title="Hiện/Ẩn mật khẩu">👁️</button>
+          </div>
+          <small style="color: var(--text-muted); display: block; margin-top: 4px;" id="modalAccountPasswordHelp">Bỏ
+            trống nếu không muốn đổi mật khẩu cũ.</small>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Quyền Hạn (Role)</label>
+          <select id="modalAccountRole" class="form-select">
+            <option value="ADMIN">ADMIN</option>
+          </select>
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px;">
+          <button type="button" class="btn-preview-toggle" onclick="closeAccountModal()">Hủy</button>
+          <button type="submit" class="btn-primary">Lưu Tài Khoản</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const adminToken = localStorage.getItem('admin_token');
+
+    function checkAuth() {
+      if (!adminToken) {
+        window.location.href = '/omakase/admin/login';
+      }
+    }
+
+    let alertTimer = null;
+
+    function showAlert(msg, isSuccess = true) {
+      const box = document.getElementById('statusAlert');
+      const iconEl = document.getElementById('statusAlertIcon');
+      const textEl = document.getElementById('statusAlertText');
+
+      if (!box) return;
+
+      if (alertTimer) clearTimeout(alertTimer);
+
+      if (iconEl && textEl) {
+        iconEl.textContent = isSuccess ? '✅' : '⚠️';
+        textEl.textContent = msg;
+      } else {
+        box.textContent = msg;
+      }
+
+      box.style.display = 'flex';
+      box.style.backgroundColor = isSuccess ? '#e8f5e9' : '#ffebee';
+      box.style.color = isSuccess ? '#1b5e20' : '#c62828';
+      box.style.border = isSuccess ? '1px solid #a5d6a7' : '1px solid #ef9a9a';
+      box.style.borderLeft = isSuccess ? '6px solid #2e7d32' : '6px solid #d32f2f';
+
+      box.style.animation = 'none';
+      box.offsetHeight; // trigger reflow
+      box.style.animation = 'toastSlideDown 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards';
+
+      alertTimer = setTimeout(() => {
+        closeAlert();
+      }, 5000);
+    }
+
+    function closeAlert() {
+      const box = document.getElementById('statusAlert');
+      if (box && box.style.display !== 'none') {
+        box.style.animation = 'toastFadeOut 0.25s forwards';
+        setTimeout(() => {
+          box.style.display = 'none';
+        }, 240);
+      }
+    }
+
+    function logoutAdmin() {
+      localStorage.removeItem('admin_token');
+      window.location.href = '/omakase/admin/login';
+    }
+
+    function toggleAdminMenu(e) {
+      if (e) e.stopPropagation();
+      const menu = document.getElementById('adminHeaderDropdown');
+      if (menu) menu.classList.toggle('show');
+    }
+
+    function selectAdminTab(tabId) {
+      const menu = document.getElementById('adminHeaderDropdown');
+      if (menu) menu.classList.remove('show');
+      switchTab(tabId);
+    }
+
+    function formatDate(dateStr) {
+      if (!dateStr) return '';
+      const d = new Date(dateStr);
+      if (isNaN(d.getTime())) return '';
+      const day = String(d.getDate()).padStart(2, '0');
+      const month = String(d.getMonth() + 1).padStart(2, '0');
+      const year = d.getFullYear();
+      const hours = String(d.getHours()).padStart(2, '0');
+      const minutes = String(d.getMinutes()).padStart(2, '0');
+      return `${day}/${month}/${year} ${hours}:${minutes}`;
+    }
+
+    function switchTab(tabId) {
+      document.querySelectorAll('.admin-menu-item').forEach(item => {
+        if (item.getAttribute('data-tab') === tabId) {
+          item.classList.add('active');
+        } else {
+          item.classList.remove('active');
+        }
+      });
+
+      document.getElementById('tab-stories').style.display = 'none';
+      document.getElementById('tab-editor').style.display = 'none';
+      document.getElementById('tab-settings').style.display = 'none';
+      document.getElementById('tab-accounts').style.display = 'none';
+      const detailTab = document.getElementById('tab-story-detail');
+      if (detailTab) detailTab.style.display = 'none';
+
+      const targetTab = document.getElementById(tabId);
+      if (targetTab) targetTab.style.display = 'block';
+
+      if (tabId === 'tab-editor') {
+        renderLivePreview();
+      } else if (tabId === 'tab-accounts') {
+        loadAdminAccounts();
+      }
+      setTimeout(updateStickyOffset, 50);
+    }
+
+    document.addEventListener('click', (e) => {
+      const dropdownWrap = document.querySelector('.admin-menu-dropdown-wrap');
+      if (dropdownWrap && !dropdownWrap.contains(e.target)) {
+        const menu = document.getElementById('adminHeaderDropdown');
+        if (menu) menu.classList.remove('show');
+      }
+    });
+
+    // ==================== STORIES CRUD ====================
+    let allStoriesCache = [];
+
+    async function loadAdminStories() {
+      try {
+        const res = await fetch('/api/v1/admin/stories', {
+          headers: { 'Authorization': `Bearer ${adminToken}` }
+        });
+        const json = await res.json();
+
+        if (json.success) {
+          allStoriesCache = json.data;
+          renderStoriesList();
+          populateStorySelectOptions();
+          handleUrlRouting();
+        } else {
+          if (res.status === 401 || res.status === 403) logoutAdmin();
+        }
+      } catch (e) {
+        console.error('Lỗi nạp danh sách truyện admin:', e);
+      }
+    }
+
+    function renderStoriesList() {
+      const container = document.getElementById('adminStoriesList');
+      if (allStoriesCache.length === 0) {
+        container.innerHTML = '<p style="color: var(--text-muted);">Chưa có truyện nào. Hãy bấm "Thêm Truyện Mới".</p>';
+        return;
+      }
+
+      container.innerHTML = allStoriesCache.map(s => `
+        <div class="admin-card-story-block" style="background: #f6fbf7; border: 1px solid var(--menu-thin-border); border-radius: 12px; padding: 16px; margin-bottom: 14px;">
+          <div class="admin-card-story-row" style="display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap;">
+            <div style="display: flex; align-items: center; gap: 14px; min-width: 250px; flex: 1;">
+              <img src="${s.coverUrl}" style="width: 55px; height: 70px; object-fit: cover; border-radius: 6px; flex-shrink: 0;" onError="this.src='https://files.cdn-files-a.com/uploads/12065718/2000_69f18eadc4f57.jpg'" />
+              <div style="min-width: 0;">
+                <h4 style="font-size: 1.08rem; color: var(--global-main-color); word-break: break-word; margin-bottom: 2px;">${s.title}</h4>
+                <div style="font-size: 0.85rem; color: var(--text-muted);">Tác giả: ${s.author} | Status: <b>${s.status}</b></div>
+                <div style="font-size: 0.78rem; color: #555; margin-top: 4px; display: flex; gap: 6px; flex-wrap: wrap;">
+                  <span style="background: #e2f0d9; color: #2e7d32; padding: 2px 8px; border-radius: 10px; font-weight: 600;">👤 Tạo bởi: ${s.createdBy || 'admin'}</span>
+                  <span style="background: #e3f2fd; color: #1565c0; padding: 2px 8px; border-radius: 10px; font-weight: 600;">✏️ Cập nhật cuối: ${s.updatedBy || 'admin'} ${s.updatedAt ? '(' + formatDate(s.updatedAt) + ')' : ''}</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- CHỈ ĐỂ 2 NÚT: XEM TRUYỆN, XÓA TRUYỆN -->
+            <div class="admin-card-story-actions" style="display: flex; gap: 10px; align-items: center; flex-shrink: 0;">
+              <button class="btn-primary" style="padding: 8px 18px; font-size: 0.9rem; font-weight: 700;" onclick="viewStoryDetail('${s._id}')"> Xem Truyện</button>
+              <button class="btn-danger" style="padding: 8px 18px; font-size: 0.9rem; font-weight: 700;" onclick="deleteStory('${s._id}')">🗑️ Xóa Truyện</button>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // ==================== STORY DETAIL FULL PAGE ====================
+    let currentDetailStoryId = null;
+
+    function goBackToStoriesList() {
+      history.pushState(null, '', '/omakase/admin/dashboard');
+      switchTab('tab-stories');
+    }
+
+    async function viewStoryDetail(storyId) {
+      currentDetailStoryId = storyId;
+      if (!window.location.pathname.includes(`/omakase/admin/story/detail/${storyId}`)) {
+        history.pushState(null, '', `/omakase/admin/story/detail/${storyId}`);
+      }
+      switchTab('tab-story-detail');
+
+      let s = allStoriesCache.find(x => String(x._id) === String(storyId));
+      if (!s) {
+        try {
+          const res = await fetch('/api/v1/admin/stories', {
+            headers: { 'Authorization': `Bearer ${adminToken}` }
+          });
+          const json = await res.json();
+          if (json.success) {
+            allStoriesCache = json.data;
+            s = allStoriesCache.find(x => String(x._id) === String(storyId));
+          }
+        } catch (e) { }
+      }
+      if (!s) return;
+
+      document.getElementById('fullDetailCoverImg').src = s.coverUrl;
+      document.getElementById('fullDetailStoryTitle').textContent = s.title;
+      document.getElementById('fullDetailStoryMeta').innerHTML = `<b>Tác giả:</b> ${s.author || 'Chưa cập nhật'} | <b>Trạng thái:</b> ${s.status || 'Đang tiến hành'} <br/><b>Thể loại:</b> ${(s.genres || []).join(', ')}`;
+      document.getElementById('fullDetailStoryDesc').textContent = s.description || 'Chưa có mô tả.';
+      document.getElementById('fullDetailStoryAudit').innerHTML = `
+        <span style="background: #e2f0d9; color: #2e7d32; padding: 3px 10px; border-radius: 10px; font-weight: 600;">👤 Tạo bởi: ${s.createdBy || 'admin'}</span>
+        <span style="background: #e3f2fd; color: #1565c0; padding: 3px 10px; border-radius: 10px; font-weight: 600;">✏️ Cập nhật cuối: ${s.updatedBy || 'admin'} ${s.updatedAt ? '(' + formatDate(s.updatedAt) + ')' : ''}</span>
+      `;
+
+      document.getElementById('fullBtnEditCurrentStory').onclick = () => {
+        openEditStoryModal(s._id);
+      };
+
+      document.getElementById('fullBtnAddChapterCurrentStory').onclick = () => {
+        prepareAddChapter(s._id);
+      };
+
+      loadDetailChapters(storyId);
+    }
+
+    function openStoryDetailModal(storyId) {
+      viewStoryDetail(storyId);
+    }
+
+    async function loadDetailChapters(storyId) {
+      const container = document.getElementById('fullDetailChaptersList');
+      container.innerHTML = '<p style="color: var(--text-muted);">Đang tải danh sách chương...</p>';
+      try {
+        const res = await fetch(`/api/v1/admin/stories/${storyId}/chapters`, {
+          headers: { 'Authorization': `Bearer ${adminToken}` }
+        });
+        const json = await res.json();
+        if (json.success && json.data) {
+          const chapters = json.data;
+          document.getElementById('fullDetailChapterCount').textContent = chapters.length;
+
+          if (chapters.length === 0) {
+            container.innerHTML = '<div style="text-align: center; padding: 30px; color: var(--text-muted); font-style: italic;">Truyện này chưa có chương nào. Bấm nút "+ Thêm Chương Mới" ở trên để bắt đầu viết.</div>';
+            return;
+          }
+
+          container.innerHTML = chapters.map(c => {
+            const isScheduled = c.publishedAt && new Date(c.publishedAt) > new Date();
+            const statusBadge = isScheduled
+              ? `<span style="background: #fff3e0; color: #e65100; border: 1px solid #ffe0b2; padding: 2px 10px; border-radius: 12px; font-size: 0.78rem; font-weight: 700; display: inline-flex; align-items: center; gap: 4px;">⏰ Đã đặt lịch đăng: ${formatDate(c.publishedAt)}</span>`
+              : `<span style="background: #e8f5e9; color: #2e7d32; padding: 2px 10px; border-radius: 12px; font-size: 0.78rem; font-weight: 600;">✅ Đã hiển thị (${formatDate(c.publishedAt || c.createdAt)})</span>`;
+
+            return `
+            <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; background: #ffffff; border: 1px solid var(--menu-thin-border); border-radius: 8px; margin-bottom: 10px; gap: 10px; flex-wrap: wrap;">
+              <div>
+                <div style="font-size: 0.98rem; color: var(--text-main); font-weight: 700; display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                  <span style="color: var(--global-main-color);">Chương ${c.chapterNumber}:</span> ${c.title}
+                  ${statusBadge}
+                </div>
+                <div style="font-size: 0.78rem; color: #666; margin-top: 4px;">
+                  <span>👤 Tạo bởi: <b>${c.createdBy || 'admin'}</b></span> &bull; 
+                  <span>✏️ Sửa bởi: <b>${c.updatedBy || 'admin'}</b></span>
+                </div>
+              </div>
+              <div style="display: flex; gap: 8px; flex-shrink: 0;">
+                <button type="button" class="btn-preview-toggle" style="padding: 6px 14px; font-size: 0.82rem;" onclick="prepareEditChapter('${c._id}')">
+                  ✏️ Sửa Chương
+                </button>
+                <button type="button" class="btn-danger" style="padding: 6px 14px; font-size: 0.82rem;" onclick="deleteDetailChapter('${c._id}', '${storyId}')">
+                  🗑️ Xóa
+                </button>
+              </div>
+            </div>
+          `;
+          }).join('');
+        }
+      } catch (e) {
+        container.innerHTML = '<p style="color: red;">Lỗi tải danh sách chương.</p>';
+      }
+    }
+
+    async function deleteDetailChapter(chapId, storyId) {
+      if (!confirm('Bạn có chắc chắn muốn xóa chương này không?')) return;
+      try {
+        const res = await fetch(`/api/v1/admin/chapters/${chapId}`, {
+          method: 'DELETE',
+          headers: { 'Authorization': `Bearer ${adminToken}` }
+        });
+        const json = await res.json();
+        if (json.success) {
+          showAlert('Đã xóa chương.');
+          loadDetailChapters(storyId);
+        }
+      } catch (e) {
+        showAlert('Lỗi xóa chương.', false);
+      }
+    }
+
+    async function loadStoryChapters(storyId) {
+      try {
+        const res = await fetch(`/api/v1/admin/stories/${storyId}/chapters`, {
+          headers: { 'Authorization': `Bearer ${adminToken}` }
+        });
+        const json = await res.json();
+        const container = document.getElementById(`chapters-list-${storyId}`);
+        if (!container) return;
+
+        if (json.success && json.data && json.data.length > 0) {
+          container.innerHTML = json.data.map(c => `
+            <div style="display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: #ffffff; border: 1px solid var(--menu-thin-border); border-radius: 6px; margin-top: 6px; gap: 10px; flex-wrap: wrap;">
+              <div style="font-size: 0.92rem; color: var(--text-main); font-weight: 500;">
+                <span style="color: var(--global-main-color); font-weight: 700;">Chương ${c.chapterNumber}:</span> ${c.title}
+                <div style="font-size: 0.76rem; color: #666; margin-top: 2px;">
+                  <span>👤 Tạo bởi: <b>${c.createdBy || 'admin'}</b></span> &bull; 
+                  <span>✏️ Sửa bởi: <b>${c.updatedBy || 'admin'}</b></span>
+                </div>
+              </div>
+              <div style="display: flex; gap: 6px; flex-shrink: 0;">
+                <button type="button" class="btn-preview-toggle" style="padding: 4px 10px; font-size: 0.78rem;" onclick="prepareEditChapter('${c._id}')">
+                  ✏️ Sửa Chương (URL Riêng)
+                </button>
+                <button type="button" class="btn-danger" style="padding: 4px 10px; font-size: 0.78rem;" onclick="deleteChapter('${c._id}', '${storyId}')">
+                  🗑️ Xóa
+                </button>
+              </div>
+            </div>
+          `).join('');
+        } else {
+          container.innerHTML = '<div style="font-size: 0.85rem; color: var(--text-muted); font-style: italic; padding: 4px 0;">Chưa có chương nào. Bấm "+ Thêm Chương" để bắt đầu biên soạn.</div>';
+        }
+      } catch (e) {
+        console.error('Lỗi nạp danh sách chương:', e);
+      }
+    }
+
+    function populateStorySelectOptions() {
+      const sel = document.getElementById('chapStorySelect');
+      sel.innerHTML = allStoriesCache.map(s => `<option value="${s._id}">${s.title}</option>`).join('');
+    }
+
+    function openCreateStoryModal() {
+      document.getElementById('storyEditId').value = '';
+      document.getElementById('storyModalTitle').textContent = 'Thêm Truyện Mới';
+      document.getElementById('storyForm').reset();
+      document.getElementById('modalCoverPrev').src = 'https://files.cdn-files-a.com/uploads/12065718/2000_69f18eadc4f57.jpg';
+      document.getElementById('storyModal').style.display = 'flex';
+    }
+
+    function openEditStoryModal(storyId) {
+      const s = allStoriesCache.find(x => String(x._id) === String(storyId));
+      if (!s) return;
+
+      if (!window.location.pathname.includes(`/story/edit/${storyId}`)) {
+        history.pushState(null, '', `/omakase/admin/story/edit/${storyId}`);
+      }
+
+      document.getElementById('storyEditId').value = s._id;
+      document.getElementById('storyModalTitle').textContent = `✏️ Cập Nhật Truyện: ${s.title}`;
+      document.getElementById('modalStoryTitle').value = s.title;
+      document.getElementById('modalStoryCover').value = s.coverUrl;
+      document.getElementById('modalCoverPrev').src = s.coverUrl;
+      document.getElementById('modalStoryAuthor').value = s.author || 'JimmySea - Avocean';
+      document.getElementById('modalStoryStatus').value = s.status || 'Đang tiến hành';
+      document.getElementById('modalStoryGenres').value = (s.genres || []).join(', ');
+      document.getElementById('modalStoryDesc').value = s.description || '';
+
+      document.getElementById('storyModal').style.display = 'flex';
+    }
+
+    function closeStoryModal() {
+      document.getElementById('storyModal').style.display = 'none';
+      if (window.location.pathname.includes('/story/edit/')) {
+        history.pushState(null, '', '/omakase/admin/dashboard');
+      }
+    }
+
+    async function saveStory(e) {
+      e.preventDefault();
+      const id = document.getElementById('storyEditId').value;
+      const payload = {
+        title: document.getElementById('modalStoryTitle').value,
+        coverUrl: document.getElementById('modalStoryCover').value,
+        author: document.getElementById('modalStoryAuthor').value,
+        status: document.getElementById('modalStoryStatus').value,
+        genres: document.getElementById('modalStoryGenres').value,
+        description: document.getElementById('modalStoryDesc').value
+      };
+
+      const url = id ? `/api/v1/admin/stories/${id}` : '/api/v1/admin/stories';
+      const method = id ? 'PUT' : 'POST';
+
+      try {
+        const res = await fetch(url, {
+          method,
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${adminToken}`
+          },
+          body: JSON.stringify(payload)
+        });
+        const json = await res.json();
+        if (json.success) {
+          showAlert(json.message);
+          closeStoryModal();
+          loadAdminStories();
+        } else {
+          showAlert(json.message, false);
+        }
+      } catch (err) {
+        showAlert('Lỗi kết nối máy chủ.', false);
+      }
+    }
+
+    async function deleteStory(id) {
+      if (!confirm('Bạn có chắc chắn muốn xóa truyện này và tất cả các chương liên quan?')) return;
+      try {
+        const res = await fetch(`/api/v1/admin/stories/${id}`, {
+          method: 'DELETE',
+          headers: { 'Authorization': `Bearer ${adminToken}` }
+        });
+        const json = await res.json();
+        if (json.success) {
+          showAlert('Đã xóa truyện.');
+          loadAdminStories();
+        }
+      } catch (e) { }
+    }
+
+    // ==================== EDITOR & LIVE PREVIEW ====================
+    async function prepareAddChapter(storyId) {
+      if (!window.location.pathname.includes('/admin/dashboard')) {
+        history.pushState(null, '', '/omakase/admin/dashboard');
+      }
+      switchTab('tab-editor');
+      document.getElementById('chapEditId').value = '';
+      document.getElementById('chapPublishAt').value = '';
+      document.getElementById('chapterForm').reset();
+
+      const targetStoryId = storyId || document.getElementById('chapStorySelect').value;
+      if (targetStoryId) {
+        document.getElementById('chapStorySelect').value = targetStoryId;
+        await autoSuggestNextChapterNumber(targetStoryId);
+      }
+
+      const editorHeading = document.querySelector('#tab-editor h3');
+      if (editorHeading) editorHeading.textContent = '📝 Bộ Soạn Thảo Đăng Chương Mới & Xem Trước (Preview)';
+      renderLivePreview();
+    }
+
+    async function autoSuggestNextChapterNumber(storyId) {
+      if (!storyId) return;
+      try {
+        const res = await fetch(`/api/v1/admin/stories/${storyId}/chapters`, {
+          headers: { 'Authorization': `Bearer ${adminToken}` }
+        });
+        const json = await res.json();
+        if (json.success && Array.isArray(json.data)) {
+          const maxNum = json.data.reduce((max, c) => Math.max(max, Number(c.chapterNumber) || 0), 0);
+          document.getElementById('chapNumber').value = maxNum + 1;
+        }
+      } catch (e) { }
+    }
+
+    async function prepareEditChapter(chapId) {
+      if (!window.location.pathname.includes(`/chapter/edit/${chapId}`)) {
+        history.pushState(null, '', `/omakase/admin/chapter/edit/${chapId}`);
+      }
+      switchTab('tab-editor');
+
+      try {
+        const res = await fetch(`/api/v1/admin/chapters/${chapId}`, {
+          headers: { 'Authorization': `Bearer ${adminToken}` }
+        });
+        const json = await res.json();
+
+        if (json.success && json.data) {
+          const c = json.data;
+          document.getElementById('chapEditId').value = c._id;
+          document.getElementById('chapStorySelect').value = c.storyId;
+          document.getElementById('chapTitle').value = c.title;
+          document.getElementById('chapNumber').value = c.chapterNumber;
+          document.getElementById('chapContent').value = c.content;
+
+          if (c.publishedAt && new Date(c.publishedAt) > new Date()) {
+            const d = new Date(c.publishedAt);
+            const isoStr = new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().slice(0, 16);
+            document.getElementById('chapPublishAt').value = isoStr;
+          } else {
+            document.getElementById('chapPublishAt').value = '';
+          }
+
+          const editorHeading = document.querySelector('#tab-editor h3');
+          if (editorHeading) editorHeading.textContent = `✏️ Cập Nhật Chương #${c.chapterNumber}: ${c.title}`;
+
+          renderLivePreview();
+        } else {
+          showAlert('Không tìm thấy dữ liệu chương.', false);
+        }
+      } catch (err) {
+        showAlert('Lỗi nạp dữ liệu chương.', false);
+      }
+    }
+
+    async function deleteChapter(chapId, storyId) {
+      if (!confirm('Bạn có chắc chắn muốn xóa chương này không?')) return;
+      try {
+        const res = await fetch(`/api/v1/admin/chapters/${chapId}`, {
+          method: 'DELETE',
+          headers: { 'Authorization': `Bearer ${adminToken}` }
+        });
+        const json = await res.json();
+        if (json.success) {
+          showAlert('Đã xóa chương.');
+          loadStoryChapters(storyId);
+        }
+      } catch (e) {
+        showAlert('Lỗi xóa chương.', false);
+      }
+    }
+
+    function insertQuickImage() {
+      const urlInput = document.getElementById('quickImgUrl');
+      const url = urlInput.value.trim();
+      if (!url) return alert('Vui lòng dán link hình ảnh vào ô trước!');
+
+      const textarea = document.getElementById('chapContent');
+      const markdownTag = `\n![Hình ảnh minh họa](${url})\n`;
+      textarea.value += markdownTag;
+      urlInput.value = '';
+      showAlert('Đã chèn link ảnh vào ô soạn thảo!');
+      debouncedLivePreview();
+    }
+
+    function toggleEditorView(mode) {
+      const btnEdit = document.getElementById('btnEditTab');
+      const btnPreview = document.getElementById('btnPreviewTab');
+      const rawWrap = document.getElementById('editorRawWrap');
+      const previewWrap = document.getElementById('editorPreviewWrap');
+
+      if (window.innerWidth <= 992) {
+        if (mode === 'preview') {
+          btnEdit.classList.remove('active');
+          btnPreview.classList.add('active');
+          rawWrap.style.display = 'none';
+          previewWrap.style.display = 'block';
+
+          renderLivePreview();
+        } else {
+          btnPreview.classList.remove('active');
+          btnEdit.classList.add('active');
+          previewWrap.style.display = 'none';
+          rawWrap.style.display = 'block';
+        }
+      } else {
+        renderLivePreview();
+      }
+    }
+
+    let livePreviewTimer = null;
+    function debouncedLivePreview() {
+      clearTimeout(livePreviewTimer);
+      livePreviewTimer = setTimeout(() => {
+        renderLivePreview();
+      }, 300);
+    }
+
+    async function renderLivePreview() {
+      const content = document.getElementById('chapContent').value;
+      const title = document.getElementById('chapTitle').value || 'Tiêu đề chương xem trước';
+      const area = document.getElementById('previewRenderArea');
+
+      if (!content.trim()) {
+        area.innerHTML = '<p style="color: var(--text-muted); font-style: italic; text-align: center; padding: 40px 0;">Màn xem trước chương sẽ xuất hiện tự động tại đây khi bạn nhập nội dung...</p>';
+        return;
+      }
+
+      try {
+        const res = await fetch('/api/v1/admin/preview', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${adminToken}`
+          },
+          body: JSON.stringify({ title, content })
+        });
+        const json = await res.json();
+
+        if (json.success && json.data) {
+          area.innerHTML = `
+            <h2 style="color: var(--global-main-color); margin-bottom: 20px; text-transform: uppercase;">${json.data.title}</h2>
+            <div>${json.data.renderedHtml}</div>
+          `;
+        }
+      } catch (e) {
+        area.innerHTML = '<p style="color: red;">Lỗi kết nối render preview.</p>';
+      }
+    }
+
+    async function saveChapter(e) {
+      e.preventDefault();
+      const chapId = document.getElementById('chapEditId').value;
+      const storyId = document.getElementById('chapStorySelect').value;
+      const title = document.getElementById('chapTitle').value;
+      const chapterNumber = document.getElementById('chapNumber').value;
+      const content = document.getElementById('chapContent').value;
+      const publishedAt = document.getElementById('chapPublishAt').value || null;
+
+      const url = chapId ? `/api/v1/admin/chapters/${chapId}` : '/api/v1/admin/chapters';
+      const method = chapId ? 'PUT' : 'POST';
+
+      try {
+        const res = await fetch(url, {
+          method,
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${adminToken}`
+          },
+          body: JSON.stringify({ storyId, chapterNumber, title, content, publishedAt })
+        });
+        const json = await res.json();
+
+        if (json.success) {
+          showAlert(json.message);
+          resetChapterForm();
+          switchTab('tab-stories');
+          loadAdminStories();
+        } else {
+          showAlert(json.message, false);
+        }
+      } catch (e) {
+        showAlert('Lỗi cập nhật/đặt lịch chương.', false);
+      }
+    }
+
+    function resetChapterForm() {
+      document.getElementById('chapEditId').value = '';
+      document.getElementById('chapPublishAt').value = '';
+      document.getElementById('chapterForm').reset();
+      const editorHeading = document.querySelector('#tab-editor h3');
+      if (editorHeading) editorHeading.textContent = '📝 Bộ Soạn Thảo Đăng Chương & Xem Trước (Preview)';
+      toggleEditorView('edit');
+      if (window.location.pathname.includes('/chapter/edit/')) {
+        history.pushState(null, '', '/omakase/admin/dashboard');
+      }
+    }
+
+    function handleUrlRouting() {
+      const path = window.location.pathname;
+
+      const storyDetailMatch = path.match(/\/omakase\/admin\/story\/detail\/([^/]+)/);
+      const storyEditMatch = path.match(/\/omakase\/admin\/story\/edit\/([^/]+)/);
+      const chapEditMatch = path.match(/\/omakase\/admin\/chapter\/edit\/([^/]+)/);
+
+      if (storyDetailMatch) {
+        const storyId = storyDetailMatch[1];
+        viewStoryDetail(storyId);
+      } else if (storyEditMatch) {
+        const storyId = storyEditMatch[1];
+        switchTab('tab-stories');
+        openEditStoryModal(storyId);
+      } else if (chapEditMatch) {
+        const chapId = chapEditMatch[1];
+        prepareEditChapter(chapId);
+      }
+    }
+
+    window.addEventListener('popstate', handleUrlRouting);
+
+    // ==================== SETTINGS ====================
+    async function loadAdminSettings() {
+      try {
+        const res = await fetch('/api/v1/admin/settings', {
+          headers: { 'Authorization': `Bearer ${adminToken}` }
+        });
+        const json = await res.json();
+        if (json.success && json.data) {
+          const s = json.data;
+          document.getElementById('setSiteTitle').value = s.siteTitle || 'Omasake';
+          document.getElementById('setHeroTitle').value = s.heroTitle || 'JimmySea - Avocean';
+          document.getElementById('setHeroSubtitle').value = s.heroSubtitle || 'Chữa lành cùng gia đình vợ chồng già';
+          document.getElementById('setLogoUrl').value = s.logoUrl || '';
+          document.getElementById('setHeaderBannerUrl').value = s.headerBannerUrl || '';
+          document.getElementById('setFooterBgUrl').value = s.footerBgUrl || '';
+          document.getElementById('setFacebookUrl').value = s.facebookUrl || '';
+          document.getElementById('setAnnouncementText').value = s.announcementText || '';
+
+          previewSettingsImages();
+        }
+      } catch (e) { }
+    }
+
+    function previewSettingsImages() {
+      const logo = document.getElementById('setLogoUrl').value;
+      const banner = document.getElementById('setHeaderBannerUrl').value;
+      const footer = document.getElementById('setFooterBgUrl').value;
+
+      if (logo) document.getElementById('prevLogoImg').src = logo;
+      if (banner) document.getElementById('prevHeaderBannerImg').src = banner;
+      if (footer) document.getElementById('prevFooterBgImg').src = footer;
+    }
+
+    async function saveSettings(e) {
+      e.preventDefault();
+      const payload = {
+        siteTitle: document.getElementById('setSiteTitle').value,
+        heroTitle: document.getElementById('setHeroTitle').value,
+        heroSubtitle: document.getElementById('setHeroSubtitle').value,
+        logoUrl: document.getElementById('setLogoUrl').value,
+        headerBannerUrl: document.getElementById('setHeaderBannerUrl').value,
+        footerBgUrl: document.getElementById('setFooterBgUrl').value,
+        facebookUrl: document.getElementById('setFacebookUrl').value,
+        announcementText: document.getElementById('setAnnouncementText').value
+      };
+
+      try {
+        const res = await fetch('/api/v1/admin/settings', {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${adminToken}`
+          },
+          body: JSON.stringify(payload)
+        });
+        const json = await res.json();
+
+        if (json.success) {
+          showAlert('💾 Đã lưu cấu hình giao diện Site123 thành công!');
+        } else {
+          showAlert(json.message, false);
+        }
+      } catch (e) {
+        showAlert('Lỗi cập nhật cài đặt.', false);
+      }
+    }
+
+    // ==================== ACCOUNTS MANAGEMENT ====================
+    let allAccountsCache = [];
+
+    async function loadAdminAccounts() {
+      try {
+        const res = await fetch('/api/v1/admin/accounts', {
+          headers: { 'Authorization': `Bearer ${adminToken}` }
+        });
+        const json = await res.json();
+        if (json.success) {
+          allAccountsCache = json.data || [];
+          renderAccountsList();
+        } else {
+          showAlert(json.message || 'Lỗi nạp danh sách tài khoản.', false);
+        }
+      } catch (err) {
+        console.error('Lỗi nạp danh sách tài khoản:', err);
+      }
+    }
+
+    function renderAccountsList() {
+      const container = document.getElementById('adminAccountsList');
+      if (allAccountsCache.length === 0) {
+        container.innerHTML = '<p style="color: var(--text-muted);">Chưa có tài khoản nào.</p>';
+        return;
+      }
+
+      container.innerHTML = `
+        <div style="overflow-x: auto;">
+          <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.9rem;">
+            <thead>
+              <tr style="background: #e8f5e9; color: var(--global-main-color); border-bottom: 2px solid var(--menu-thin-border);">
+                <th style="padding: 10px 14px;">STT</th>
+                <th style="padding: 10px 14px;">Tên Đăng Nhập</th>
+                <th style="padding: 10px 14px;">Quyền Hạn</th>
+                <th style="padding: 10px 14px;">Người Tạo</th>
+                <th style="padding: 10px 14px;">Cập Nhật Cuối</th>
+                <th style="padding: 10px 14px;">Ngày Tạo</th>
+                <th style="padding: 10px 14px; text-align: right;">Thao Tác</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${allAccountsCache.map((acc, index) => `
+                <tr style="border-bottom: 1px solid var(--menu-thin-border); background: ${index % 2 === 0 ? '#ffffff' : '#f9fdfa'};">
+                  <td style="padding: 12px 14px; font-weight: 700;">${index + 1}</td>
+                  <td style="padding: 12px 14px; font-weight: 700; color: #0b2e1c;">
+                    👤 ${acc.username}
+                  </td>
+                  <td style="padding: 12px 14px;">
+                    <span style="background: #e8f5e9; color: #1b5e20; padding: 3px 8px; border-radius: 12px; font-weight: 700; font-size: 0.8rem;">${acc.role || 'ADMIN'}</span>
+                  </td>
+                  <td style="padding: 12px 14px; color: var(--text-muted);">
+                    ${acc.createdBy || 'system'}
+                  </td>
+                  <td style="padding: 12px 14px; color: var(--text-muted);">
+                    ${acc.updatedBy || 'system'} <br/><small style="font-size: 0.75rem;">${formatDate(acc.updatedAt)}</small>
+                  </td>
+                  <td style="padding: 12px 14px; color: var(--text-muted);">
+                    ${formatDate(acc.createdAt)}
+                  </td>
+                  <td style="padding: 12px 14px; text-align: right;">
+                    <button class="btn-preview-toggle" style="padding: 4px 10px; font-size: 0.8rem;" onclick="openEditAccountModal('${acc._id}')">🔑 Đổi Mật Khẩu</button>
+                    <button class="btn-danger" style="padding: 4px 10px; font-size: 0.8rem; margin-left: 4px;" onclick="deleteAccount('${acc._id}', '${acc.username}')">🗑️ Xóa</button>
+                  </td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+      `;
+    }
+
+    function openCreateAccountModal() {
+      document.getElementById('accountEditId').value = '';
+      document.getElementById('accountModalTitle').textContent = 'Tạo Tài Khoản Admin Mới';
+      document.getElementById('modalAccountUsername').value = '';
+      document.getElementById('modalAccountUsername').disabled = false;
+      document.getElementById('modalAccountPassword').value = '';
+      document.getElementById('modalAccountPassword').required = true;
+      document.getElementById('modalAccountPasswordLabel').textContent = 'Mật Khẩu (*)';
+      document.getElementById('modalAccountPasswordHelp').style.display = 'none';
+      document.getElementById('accountModal').style.display = 'flex';
+    }
+
+    function openEditAccountModal(accId) {
+      const acc = allAccountsCache.find(a => String(a._id) === String(accId));
+      if (!acc) return;
+
+      document.getElementById('accountEditId').value = acc._id;
+      document.getElementById('accountModalTitle').textContent = `🔑 Đổi Mật Khẩu Tài Khoản: ${acc.username}`;
+      document.getElementById('modalAccountUsername').value = acc.username;
+      document.getElementById('modalAccountUsername').disabled = true;
+      document.getElementById('modalAccountPassword').value = '';
+      document.getElementById('modalAccountPassword').required = false;
+      document.getElementById('modalAccountPasswordLabel').textContent = 'Mật Khẩu Mới';
+      document.getElementById('modalAccountPasswordHelp').style.display = 'block';
+      document.getElementById('modalAccountRole').value = acc.role || 'ADMIN';
+      document.getElementById('accountModal').style.display = 'flex';
+    }
+
+    function closeAccountModal() {
+      document.getElementById('accountModal').style.display = 'none';
+    }
+
+    async function saveAccount(e) {
+      e.preventDefault();
+      const accId = document.getElementById('accountEditId').value;
+      const username = document.getElementById('modalAccountUsername').value.trim();
+      const password = document.getElementById('modalAccountPassword').value;
+      const role = document.getElementById('modalAccountRole').value;
+
+      if (!accId && (!username || !password)) {
+        return showAlert('Vui lòng điền đầy đủ thông tin.', false);
+      }
+
+      const url = accId ? `/api/v1/admin/accounts/${accId}` : '/api/v1/admin/accounts';
+      const method = accId ? 'PUT' : 'POST';
+      const payload = accId ? { password, role } : { username, password, role };
+
+      try {
+        const res = await fetch(url, {
+          method,
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${adminToken}`
+          },
+          body: JSON.stringify(payload)
+        });
+        const json = await res.json();
+        if (json.success) {
+          showAlert(json.message);
+          closeAccountModal();
+          loadAdminAccounts();
+        } else {
+          showAlert(json.message, false);
+        }
+      } catch (err) {
+        showAlert('Lỗi kết nối máy chủ khi lưu tài khoản.', false);
+      }
+    }
+
+    async function deleteAccount(accId, username) {
+      if (!confirm(`Bạn có chắc chắn muốn xóa tài khoản "${username}" không?`)) return;
+      try {
+        const res = await fetch(`/api/v1/admin/accounts/${accId}`, {
+          method: 'DELETE',
+          headers: { 'Authorization': `Bearer ${adminToken}` }
+        });
+        const json = await res.json();
+        if (json.success) {
+          showAlert(json.message);
+          loadAdminAccounts();
+        } else {
+          showAlert(json.message, false);
+        }
+      } catch (err) {
+        showAlert('Lỗi kết nối máy chủ khi xóa tài khoản.', false);
+      }
+    }
+
+    function toggleShowPassword(inputId, btn) {
+      const input = document.getElementById(inputId);
+      if (input.type === 'password') {
+        input.type = 'text';
+        btn.textContent = '🙈';
+      } else {
+        input.type = 'password';
+        btn.textContent = '👁️';
+      }
+    }
+
+    function updateStickyOffset() {
+      const header = document.querySelector('.site-header');
+      const toolbar = document.querySelector('.editor-sticky-toolbar');
+      if (header && toolbar) {
+        const hHeight = header.offsetHeight || 68;
+        toolbar.style.top = `${hHeight}px`;
+      }
+    }
+
+    window.addEventListener('resize', updateStickyOffset);
+    window.addEventListener('scroll', updateStickyOffset);
+
+    document.addEventListener('DOMContentLoaded', () => {
+      checkAuth();
+      loadAdminStories();
+      loadAdminSettings();
+      updateStickyOffset();
+
+      const chapContent = document.getElementById('chapContent');
+      const chapTitle = document.getElementById('chapTitle');
+      const chapStorySelect = document.getElementById('chapStorySelect');
+      if (chapContent) chapContent.addEventListener('input', debouncedLivePreview);
+      if (chapTitle) chapTitle.addEventListener('input', debouncedLivePreview);
+      if (chapStorySelect) {
+        chapStorySelect.addEventListener('change', (e) => {
+          const chapEditId = document.getElementById('chapEditId').value;
+          if (!chapEditId) {
+            autoSuggestNextChapterNumber(e.target.value);
+          }
+        });
+      }
+    });
+  </script>
+</body>
+
+</html>
