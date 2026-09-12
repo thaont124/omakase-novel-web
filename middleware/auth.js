@@ -1,11 +1,6 @@
 const jwt = require('jsonwebtoken');
 
-const JWT_SECRET = process.env.JWT_SECRET ||
-  (process.env.NODE_ENV === 'production' ? null : 'omakase_super_secret_jwt_key_2026');
-
-if (!JWT_SECRET) {
-  throw new Error('JWT_SECRET must be set when NODE_ENV=production.');
-}
+const JWT_SECRET = process.env.JWT_SECRET || 'omakase_super_secret_jwt_key_2026';
 
 const verifyAdminToken = (req, res, next) => {
   const authHeader = req.headers['authorization'];
