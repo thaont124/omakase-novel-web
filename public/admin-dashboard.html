@@ -281,10 +281,10 @@
           <div class="form-group">
             <label class="form-label" style="display: flex; align-items: center; justify-content: space-between;">
               <span>⏰ Đặt Lịch Đăng Tự Động</span>
-              <small style="font-weight: normal; color: var(--text-muted); font-size: 0.75rem;">(Trống = Đăng
-                ngay)</small>
+              <small style="font-weight: normal; color: var(--text-muted); font-size: 0.75rem;">(Trống = Đăng ngay)</small>
             </label>
-            <input type="datetime-local" id="chapPublishAt" class="form-input" style="font-size: 0.88rem;" />
+            <input type="datetime-local" id="chapPublishAt" class="form-input" style="font-size: 0.88rem;" oninput="updatePublishAtDisplay()" onchange="updatePublishAtDisplay()" />
+            <div id="publishAtFormattedDisplay" style="font-size: 0.82rem; font-weight: 700; color: #1b5e20; background: #e8f5e9; padding: 4px 10px; border-radius: 6px; border: 1px solid #a5d6a7; margin-top: 6px; display: none;"></div>
           </div>
         </div>
 
@@ -489,7 +489,7 @@
           <div id="fullDetailStoryMeta"
             style="font-size: 0.92rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 10px;"></div>
           <div id="fullDetailStoryDesc"
-            style="font-size: 0.9rem; color: #333; line-height: 1.5; margin-bottom: 12px; background: #fff; padding: 10px 14px; border-radius: 8px; border: 1px dashed #ccd;">
+            style="font-size: 0.92rem; color: #222; line-height: 1.6; margin-bottom: 12px; background: #fff; padding: 12px 16px; border-radius: 8px; border: 1px dashed #ccd; white-space: pre-wrap; word-break: break-word;">
           </div>
           <div id="fullDetailStoryAudit"
             style="font-size: 0.82rem; color: #555; display: flex; gap: 8px; flex-wrap: wrap;"></div>
@@ -1049,6 +1049,28 @@
       } catch (e) { }
     }
 
+    function updatePublishAtDisplay() {
+      const val = document.getElementById('chapPublishAt').value;
+      const displayEl = document.getElementById('publishAtFormattedDisplay');
+      if (!displayEl) return;
+      if (!val) {
+        displayEl.style.display = 'none';
+        return;
+      }
+      const d = new Date(val);
+      if (isNaN(d.getTime())) {
+        displayEl.style.display = 'none';
+        return;
+      }
+      const day = String(d.getDate()).padStart(2, '0');
+      const month = String(d.getMonth() + 1).padStart(2, '0');
+      const year = d.getFullYear();
+      const hours = String(d.getHours()).padStart(2, '0');
+      const minutes = String(d.getMinutes()).padStart(2, '0');
+      displayEl.innerHTML = `⏰ Lịch hẹn đăng: <b>${day}/${month}/${year} ${hours}:${minutes}</b> (dd/mm/yyyy hh:mm)`;
+      displayEl.style.display = 'block';
+    }
+
     // ==================== EDITOR & LIVE PREVIEW ====================
     async function prepareAddChapter(storyId) {
       if (!window.location.pathname.includes('/admin/dashboard')) {
@@ -1057,6 +1079,7 @@
       switchTab('tab-editor');
       document.getElementById('chapEditId').value = '';
       document.getElementById('chapPublishAt').value = '';
+      updatePublishAtDisplay();
       document.getElementById('chapterForm').reset();
 
       const targetStoryId = storyId || document.getElementById('chapStorySelect').value;
@@ -1111,6 +1134,7 @@
           } else {
             document.getElementById('chapPublishAt').value = '';
           }
+          updatePublishAtDisplay();
 
           const editorHeading = document.querySelector('#tab-editor h3');
           if (editorHeading) editorHeading.textContent = `✏️ Cập Nhật Chương #${c.chapterNumber}: ${c.title}`;
@@ -1258,6 +1282,7 @@
     function resetChapterForm() {
       document.getElementById('chapEditId').value = '';
       document.getElementById('chapPublishAt').value = '';
+      updatePublishAtDisplay();
       document.getElementById('chapterForm').reset();
       const editorHeading = document.querySelector('#tab-editor h3');
       if (editorHeading) editorHeading.textContent = '📝 Bộ Soạn Thảo Đăng Chương & Xem Trước (Preview)';

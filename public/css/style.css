@@ -1542,3 +1542,14 @@ body.home-page-body .brand-title-text {
     line-height: 1.8;
   }
 }
+
+/* PRESERVE NEWLINES FOR STORY DESCRIPTIONS ACROSS THE APP */
+.detail-desc,
+#storyDescription,
+#fullDetailStoryDesc,
+.story-desc,
+.story-card-desc {
+  white-space: pre-wrap !important;
+  word-break: break-word !important;
+  line-height: 1.65 !important;
+}

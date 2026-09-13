@@ -261,6 +261,18 @@ router.get('/chapters/:id', verifyAdminToken, async (req, res) => {
   }
 });
 
+function formatDateVi(dateStr) {
+  if (!dateStr) return '';
+  const d = new Date(dateStr);
+  if (isNaN(d.getTime())) return '';
+  const day = String(d.getDate()).padStart(2, '0');
+  const month = String(d.getMonth() + 1).padStart(2, '0');
+  const year = d.getFullYear();
+  const hours = String(d.getHours()).padStart(2, '0');
+  const minutes = String(d.getMinutes()).padStart(2, '0');
+  return `${day}/${month}/${year} ${hours}:${minutes}`;
+}
+
 // POST /api/v1/admin/stories/:id/chapters & POST /api/v1/admin/chapters - Create new chapter
 const createChapterHandler = async (req, res) => {
   try {
@@ -291,7 +303,7 @@ const createChapterHandler = async (req, res) => {
 
     const isScheduled = publishDate > new Date();
     const successMsg = isScheduled
-      ? `⏰ Đã lưu lịch đăng chương tự động vào lúc ${publishDate.toLocaleString('vi-VN')}`
+      ? `⏰ Đã lưu lịch đăng chương tự động vào lúc ${formatDateVi(publishDate)}`
       : '🎉 Thêm chương mới thành công!';
 
     const existingChap = await Chapter.findOne({ storyId, chapterNumber: chapNum });
@@ -360,7 +372,7 @@ router.put('/chapters/:id', verifyAdminToken, async (req, res) => {
 
     const isScheduled = chap.publishedAt && new Date(chap.publishedAt) > new Date();
     const msg = isScheduled
-      ? `⏰ Đã lưu lịch đăng chương tự động vào lúc ${new Date(chap.publishedAt).toLocaleString('vi-VN')}`
+      ? `⏰ Đã lưu lịch đăng chương tự động vào lúc ${formatDateVi(chap.publishedAt)}`
       : '🎉 Cập nhật chương thành công!';
 
     return res.json({ success: true, message: msg, data: chap });
