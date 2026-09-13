@@ -1,9 +1,13 @@
+const fs = require('fs');
+const path = require('path');
 const bcrypt = require('bcryptjs');
 const mongoose = require('mongoose');
 const Admin = require('../models/Admin');
 const Settings = require('../models/Settings');
 const Story = require('../models/Story');
 const Chapter = require('../models/Chapter');
+
+const LOCAL_DB_FILE = path.join(__dirname, '..', 'local_db.json');
 
 // In-memory fallback data store if MongoDB Atlas is unreachable
 let inMemoryDb = {
@@ -88,22 +92,54 @@ Mỗi ngày trôi qua tại Omasake luôn tràn ngập yêu thương.`,
   ]
 };
 
+function saveInMemoryDb() {
+  try {
+    fs.writeFileSync(LOCAL_DB_FILE, JSON.stringify(inMemoryDb, null, 2), 'utf8');
+  } catch (err) {
+    console.warn('Cannot persist local_db.json:', err.message);
+  }
+}
+
 async function initData() {
   const isDbConnected = mongoose.connection.readyState === 1;
 
-  const hashedPassword = await bcrypt.hash('admin123', 10);
-  const defaultAdmin = {
-    _id: 'admin_1',
-    username: 'admin',
-    password: hashedPassword,
-    role: 'ADMIN',
-    createdBy: 'system',
-    updatedBy: 'system',
-    createdAt: new Date(),
-    updatedAt: new Date()
-  };
-  inMemoryDb.admin = defaultAdmin;
-  inMemoryDb.admins = [defaultAdmin];
+  // Load from local_db.json if available
+  if (fs.existsSync(LOCAL_DB_FILE)) {
+    try {
+      const raw = fs.readFileSync(LOCAL_DB_FILE, 'utf8');
+      const loaded = JSON.parse(raw);
+      if (loaded && typeof loaded === 'object') {
+        if (loaded.admin) inMemoryDb.admin = loaded.admin;
+        if (Array.isArray(loaded.admins)) inMemoryDb.admins = loaded.admins;
+        if (loaded.settings) inMemoryDb.settings = loaded.settings;
+        if (Array.isArray(loaded.stories)) inMemoryDb.stories = loaded.stories;
+        if (Array.isArray(loaded.chapters)) inMemoryDb.chapters = loaded.chapters;
+        console.log('Loaded local database from local_db.json successfully.');
+      }
+    } catch (e) {
+      console.warn('Could not parse local_db.json, using default seed:', e.message);
+    }
+  }
+
+  // Ensure default admin exists if empty
+  if (!inMemoryDb.admin || !inMemoryDb.admins || inMemoryDb.admins.length === 0) {
+    const hashedPassword = await bcrypt.hash('admin123', 10);
+    const defaultAdmin = {
+      _id: 'admin_1',
+      username: 'admin',
+      password: hashedPassword,
+      role: 'ADMIN',
+      createdBy: 'system',
+      updatedBy: 'system',
+      createdAt: new Date(),
+      updatedAt: new Date()
+    };
+    inMemoryDb.admin = defaultAdmin;
+    inMemoryDb.admins = [defaultAdmin];
+  }
+
+  // Save state to local_db.json
+  saveInMemoryDb();
 
   if (isDbConnected) {
     try {
@@ -111,12 +147,12 @@ async function initData() {
       if (!existingAdmin) {
         await Admin.create({
           username: 'admin',
-          password: hashedPassword,
+          password: inMemoryDb.admin.password,
           role: 'ADMIN',
           createdBy: 'system',
           updatedBy: 'system'
         });
-        console.log('Default admin seeded to MongoDB (username: admin, password: admin123)');
+        console.log('Default admin seeded to MongoDB');
       }
 
       const existingSettings = await Settings.findOne();
@@ -160,5 +196,7 @@ async function initData() {
 
 module.exports = {
   inMemoryDb,
+  saveInMemoryDb,
   initData
 };
+

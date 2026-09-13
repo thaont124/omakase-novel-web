@@ -9,7 +9,7 @@ const Settings = require('../models/Settings');
 const Story = require('../models/Story');
 const Chapter = require('../models/Chapter');
 const { verifyAdminToken, JWT_SECRET } = require('../middleware/auth');
-const { inMemoryDb } = require('../services/dataStore');
+const { inMemoryDb, saveInMemoryDb } = require('../services/dataStore');
 
 const isDbConnected = () => mongoose.connection.readyState === 1;
 
@@ -160,6 +160,7 @@ router.put('/settings', verifyAdminToken, async (req, res) => {
       return res.json({ success: true, message: 'Đã cập nhật giao diện Site123 thành công!', data: settings });
     } else {
       Object.assign(inMemoryDb.settings, updateFields);
+      saveInMemoryDb();
       return res.json({ success: true, message: 'Đã cập nhật giao diện Site123 thành công!', data: inMemoryDb.settings });
     }
   } catch (err) {
@@ -214,6 +215,7 @@ router.post('/stories', verifyAdminToken, async (req, res) => {
         views: 0
       };
       inMemoryDb.stories.unshift(newStory);
+      saveInMemoryDb();
       return res.status(201).json({ success: true, message: 'Thêm truyện thành công!', data: newStory });
     }
   } catch (err) {
@@ -256,6 +258,7 @@ router.put('/stories/:id', verifyAdminToken, async (req, res) => {
       if (description !== undefined) story.description = description;
       story.updatedBy = adminUser;
       story.updatedAt = new Date();
+      saveInMemoryDb();
 
       return res.json({ success: true, message: 'Cập nhật truyện thành công!', data: story });
     }
@@ -276,6 +279,7 @@ router.delete('/stories/:id', verifyAdminToken, async (req, res) => {
     } else {
       inMemoryDb.stories = inMemoryDb.stories.filter(s => String(s._id) !== String(storyId));
       inMemoryDb.chapters = inMemoryDb.chapters.filter(c => String(c.storyId) !== String(storyId));
+      saveInMemoryDb();
       return res.json({ success: true, message: 'Đã xóa truyện và các chương liên quan.' });
     }
   } catch (err) {
@@ -391,6 +395,7 @@ router.post('/chapters', verifyAdminToken, async (req, res) => {
         story.updatedAt = new Date();
         story.updatedBy = adminUser;
       }
+      saveInMemoryDb();
 
       return res.status(201).json({ success: true, message: successMsg, data: newChap });
     }
@@ -475,6 +480,7 @@ router.put('/chapters/:id', verifyAdminToken, async (req, res) => {
       const msg = isScheduled
         ? `⏰ Đã lưu lịch đăng chương tự động vào lúc ${new Date(chap.publishedAt).toLocaleString('vi-VN')}`
         : '🎉 Cập nhật chương thành công!';
+      saveInMemoryDb();
 
       return res.json({ success: true, message: msg, data: chap });
     }
@@ -493,6 +499,7 @@ router.delete('/chapters/:id', verifyAdminToken, async (req, res) => {
       return res.json({ success: true, message: 'Đã xóa chương.' });
     } else {
       inMemoryDb.chapters = inMemoryDb.chapters.filter(c => String(c._id) !== String(chapId));
+      saveInMemoryDb();
       return res.json({ success: true, message: 'Đã xóa chương.' });
     }
   } catch (err) {
@@ -587,6 +594,7 @@ router.post('/accounts', verifyAdminToken, async (req, res) => {
       };
       if (!inMemoryDb.admins) inMemoryDb.admins = [];
       inMemoryDb.admins.unshift(newAdmin);
+      saveInMemoryDb();
 
       return res.status(201).json({
         success: true,
@@ -657,6 +665,7 @@ router.put('/accounts/:id', verifyAdminToken, async (req, res) => {
       if (inMemoryDb.admin && (inMemoryDb.admin._id === account._id || inMemoryDb.admin.username === account.username)) {
         inMemoryDb.admin = account;
       }
+      saveInMemoryDb();
 
       return res.json({
         success: true,
@@ -700,6 +709,7 @@ router.delete('/accounts/:id', verifyAdminToken, async (req, res) => {
       }
 
       inMemoryDb.admins = (inMemoryDb.admins || []).filter(a => String(a._id) !== String(targetId));
+      saveInMemoryDb();
       return res.json({ success: true, message: `Đã xóa tài khoản "${targetAccount.username}".` });
     }
   } catch (err) {

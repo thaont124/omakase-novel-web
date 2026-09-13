@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const Story = require('../models/Story');
 const Chapter = require('../models/Chapter');
 const Settings = require('../models/Settings');
-const { inMemoryDb } = require('../services/dataStore');
+const { inMemoryDb, saveInMemoryDb } = require('../services/dataStore');
 
 // Helper to check DB status
 const isDbConnected = () => mongoose.connection.readyState === 1;
@@ -181,6 +181,7 @@ router.get('/chapters/:id', async (req, res) => {
       }
 
       chapter.views = (chapter.views || 0) + 1;
+      saveInMemoryDb();
       const story = inMemoryDb.stories.find(s => String(s._id) === String(chapter.storyId));
 
       const allChapters = inMemoryDb.chapters
