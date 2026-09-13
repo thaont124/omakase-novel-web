@@ -1219,7 +1219,7 @@
       const content = document.getElementById('chapContent').value;
       const publishedAt = document.getElementById('chapPublishAt').value || null;
 
-      const url = chapId ? `/api/v1/admin/chapters/${chapId}` : '/api/v1/admin/chapters';
+      const url = chapId ? `/api/v1/admin/chapters/${chapId}` : (storyId ? `/api/v1/admin/stories/${storyId}/chapters` : '/api/v1/admin/chapters');
       const method = chapId ? 'PUT' : 'POST';
 
       try {
@@ -1239,10 +1239,10 @@
           switchTab('tab-stories');
           loadAdminStories();
         } else {
-          showAlert(json.message, false);
+          showAlert(json.message || 'Không thể lưu chương. Vui lòng kiểm tra lại.', false);
         }
       } catch (e) {
-        showAlert('Lỗi cập nhật/đặt lịch chương.', false);
+        showAlert('Lỗi kết nối tới máy chủ khi lưu chương.', false);
       }
     }
 

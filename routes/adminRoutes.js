@@ -261,15 +261,15 @@ router.get('/chapters/:id', verifyAdminToken, async (req, res) => {
   }
 });
 
-// POST /api/v1/admin/stories/:id/chapters - Create new chapter (Supports Scheduled Publishing)
-router.post('/stories/:id/chapters', verifyAdminToken, async (req, res) => {
+// POST /api/v1/admin/stories/:id/chapters & POST /api/v1/admin/chapters - Create new chapter
+const createChapterHandler = async (req, res) => {
   try {
-    const storyId = req.params.id;
+    const storyId = req.params.id || req.body.storyId;
     const { chapterNumber, title, content, publishedAt } = req.body;
     const adminUser = req.admin ? req.admin.username : 'admin';
 
-    if (!mongoose.Types.ObjectId.isValid(storyId)) {
-      return res.status(400).json({ success: false, message: 'ID truyện không hợp lệ.' });
+    if (!storyId || !mongoose.Types.ObjectId.isValid(storyId)) {
+      return res.status(400).json({ success: false, message: 'Vui lòng chọn bộ truyện hợp lệ.' });
     }
 
     if (!chapterNumber || !title || !content) {
@@ -315,7 +315,10 @@ router.post('/stories/:id/chapters', verifyAdminToken, async (req, res) => {
   } catch (err) {
     return res.status(500).json({ success: false, message: err.message });
   }
-});
+};
+
+router.post('/stories/:id/chapters', verifyAdminToken, createChapterHandler);
+router.post('/chapters', verifyAdminToken, createChapterHandler);
 
 // PUT /api/v1/admin/chapters/:id - Update chapter
 router.put('/chapters/:id', verifyAdminToken, async (req, res) => {
