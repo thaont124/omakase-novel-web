@@ -2,42 +2,38 @@ const mongoose = require('mongoose');
 const fs = require('fs');
 const path = require('path');
 const dotenv = require('dotenv');
-
-// Load environment variables from atlas-credentials.env if present
-const atlasEnvPath = path.join(__dirname, '..', 'atlas-credentials.env');
-if (fs.existsSync(atlasEnvPath)) {
-  dotenv.config({ path: atlasEnvPath });
-} else {
-  dotenv.config();
-}
-
 const dns = require('dns');
+
+// Configure Google DNS fallback for Windows SRV lookup
 try {
   dns.setServers(['8.8.8.8', '1.1.1.1']);
 } catch (e) {}
 
-let isUsingMemoryFallback = false;
+// Load environment variables (.env first)
+dotenv.config();
+const atlasEnvPath = path.join(__dirname, '..', 'atlas-credentials.env');
+if (fs.existsSync(atlasEnvPath)) {
+  dotenv.config({ path: atlasEnvPath });
+}
 
 const connectDB = async () => {
   const mongoURI = process.env.MONGODB_URI;
 
   if (!mongoURI) {
-    console.warn('MONGODB_URI is not configured. Running with local storage mode active.');
-    isUsingMemoryFallback = true;
-    return;
+    console.error('ERROR: MONGODB_URI environment variable is missing.');
+    process.exit(1);
   }
 
   try {
     mongoose.set('strictQuery', false);
     await mongoose.connect(mongoURI, {
-      serverSelectionTimeoutMS: 5000 // 5 sec timeout fallback
+      serverSelectionTimeoutMS: 10000
     });
     console.log('MongoDB Atlas Connected Successfully.');
   } catch (err) {
-    console.warn('MongoDB Atlas connection error/timeout:', err.message);
-    console.warn('Running with local storage mode active.');
-    isUsingMemoryFallback = true;
+    console.error('MongoDB Atlas Connection Error:', err.message);
+    process.exit(1);
   }
 };
 
-module.exports = { connectDB, getIsMemoryFallback: () => isUsingMemoryFallback };
+module.exports = { connectDB };
