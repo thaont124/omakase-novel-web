@@ -520,53 +520,58 @@
   <!-- CREATE / EDIT STORY MODAL -->
   <div id="storyModal"
     style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 2000; align-items: center; justify-content: center; padding: 20px;">
-    <div class="admin-card"
-      style="width: 100%; max-width: 550px; background: white; max-height: 90vh; overflow-y: auto;">
-      <h3 id="storyModalTitle" style="color: var(--global-main-color); margin-bottom: 16px;">Tạo Truyện Mới</h3>
+    <div class="admin-card modal-card-wrapper"
+      style="width: 100%; max-width: 550px; background: white; max-height: 90vh; display: flex; flex-direction: column; padding: 24px; position: relative; border-radius: 16px; box-shadow: 0 10px 40px rgba(0,0,0,0.25); overflow: hidden;">
+      
+      <div class="modal-header-fixed" style="padding-bottom: 12px; margin-bottom: 16px; border-bottom: 1px solid #eef2f0; flex-shrink: 0;">
+        <h3 id="storyModalTitle" style="color: var(--global-main-color); margin: 0; font-size: 1.3rem;">Tạo Truyện Mới</h3>
+      </div>
 
-      <form id="storyForm" onsubmit="saveStory(event)">
-        <input type="hidden" id="storyEditId" value="" />
+      <form id="storyForm" onsubmit="saveStory(event)" style="display: flex; flex-direction: column; flex: 1; overflow: hidden; margin: 0;">
+        <div class="modal-body-scrollable" style="flex: 1; overflow-y: auto; padding-right: 8px;">
+          <input type="hidden" id="storyEditId" value="" />
 
-        <div class="form-group">
-          <label class="form-label">Tên Truyện (*)</label>
-          <input type="text" id="modalStoryTitle" class="form-input" required />
+          <div class="form-group">
+            <label class="form-label">Tên Truyện (*)</label>
+            <input type="text" id="modalStoryTitle" class="form-input" required />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Link Ảnh Bìa URL (*)</label>
+            <input type="url" id="modalStoryCover" class="form-input" placeholder="https://..."
+              oninput="document.getElementById('modalCoverPrev').src=this.value" required />
+            <img id="modalCoverPrev" src="https://files.cdn-files-a.com/uploads/12065718/2000_69f18eadc4f57.jpg"
+              style="height: 110px; border-radius: 6px; margin-top: 8px; object-fit: cover;" />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Tác Giả</label>
+            <input type="text" id="modalStoryAuthor" class="form-input" value="JimmySea - Avocean" />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Trạng Thái</label>
+            <select id="modalStoryStatus" class="form-select">
+              <option value="Đang tiến hành">Đang tiến hành</option>
+              <option value="Hoàn thành">Hoàn thành</option>
+              <option value="Tạm ngưng">Tạm ngưng</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Thể Loại (Phân cách bằng dấu phẩy)</label>
+            <input type="text" id="modalStoryGenres" class="form-input" placeholder="Chữa Lành, Tình Cảm, Đời Thường" />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Mô Tả Tóm Tắt</label>
+            <textarea id="modalStoryDesc" class="form-textarea" rows="4"></textarea>
+          </div>
         </div>
 
-        <div class="form-group">
-          <label class="form-label">Link Ảnh Bìa URL (*)</label>
-          <input type="url" id="modalStoryCover" class="form-input" placeholder="https://..."
-            oninput="document.getElementById('modalCoverPrev').src=this.value" required />
-          <img id="modalCoverPrev" src="https://files.cdn-files-a.com/uploads/12065718/2000_69f18eadc4f57.jpg"
-            style="height: 110px; border-radius: 6px; margin-top: 8px; object-fit: cover;" />
-        </div>
-
-        <div class="form-group">
-          <label class="form-label">Tác Giả</label>
-          <input type="text" id="modalStoryAuthor" class="form-input" value="JimmySea - Avocean" />
-        </div>
-
-        <div class="form-group">
-          <label class="form-label">Trạng Thái</label>
-          <select id="modalStoryStatus" class="form-select">
-            <option value="Đang tiến hành">Đang tiến hành</option>
-            <option value="Hoàn thành">Hoàn thành</option>
-            <option value="Tạm ngưng">Tạm ngưng</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label class="form-label">Thể Loại (Phân cách bằng dấu phẩy)</label>
-          <input type="text" id="modalStoryGenres" class="form-input" placeholder="Chữa Lành, Tình Cảm, Đời Thường" />
-        </div>
-
-        <div class="form-group">
-          <label class="form-label">Mô Tả Tóm Tắt</label>
-          <textarea id="modalStoryDesc" class="form-textarea" rows="4"></textarea>
-        </div>
-
-        <div style="display: flex; justify-content: flex-end; gap: 10px;">
-          <button type="button" class="btn-preview-toggle" onclick="closeStoryModal()">Hủy</button>
-          <button type="submit" class="btn-primary">Lưu Truyện</button>
+        <div class="modal-footer-fixed" style="background: white; padding-top: 14px; margin-top: 12px; border-top: 1px solid #eef2f0; display: flex; justify-content: flex-end; gap: 12px; flex-shrink: 0;">
+          <button type="button" class="btn-preview-toggle" onclick="closeStoryModal()" style="padding: 10px 22px; font-weight: 700;">Hủy</button>
+          <button type="submit" class="btn-primary" style="padding: 10px 24px; font-weight: 700;">Lưu Truyện</button>
         </div>
       </form>
     </div>
@@ -575,42 +580,46 @@
   <!-- CREATE / EDIT ADMIN ACCOUNT MODAL -->
   <div id="accountModal"
     style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 2000; align-items: center; justify-content: center; padding: 20px;">
-    <div class="admin-card"
-      style="width: 100%; max-width: 480px; background: white; max-height: 90vh; overflow-y: auto;">
-      <h3 id="accountModalTitle" style="color: var(--global-main-color); margin-bottom: 16px;">Tạo Tài Khoản Admin Mới
-      </h3>
+    <div class="admin-card modal-card-wrapper"
+      style="width: 100%; max-width: 480px; background: white; max-height: 90vh; display: flex; flex-direction: column; padding: 24px; position: relative; border-radius: 16px; box-shadow: 0 10px 40px rgba(0,0,0,0.25); overflow: hidden;">
+      
+      <div class="modal-header-fixed" style="padding-bottom: 12px; margin-bottom: 16px; border-bottom: 1px solid #eef2f0; flex-shrink: 0;">
+        <h3 id="accountModalTitle" style="color: var(--global-main-color); margin: 0; font-size: 1.3rem;">Tạo Tài Khoản Admin Mới</h3>
+      </div>
 
-      <form id="accountForm" onsubmit="saveAccount(event)">
-        <input type="hidden" id="accountEditId" value="" />
+      <form id="accountForm" onsubmit="saveAccount(event)" style="display: flex; flex-direction: column; flex: 1; overflow: hidden; margin: 0;">
+        <div class="modal-body-scrollable" style="flex: 1; overflow-y: auto; padding-right: 8px;">
+          <input type="hidden" id="accountEditId" value="" />
 
-        <div class="form-group">
-          <label class="form-label">Tên Đăng Nhập (*)</label>
-          <input type="text" id="modalAccountUsername" class="form-input" placeholder="Ví dụ: admin2" required />
-        </div>
-
-        <div class="form-group">
-          <label class="form-label" id="modalAccountPasswordLabel">Mật Khẩu (*)</label>
-          <div style="position: relative;">
-            <input type="password" id="modalAccountPassword" class="form-input" placeholder="Tối thiểu 6 ký tự"
-              style="padding-right: 45px;" />
-            <button type="button" onclick="toggleShowPassword('modalAccountPassword', this)"
-              style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; font-size: 1.1rem; cursor: pointer; color: #555;"
-              title="Hiện/Ẩn mật khẩu">👁️</button>
+          <div class="form-group">
+            <label class="form-label">Tên Đăng Nhập (*)</label>
+            <input type="text" id="modalAccountUsername" class="form-input" placeholder="Ví dụ: admin2" required />
           </div>
-          <small style="color: var(--text-muted); display: block; margin-top: 4px;" id="modalAccountPasswordHelp">Bỏ
-            trống nếu không muốn đổi mật khẩu cũ.</small>
+
+          <div class="form-group">
+            <label class="form-label" id="modalAccountPasswordLabel">Mật Khẩu (*)</label>
+            <div style="position: relative;">
+              <input type="password" id="modalAccountPassword" class="form-input" placeholder="Tối thiểu 6 ký tự"
+                style="padding-right: 45px;" />
+              <button type="button" onclick="toggleShowPassword('modalAccountPassword', this)"
+                style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; font-size: 1.1rem; cursor: pointer; color: #555;"
+                title="Hiện/Ẩn mật khẩu">👁️</button>
+            </div>
+            <small style="color: var(--text-muted); display: block; margin-top: 4px;" id="modalAccountPasswordHelp">Bỏ
+              trống nếu không muốn đổi mật khẩu cũ.</small>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Quyền Hạn (Role)</label>
+            <select id="modalAccountRole" class="form-select">
+              <option value="ADMIN">ADMIN</option>
+            </select>
+          </div>
         </div>
 
-        <div class="form-group">
-          <label class="form-label">Quyền Hạn (Role)</label>
-          <select id="modalAccountRole" class="form-select">
-            <option value="ADMIN">ADMIN</option>
-          </select>
-        </div>
-
-        <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px;">
-          <button type="button" class="btn-preview-toggle" onclick="closeAccountModal()">Hủy</button>
-          <button type="submit" class="btn-primary">Lưu Tài Khoản</button>
+        <div class="modal-footer-fixed" style="background: white; padding-top: 14px; margin-top: 12px; border-top: 1px solid #eef2f0; display: flex; justify-content: flex-end; gap: 12px; flex-shrink: 0;">
+          <button type="button" class="btn-preview-toggle" onclick="closeAccountModal()" style="padding: 10px 22px; font-weight: 700;">Hủy</button>
+          <button type="submit" class="btn-primary" style="padding: 10px 24px; font-weight: 700;">Lưu Tài Khoản</button>
         </div>
       </form>
     </div>
