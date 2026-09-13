@@ -1,19 +1,23 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Chi Tiết Truyện - Omasake</title>
-  <link rel="shortcut icon" href="https://files.cdn-files-a.com/uploads/12065718/400_69f17ca68bc4f.png" type="image/x-icon">
+  <link rel="shortcut icon" href="https://files.cdn-files-a.com/uploads/12065718/400_69f17ca68bc4f.png"
+    type="image/x-icon">
   <link rel="stylesheet" href="/css/style.css">
 </head>
+
 <body>
 
   <!-- Site Navigation Header -->
   <header class="site-header-translucent">
     <div class="site-header-inner-full">
       <a href="/omakase/" class="brand-logo-link" title="Trang chủ Omasake">
-        <img id="brandLogo" src="https://files.cdn-files-a.com/uploads/12065718/400_69f17ca68bc4f.png" alt="Omasake Logo" class="brand-logo-img">
+        <img id="brandLogo" src="https://files.cdn-files-a.com/uploads/12065718/400_69f17ca68bc4f.png"
+          alt="Omasake Logo" class="brand-logo-img">
         <span class="brand-title-text" id="siteTitleText">OMASAKE</span>
       </a>
 
@@ -29,36 +33,56 @@
   </header>
 
   <main class="container" style="margin-top: 30px; margin-bottom: 50px;">
-    
+
     <!-- Breadcrumb -->
     <div style="font-size: 0.95rem; margin-bottom: 20px; color: var(--text-muted);">
-      <a href="/omakase/">Home</a> &nbsp;/&nbsp; <span id="breadcrumbTitle" style="color: var(--global-main-color); font-weight: 700;">Đang tải...</span>
+      <a href="/omakase/">Home</a> &nbsp;/&nbsp; <span id="breadcrumbTitle"
+        style="color: var(--global-main-color); font-weight: 700;">Đang tải...</span>
     </div>
 
-    <!-- Story Header Info Card -->
-    <div id="storyDetailHeader" class="detail-header">
-      <div>
-        <img id="storyCover" src="" alt="Cover" class="detail-cover" onError="this.src='https://files.cdn-files-a.com/uploads/12065718/2000_69f18eadc4f57.jpg'" />
+    <!-- Story Header Info Component (2 Columns / Stack on Mobile) -->
+    <div id="storyDetailHeader" class="story-detail-component">
+
+      <!-- CỘT 1: Ảnh bìa truyện, Tác giả, Thể loại, Tình trạng -->
+      <div class="story-detail-col1">
+        <img id="storyCover" src="" alt="Cover"
+          style="width: 100%; height: 280px; object-fit: cover; border-radius: 10px; box-shadow: 0 6px 16px rgba(0,0,0,0.12);"
+          onError="this.src='https://files.cdn-files-a.com/uploads/12065718/2000_69f18eadc4f57.jpg'" />
+
+        <div
+          style="font-size: 0.9rem; line-height: 1.6; color: var(--text-main); display: flex; flex-direction: column; gap: 10px;">
+          <div><b>✍️ Tác giả:</b> <span id="storyAuthor" style="font-weight: 600; color: #1c5237;">--</span></div>
+          <div><b>🏷️ Thể loại:</b>
+            <div id="storyGenres" style="display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px;">--</div>
+          </div>
+          <div><b>📌 Tình trạng:</b> <span id="storyStatus"
+              style="background: #e8f5e9; color: #2e7d32; padding: 2px 8px; border-radius: 6px; font-weight: 600; font-size: 0.82rem; display: inline-block; margin-top: 2px;">--</span>
+          </div>
+        </div>
       </div>
-      <div>
-        <h1 id="storyTitle" class="detail-title">Đang tải tên truyện...</h1>
-        
-        <div class="detail-meta-list">
-          <div><strong>Tác giả:</strong> <span id="storyAuthor">JimmySea - Avocean</span></div>
-          <div><strong>Trạng thái:</strong> <span id="storyStatus" class="tag">--</span></div>
-          <div><strong>Thể loại:</strong> <span id="storyGenres">--</span></div>
-          <div><strong>Lượt xem:</strong> <span id="storyViews">0</span> lượt đọc</div>
+
+      <!-- CỘT 2: Tiêu đề & Văn án -->
+      <div class="story-detail-col2">
+        <h1 id="storyTitle"
+          style="color: var(--global-main-color); font-size: 1.7rem; margin-bottom: 14px; font-weight: 800; line-height: 1.3;">
+          Đang tải tên truyện...
+        </h1>
+
+        <div
+          style="font-size: 1.05rem; font-weight: 700; color: var(--global-main-color); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; display: flex; align-items: center; gap: 6px;">
+          📜 Văn án:
         </div>
 
-        <h4 style="font-size: 1.05rem; color: var(--global-main-color); margin-bottom: 8px; text-transform: uppercase;">📖 Tóm tắt nội dung:</h4>
-        <div id="storyDescription" class="detail-desc">
-          Nội dung tóm tắt đang được nạp...
+        <div id="storyDescription" class="detail-desc"
+          style="flex: 1; font-size: 0.95rem; color: #222; line-height: 1.8; background: #fafafa; padding: 18px 20px; border-radius: 12px; border: 1px solid #e0e8e3; white-space: pre-wrap !important; word-break: break-word !important;">
+          Nội dung văn án đang được nạp...
         </div>
 
-        <div id="firstChapterBtnWrap">
+        <div id="firstChapterBtnWrap" style="margin-top: 16px;">
           <!-- Dynamic First Chapter Read Button -->
         </div>
       </div>
+
     </div>
 
     <!-- Chapter List Section -->
@@ -86,7 +110,7 @@
             if (document.getElementById('siteTitleText')) document.getElementById('siteTitleText').textContent = s.siteTitle;
           }
         }
-      } catch (e) {}
+      } catch (e) { }
     }
 
     async function loadStoryDetail() {
@@ -103,7 +127,7 @@
           document.getElementById('storyAuthor').textContent = s.author || 'JimmySea - Avocean';
           document.getElementById('storyStatus').textContent = s.status || 'Đang tiến hành';
           document.getElementById('storyGenres').innerHTML = (s.genres || []).map(g => `<span class="tag">${g}</span>`).join(' ');
-          document.getElementById('storyViews').textContent = (s.views || 0).toLocaleString();
+          if (document.getElementById('storyViews')) document.getElementById('storyViews').textContent = (s.views || 0).toLocaleString();
           document.getElementById('storyCover').src = s.coverUrl;
           document.getElementById('storyDescription').textContent = s.description || 'Chưa có thông tin tóm tắt.';
 
@@ -120,7 +144,6 @@
             document.getElementById('chapterGrid').innerHTML = chapters.map(c => `
               <a href="/omakase/chapter/${c._id}" class="chapter-item-btn">
                 <span>Chương ${c.chapterNumber}: ${c.title}</span>
-                <span style="font-size: 0.8rem; color: var(--text-light);">👁️ ${(c.views || 0)}</span>
               </a>
             `).join('');
           } else {
@@ -143,4 +166,5 @@
     ⚙️
   </a>
 </body>
+
 </html>

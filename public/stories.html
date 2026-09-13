@@ -89,7 +89,6 @@
   <div class="page-title-banner">
     <div class="container">
       <h1>📚 Danh Sách Truyện Omasake</h1>
-      <p>Tổng hợp các bộ truyện chữa lành JimmySea - Avocean</p>
     </div>
   </div>
 
@@ -99,13 +98,6 @@
     <!-- Filter Search Bar -->
     <div class="filter-bar-card">
       <input type="text" id="searchInput" class="form-input" placeholder="🔍 Tìm kiếm tên truyện, tác giả..." oninput="fetchStories()" />
-      <select id="genreSelect" onchange="fetchStories()" class="form-select">
-        <option value="">🌱 Tất cả thể loại</option>
-        <option value="Chữa Lành">Chữa Lành</option>
-        <option value="Tình Cảm">Tình Cảm</option>
-        <option value="Đời Thường">Đời Thường</option>
-        <option value="Gia Đình">Gia Đình</option>
-      </select>
     </div>
 
     <!-- Stories Grid -->
@@ -181,8 +173,9 @@
     }
 
     async function fetchStories() {
-      const search = document.getElementById('searchInput').value;
-      const genre = document.getElementById('genreSelect').value;
+      const search = document.getElementById('searchInput') ? document.getElementById('searchInput').value : '';
+      const genreEl = document.getElementById('genreSelect');
+      const genre = genreEl ? genreEl.value : '';
       const grid = document.getElementById('storiesGrid');
       grid.innerHTML = '<p style="color: var(--text-muted); grid-column: 1/-1; text-align: center; padding: 40px;">Đang tải danh sách truyện...</p>';
 
