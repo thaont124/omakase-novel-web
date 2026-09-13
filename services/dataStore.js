@@ -157,20 +157,25 @@ async function initData() {
 
       const existingSettings = await Settings.findOne();
       if (!existingSettings) {
-        await Settings.create(inMemoryDb.settings);
+        const { _id, ...cleanSettings } = inMemoryDb.settings || {};
+        await Settings.create(cleanSettings);
         console.log('Default Site123 settings seeded to MongoDB');
       }
 
       const count = await Story.countDocuments();
       if (count === 0) {
-        const createdStories = await Story.insertMany(inMemoryDb.stories);
+        const cleanStories = (inMemoryDb.stories || []).map(s => {
+          const { _id, ...rest } = s;
+          return rest;
+        });
+        const createdStories = await Story.insertMany(cleanStories);
         if (createdStories.length > 0) {
           await Chapter.insertMany([
             {
               storyId: createdStories[0]._id,
               chapterNumber: 1,
               title: 'Chương 1: Ánh Hoàng Hôn Ấm Áp',
-              content: inMemoryDb.chapters[0].content,
+              content: (inMemoryDb.chapters[0] && inMemoryDb.chapters[0].content) || '',
               views: 620,
               createdBy: 'admin',
               updatedBy: 'admin'
@@ -179,7 +184,7 @@ async function initData() {
               storyId: createdStories[0]._id,
               chapterNumber: 2,
               title: 'Chương 2: Tách Trà Buổi Chiều',
-              content: inMemoryDb.chapters[1].content,
+              content: (inMemoryDb.chapters[1] && inMemoryDb.chapters[1].content) || '',
               views: 480,
               createdBy: 'admin',
               updatedBy: 'admin'
