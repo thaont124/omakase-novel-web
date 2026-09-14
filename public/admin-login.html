@@ -2,7 +2,7 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover, interactive-widget=resizes-content">
   <title>Đăng Nhập Admin - Omakase Blog</title>
   <link rel="stylesheet" href="/css/style.css">
 </head>
@@ -25,7 +25,7 @@
     </div>
   </header>
 
-  <main class="container" style="flex: 1; display: flex; align-items: center; justify-content: center; padding: 40px 0;">
+  <main class="container login-main-container">
     <div class="admin-card" style="width: 100%; max-width: 440px; box-shadow: var(--shadow-hover);">
       
       <div style="text-align: center; margin-bottom: 24px;">
@@ -63,6 +63,15 @@
   </footer>
 
   <script>
+    // Tự động cuộn phần tử đang nhập lên vị trí dễ nhìn khi mở bàn phím điện thoại
+    document.addEventListener('focusin', function (e) {
+      if (['INPUT', 'TEXTAREA', 'SELECT'].includes(e.target.tagName)) {
+        setTimeout(function () {
+          e.target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 300);
+      }
+    });
+
     function toggleShowPassword(inputId, btn) {
       const input = document.getElementById(inputId);
       if (input.type === 'password') {

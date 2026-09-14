@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover, interactive-widget=resizes-content">
   <title>Bảng Quản Trị Admin - Omasake</title>
   <link rel="shortcut icon" href="https://files.cdn-files-a.com/uploads/12065718/400_69f17ca68bc4f.png"
     type="image/x-icon">
@@ -284,7 +284,7 @@
               <small style="font-weight: normal; color: var(--text-muted); font-size: 0.75rem;">(Trống = Đăng
                 ngay)</small>
             </label>
-            <input type="datetime-local" id="chapPublishAt" class="form-input" style="font-size: 0.88rem;"
+            <input type="datetime-local" id="chapPublishAt" lang="vi-VN" class="form-input" style="font-size: 0.88rem;"
               oninput="updatePublishAtDisplay()" onchange="updatePublishAtDisplay()" />
             <div id="publishAtFormattedDisplay"
               style="font-size: 0.82rem; font-weight: 700; color: #1b5e20; background: #e8f5e9; padding: 4px 10px; border-radius: 6px; border: 1px solid #a5d6a7; margin-top: 6px; display: none;">
@@ -663,6 +663,15 @@
 
   <script>
     const adminToken = localStorage.getItem('admin_token');
+
+    // Tự động cuộn phần tử đang nhập lên vị trí dễ nhìn khi mở bàn phím điện thoại
+    document.addEventListener('focusin', function (e) {
+      if (['INPUT', 'TEXTAREA', 'SELECT'].includes(e.target.tagName)) {
+        setTimeout(function () {
+          e.target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 300);
+      }
+    });
 
     function checkAuth() {
       if (!adminToken) {

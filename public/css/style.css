@@ -1445,13 +1445,29 @@ body.home-page-body .brand-title-text {
 }
 
 .reader-controls {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 15px;
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  gap: 10px !important;
   background: #e4f4e9;
-  padding: 10px 18px;
+  padding: 8px 14px;
   border-radius: 30px;
+  width: 100%;
+}
+
+.reader-controls .btn-nav-chap {
+  white-space: nowrap !important;
+  flex-shrink: 0 !important;
+}
+
+.reader-controls select#selectChapterNav {
+  flex: 1 !important;
+  min-width: 0 !important;
+  white-space: nowrap !important;
+  text-overflow: ellipsis !important;
+  overflow: hidden !important;
 }
 
 .btn-nav-chap {
@@ -1525,16 +1541,25 @@ body.home-page-body .brand-title-text {
 
   .sticky-reader-toolbar {
     top: 60px !important;
-    padding: 10px !important;
+    padding: 8px !important;
   }
 
   .reader-controls {
-    padding: 6px 10px;
+    flex-wrap: nowrap !important;
+    padding: 6px 8px !important;
+    gap: 6px !important;
   }
 
   .btn-nav-chap {
-    padding: 6px 12px;
-    font-size: 0.82rem;
+    padding: 6px 10px !important;
+    font-size: 0.78rem !important;
+    white-space: nowrap !important;
+    flex-shrink: 0 !important;
+  }
+
+  #selectChapterNav {
+    font-size: 0.8rem !important;
+    padding: 4px 6px !important;
   }
 
   .reader-content {
@@ -1603,5 +1628,55 @@ body.home-page-body .brand-title-text {
   .story-detail-col2 {
     width: 100% !important;
     min-width: 0 !important;
+  }
+}
+
+/* =========================================================
+   MOBILE VIRTUAL KEYBOARD OPTIMIZATIONS & AUTO-SCROLLING
+   ========================================================= */
+.login-main-container {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 16px;
+}
+
+.form-input,
+.form-textarea,
+.form-select,
+input,
+textarea,
+select {
+  scroll-margin-top: 90px !important;
+  scroll-margin-bottom: 160px !important;
+}
+
+@media (max-width: 768px) {
+  body.admin-page-body {
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+
+  .login-main-container {
+    align-items: flex-start !important;
+    padding-top: 30px !important;
+    padding-bottom: 280px !important;
+  }
+
+  .admin-card {
+    margin: 0 auto 30px auto !important;
+  }
+
+  .modal-overlay {
+    align-items: flex-start !important;
+    padding: 12px 10px 250px 10px !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+
+  .modal-content-box {
+    max-height: none !important;
+    margin-bottom: 150px !important;
   }
 }
