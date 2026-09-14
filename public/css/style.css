@@ -1599,6 +1599,14 @@ body.home-page-body .brand-title-text {
     grid-template-columns: 1fr !important;
   }
 
+  /* Prevent any form element from overflowing on mobile */
+  .admin-card input,
+  .admin-card select,
+  .admin-card textarea {
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
   .editor-toolbar-row {
     flex-direction: column !important;
     align-items: flex-start !important;
