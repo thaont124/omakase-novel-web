@@ -41,24 +41,42 @@
       <!-- Sticky Reader Controls & Customization Bar (Top Navigation Sticky) -->
       <div class="sticky-reader-toolbar">
         <div class="reader-controls">
-          <a id="btnPrevChap" href="#" class="btn-nav-chap disabled">← Chương trước</a>
+          <a id="btnPrevChap" href="#" class="btn-nav-chap disabled" title="Chương trước">
+            <span class="nav-arrow">←</span><span class="nav-text"> Chương trước</span>
+          </a>
           
-          <select id="selectChapterNav" onchange="window.location.href='/omakase/chapter/'+this.value" class="form-select" style="width: auto; max-width: 260px; font-weight: 600; padding: 6px 12px; border-radius: 8px; border: 1px solid #c2e5cf;">
+          <select id="selectChapterNav" onchange="window.location.href='/omakase/chapter/'+this.value" class="form-select">
             <!-- Options populated dynamically -->
           </select>
 
-          <a id="btnNextChap" href="#" class="btn-nav-chap disabled">Chương tiếp →</a>
+          <button type="button" id="btnToggleSettings" onclick="toggleReaderSettings(event)" class="btn-nav-chap btn-nav-settings" title="Tùy chỉnh cỡ chữ & màu nền">
+            <span class="nav-icon">Aa</span>
+          </button>
+
+          <a id="btnNextChap" href="#" class="btn-nav-chap disabled" title="Chương tiếp">
+            <span class="nav-text">Chương tiếp </span><span class="nav-arrow">→</span>
+          </a>
         </div>
 
-        <div class="reader-customize-toolbar">
-          <span style="font-weight: 600; color: var(--text-muted);">Cỡ chữ:</span>
-          <button onclick="changeFontSize(-1)" class="tab-btn" style="padding: 2px 8px; font-weight: bold;">A-</button>
-          <button onclick="changeFontSize(1)" class="tab-btn" style="padding: 2px 8px; font-weight: bold;">A+</button>
+        <!-- Floating Popover for Font Size & Theme Customization -->
+        <div class="reader-customize-popover" id="readerSettingsPanel" style="display: none;">
+          <div class="popover-row">
+            <span class="popover-label">Cỡ chữ:</span>
+            <div class="popover-btn-group">
+              <button type="button" onclick="changeFontSize(-1)" class="btn-setting-pill">A-</button>
+              <button type="button" onclick="changeFontSize(1)" class="btn-setting-pill">A+</button>
+            </div>
+          </div>
 
-          <span style="font-weight: 600; color: var(--text-muted); margin-left: 15px;">Nền:</span>
-          <button onclick="setReaderTheme('#f2f8f4', '#193324')" style="background: #f2f8f4; border: 1px solid #c3e2cc; border-radius: 50%; width: 24px; height: 24px; cursor: pointer;" title="Nền Mùa Hạ"></button>
-          <button onclick="setReaderTheme('#ffffff', '#1c1c1c')" style="background: #ffffff; border: 1px solid #ccc; border-radius: 50%; width: 24px; height: 24px; cursor: pointer;" title="Nền Trắng"></button>
-          <button onclick="setReaderTheme('#fcf8ed', '#2c251e')" style="background: #fcf8ed; border: 1px solid #e2d7be; border-radius: 50%; width: 24px; height: 24px; cursor: pointer;" title="Nền Giấy Cổ"></button>
+          <div class="popover-row">
+            <span class="popover-label">Màu nền:</span>
+            <div class="popover-btn-group">
+              <button type="button" onclick="setReaderTheme('#f2f8f4', '#193324')" class="btn-theme-circle" style="background: #f2f8f4; border-color: #c3e2cc;" title="Mùa Hạ"></button>
+              <button type="button" onclick="setReaderTheme('#ffffff', '#1c1c1c')" class="btn-theme-circle" style="background: #ffffff; border-color: #cccccc;" title="Trắng Sáng"></button>
+              <button type="button" onclick="setReaderTheme('#fcf8ed', '#2c251e')" class="btn-theme-circle" style="background: #fcf8ed; border-color: #e2d7be;" title="Giấy Cổ"></button>
+              <button type="button" onclick="setReaderTheme('#1b2620', '#d0ebd9')" class="btn-theme-circle" style="background: #1b2620; border-color: #335240;" title="Ban Đêm"></button>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -74,6 +92,24 @@
   <script>
     const chapterId = window.location.pathname.split('/chapter/')[1];
     let currentFontSize = 1.15;
+
+    function toggleReaderSettings(e) {
+      if (e) e.stopPropagation();
+      const panel = document.getElementById('readerSettingsPanel');
+      if (!panel) return;
+      const isHidden = panel.style.display === 'none' || !panel.style.display;
+      panel.style.display = isHidden ? 'flex' : 'none';
+    }
+
+    document.addEventListener('click', (e) => {
+      const panel = document.getElementById('readerSettingsPanel');
+      const btn = document.getElementById('btnToggleSettings');
+      if (panel && panel.style.display !== 'none') {
+        if (!panel.contains(e.target) && !btn.contains(e.target)) {
+          panel.style.display = 'none';
+        }
+      }
+    });
 
     function changeFontSize(delta) {
       currentFontSize = Math.max(0.95, Math.min(1.6, currentFontSize + (delta * 0.08)));

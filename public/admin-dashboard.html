@@ -170,55 +170,145 @@
 
   <!-- Site Navigation Header -->
   <header class="site-header"
-    style="background: rgba(186, 242, 227, 0.95) !important; padding: 12px 24px; box-shadow: 0 4px 15px rgba(11,46,28,0.1); width: 100%; border-bottom: 1px solid rgba(255,255,255,0.7);">
+    style="background: rgba(186, 242, 227, 0.95) !important; padding: 12px 20px; box-shadow: 0 4px 15px rgba(11,46,28,0.1); width: 100%; border-bottom: 1px solid rgba(255,255,255,0.7);">
     <div class="admin-container site-header-inner"
       style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin: 0 auto;">
-      <div class="brand-area" style="display: flex; align-items: center; gap: 12px;">
+      <div class="brand-area" style="display: flex; align-items: center; gap: 10px;">
         <a href="/omakase/" style="display: flex; align-items: center;">
           <img id="brandLogo" src="https://files.cdn-files-a.com/uploads/12065718/400_69f17ca68bc4f.png" alt="Logo"
-            style="height: 44px !important; width: 44px !important; max-height: 44px !important; max-width: 44px !important; border-radius: 50% !important; object-fit: cover !important; border: 2px solid #0b2e1c; box-shadow: 0 2px 8px rgba(0,0,0,0.15); display: block;" />
+            style="height: 40px !important; width: 40px !important; border-radius: 50% !important; object-fit: cover !important; border: 2px solid #0b2e1c; box-shadow: 0 2px 8px rgba(0,0,0,0.15); display: block;" />
         </a>
         <div>
           <a href="/omakase/" class="brand-title"
-            style="color: #0b2e1c !important; font-weight: 700; font-size: 1.3rem; text-transform: uppercase; text-decoration: none; text-shadow: none;">Omasake
-            Admin Portal</a>
+            style="color: #0b2e1c !important; font-weight: 700; font-size: 1.25rem; text-transform: uppercase; text-decoration: none; text-shadow: none;">Omasake Admin</a>
         </div>
       </div>
-      <nav class="main-nav" style="display: flex; align-items: center; gap: 12px;">
-        <a href="/omakase/" class="nav-link" target="_blank"
-          style="background: #ffffff !important; color: #0b2e1c !important; border: 1px solid rgba(11,46,28,0.2); padding: 7px 16px; border-radius: 20px; font-weight: 700; font-size: 0.85rem; text-decoration: none; box-shadow: 0 2px 8px rgba(0,0,0,0.06);">🌐
-          Xem Trực Tiếp Web</a>
 
-        <!-- 3-DASH HAMBURGER MENU DROPDOWN (HEADER) -->
-        <div class="admin-menu-dropdown-wrap">
+      <nav class="main-nav" style="display: flex; align-items: center; gap: 12px;">
+        <a href="/omakase/" class="nav-link desktop-only-btn" target="_blank"
+          style="background: #ffffff !important; color: #0b2e1c !important; border: 1px solid rgba(11,46,28,0.2); padding: 7px 16px; border-radius: 20px; font-weight: 700; font-size: 0.85rem; text-decoration: none; box-shadow: 0 2px 8px rgba(0,0,0,0.06); display: inline-flex; align-items: center; gap: 6px;">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+          Xem Trực Tiếp Web
+        </a>
+
+        <!-- 3-DASH HAMBURGER MENU DROPDOWN (HEADER DESKTOP) -->
+        <div class="admin-menu-dropdown-wrap desktop-only-btn">
           <button type="button" class="admin-menu-toggle-btn" onclick="toggleAdminMenu(event)"
             style="background: #ffffff !important; color: #0b2e1c !important; border: 1px solid rgba(11,46,28,0.2) !important;">
-            ☰ <span style="color: #0b2e1c !important;">Menu Quản Trị</span>
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+            <span style="color: #0b2e1c !important;">Menu Quản Trị</span>
           </button>
           <div class="admin-menu-dropdown" id="adminHeaderDropdown">
-            <button type="button" class="admin-menu-item active" data-tab="tab-stories"
+            <button type="button" class="admin-menu-item active" data-tab="tab-home"
+              onclick="selectAdminTab('tab-home')">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+              Trang Chào Đón
+            </button>
+            <button type="button" class="admin-menu-item" data-tab="tab-stories"
               onclick="selectAdminTab('tab-stories')">
-              📚 Quản Lý Truyện
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+              Quản Lý Truyện
             </button>
             <button type="button" class="admin-menu-item" data-tab="tab-editor" onclick="selectAdminTab('tab-editor')">
-              ✏️ Biên Soạn
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+              Biên Soạn & Đăng Bài
             </button>
             <button type="button" class="admin-menu-item" data-tab="tab-accounts"
               onclick="selectAdminTab('tab-accounts')">
-              👤 Quản Lý Tài Khoản
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+              Quản Lý Tài Khoản
             </button>
             <button type="button" class="admin-menu-item" data-tab="tab-settings"
               onclick="selectAdminTab('tab-settings')">
-              🖼️ Thay Nền Home
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+              Thay Nền Home
             </button>
           </div>
         </div>
 
-        <button onclick="logoutAdmin()" class="btn-danger"
-          style="padding: 7px 16px; font-size: 0.85rem; border-radius: 20px; font-weight: 700;">Đăng Xuất</button>
+        <button onclick="logoutAdmin()" class="btn-danger desktop-only-btn"
+          style="padding: 7px 16px; font-size: 0.85rem; border-radius: 20px; font-weight: 700; display: inline-flex; align-items: center; gap: 6px;">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+          Đăng Xuất
+        </button>
+
+        <!-- Mobile 3-Dash Hamburger Icon Button -->
+        <button type="button" class="mobile-hamburger-btn" onclick="toggleMobileDrawer(event)" title="Mở menu quản trị">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+        </button>
       </nav>
     </div>
   </header>
+
+  <!-- Mobile Off-Canvas Navigation Drawer Overlay (Lớp phủ mờ mờ mượt mà) -->
+  <div class="mobile-drawer-backdrop" id="mobileDrawerBackdrop" onclick="closeMobileDrawer()">
+    <div class="mobile-drawer-content" onclick="event.stopPropagation()">
+      <div class="mobile-drawer-header">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <img src="https://files.cdn-files-a.com/uploads/12065718/400_69f17ca68bc4f.png" style="width: 32px; height: 32px; border-radius: 50%;" />
+          <span style="font-weight: 800; color: #0b2e1c; font-size: 1.1rem; text-transform: uppercase;">Menu Admin</span>
+        </div>
+        <button type="button" class="mobile-drawer-close" onclick="closeMobileDrawer()">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+
+      <div class="mobile-drawer-body">
+        <a href="/omakase/" target="_blank" class="drawer-nav-item" onclick="closeMobileDrawer()">
+          <span class="drawer-icon">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+          </span>
+          <span>Xem Trực Tiếp Web</span>
+        </a>
+
+        <div class="drawer-divider"></div>
+
+        <button type="button" class="drawer-nav-item active" data-tab="tab-home" onclick="selectAdminTab('tab-home')">
+          <span class="drawer-icon">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+          </span>
+          <span>Trang Chào Đón</span>
+        </button>
+
+        <button type="button" class="drawer-nav-item" data-tab="tab-stories" onclick="selectAdminTab('tab-stories')">
+          <span class="drawer-icon">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+          </span>
+          <span>Quản Lý Truyện</span>
+        </button>
+
+        <button type="button" class="drawer-nav-item" data-tab="tab-editor" onclick="selectAdminTab('tab-editor')">
+          <span class="drawer-icon">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+          </span>
+          <span>Biên Soạn & Đăng Bài</span>
+        </button>
+
+        <button type="button" class="drawer-nav-item" data-tab="tab-accounts" onclick="selectAdminTab('tab-accounts')">
+          <span class="drawer-icon">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+          </span>
+          <span>Quản Lý Tài Khoản</span>
+        </button>
+
+        <button type="button" class="drawer-nav-item" data-tab="tab-settings" onclick="selectAdminTab('tab-settings')">
+          <span class="drawer-icon">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+          </span>
+          <span>Thay Nền Home</span>
+        </button>
+
+        <div class="drawer-divider"></div>
+
+        <button type="button" class="drawer-nav-item text-danger" onclick="logoutAdmin()" style="color: #dc3545 !important;">
+          <span class="drawer-icon">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+          </span>
+          <span style="font-weight: 700;">Đăng Xuất Admin</span>
+        </button>
+      </div>
+    </div>
+  </div>
 
   <main class="admin-container" style="margin-top: 25px; margin-bottom: 50px;">
 
@@ -234,12 +324,54 @@
     </div>
 
     <!-- =========================================================
+         TAB 0: MÀN HOME CHÀO ĐÓN ADMIN (DANCING MASCOT & QUICK STATS)
+         ========================================================= -->
+    <div id="tab-home" class="admin-card" style="text-align: center; padding: 35px 20px;">
+      
+      <!-- Speech Bubble -->
+      <div style="display: flex; justify-content: center; margin-bottom: 12px;">
+        <div class="mascot-speech-bubble" id="mascotBubbleText">
+          Hế lu Sếp! Hôm nay định bão bao nhiêu chương đâyyy? 🚀
+        </div>
+      </div>
+
+      <!-- Animated Mascot Character -->
+      <div style="margin-bottom: 20px; display: flex; justify-content: center;">
+        <img id="mascotHeroImg" src="https://files.cdn-files-a.com/uploads/12065718/400_69f17ca68bc4f.png" alt="Omasake Mascot" class="dancing-mascot-img" onclick="triggerMascotFun()" title="Bấm vào tui đi tui quẩy cho xem nè!" />
+      </div>
+
+      <h2 style="color: var(--global-main-color); font-size: 1.6rem; font-weight: 800; margin-bottom: 6px;">
+        Chào Đón Admin Omasake! 🎉
+      </h2>
+      <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 25px;">
+        Chúc Sếp một ngày tràn đầy năng lượng & bão chương cực căng!
+      </p>
+
+      <!-- Quick Action Buttons -->
+      <div style="display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin-bottom: 30px;">
+        <button type="button" class="btn-primary" onclick="prepareAddChapter()" style="padding: 10px 20px; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 8px;">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+          + Đăng Chương Mới
+        </button>
+
+        <button type="button" class="btn-primary" onclick="selectAdminTab('tab-stories')" style="background: #ffffff !important; color: #0b2e1c !important; border: 1px solid #b5e4c4 !important; padding: 10px 20px; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 8px;">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+          Quản Lý Truyện
+        </button>
+      </div>
+
+    </div>
+
+    <!-- =========================================================
          TAB 1: QUẢN LÝ TRUYỆN & CHƯƠNG
          ========================================================= -->
-    <div id="tab-stories" class="admin-card">
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-        <h3 style="color: var(--global-main-color); font-size: 1.3rem;">Danh Sách Truyện Đã Đăng</h3>
-        <button class="btn-primary" onclick="openCreateStoryModal()">+ Thêm Truyện Mới</button>
+    <div id="tab-stories" class="admin-card" style="display: none;">
+      <div class="tab-header-row">
+        <h3 class="tab-header-title">Danh Sách Truyện</h3>
+        <button class="btn-primary btn-add-story-compact" onclick="openCreateStoryModal()">
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+          <span>Thêm Truyện Mới</span>
+        </button>
       </div>
 
       <div id="adminStoriesList">
@@ -251,8 +383,9 @@
          TAB 2: BIÊN SOẠN & PREVIEW TRƯỚC KHI ĐĂNG
          ========================================================= -->
     <div id="tab-editor" class="admin-card" style="display: none;">
-      <h3 style="color: var(--global-main-color); font-size: 1.3rem; margin-bottom: 16px;">
-        📝 Bộ Soạn Thảo Đăng Chương & Xem Trước (Preview)
+      <h3 style="color: var(--global-main-color); font-size: 1.3rem; margin-bottom: 16px; display: flex; align-items: center; gap: 8px;">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+        Bộ Soạn Thảo Đăng Chương & Xem Trước (Preview)
       </h3>
 
       <form id="chapterForm" onsubmit="saveChapter(event)">
@@ -280,7 +413,10 @@
 
           <div class="form-group">
             <label class="form-label" style="display: flex; align-items: center; justify-content: space-between;">
-              <span>⏰ Đặt Lịch Đăng Tự Động</span>
+              <span style="display: inline-flex; align-items: center; gap: 6px;">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                Đặt Lịch Đăng Tự Động
+              </span>
               <small style="font-weight: normal; color: var(--text-muted); font-size: 0.75rem;">(Trống = Đăng
                 ngay)</small>
             </label>
@@ -296,11 +432,12 @@
         <div class="editor-sticky-toolbar">
           <!-- Quick Image URL Inserter Helper -->
           <div class="quick-img-inserter-row">
-            <div class="quick-img-inserter" style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+            <div class="quick-img-inserter" style="display: flex; gap: 8px; align-items: center; flex-wrap: nowrap; width: 100%;">
               <input type="url" id="quickImgUrl" class="form-input" placeholder="Dán link ảnh (https://...)"
-                style="width: 320px; max-width: 100%; padding: 8px 14px; font-size: 0.88rem;" />
+                style="flex: 1; min-width: 0; padding: 8px 12px; font-size: 0.88rem;" />
               <button type="button" onclick="insertQuickImage()" class="btn-primary"
-                style="padding: 8px 16px; font-size: 0.88rem; white-space: nowrap;">
+                style="padding: 8px 14px; font-size: 0.85rem; white-space: nowrap; flex-shrink: 0; display: inline-flex; align-items: center; gap: 6px;">
+                <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
                 + Chèn Link Ảnh
               </button>
             </div>
@@ -308,11 +445,13 @@
 
           <!-- Mode Switcher Tabs -->
           <div class="preview-tabs-wrap" id="editorMobileTabs">
-            <button type="button" id="btnEditTab" class="btn-preview-toggle active" onclick="toggleEditorView('edit')">
-              ✏️ Soạn Thảo
+            <button type="button" id="btnEditTab" class="btn-preview-toggle active" onclick="toggleEditorView('edit')" style="display: inline-flex; align-items: center; gap: 6px;">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+              Soạn Thảo
             </button>
-            <button type="button" id="btnPreviewTab" class="btn-preview-toggle" onclick="toggleEditorView('preview')">
-              👁️ Xem Trước
+            <button type="button" id="btnPreviewTab" class="btn-preview-toggle" onclick="toggleEditorView('preview')" style="display: inline-flex; align-items: center; gap: 6px;">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+              Xem Trước
             </button>
           </div>
         </div>
@@ -321,22 +460,24 @@
         <div class="editor-split-container">
           <!-- Raw Content Textarea (Left Pane / Soạn Thảo) -->
           <div id="editorRawWrap">
-            <div style="font-weight: 700; color: var(--global-main-color); margin-bottom: 8px; font-size: 0.95rem;">
-              ✏️ Ô Nhập Content & Link Ảnh:
+            <div style="font-weight: 700; color: var(--global-main-color); margin-bottom: 8px; font-size: 0.95rem; display: flex; align-items: center; gap: 6px;">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+              Ô Nhập Content & Link Ảnh:
             </div>
             <textarea id="chapContent" class="form-textarea" rows="16"
               placeholder="Nhập nội dung văn bản. Chèn hình ảnh bằng cú pháp Markdown: ![Mô tả ảnh](https://link-anh.jpg) hoặc dán đường dẫn link URL trực tiếp vào dòng riêng..."
               required></textarea>
-            <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 6px;">
-              💡 Hướng dẫn chèn ảnh bằng link: Sử dụng dạng <code>![Tên ảnh](https://domain.com/photo.jpg)</code> hoặc
-              paste link ảnh <code>https://...</code>. Server không cần lưu file!
+            <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 6px; display: flex; align-items: center; gap: 6px;">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><line x1="9" y1="18" x2="15" y2="18"></line><line x1="10" y1="22" x2="14" y2="22"></line><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"></path></svg>
+              <span>Hướng dẫn chèn ảnh bằng link: Sử dụng dạng <code>![Tên ảnh](https://domain.com/photo.jpg)</code> hoặc paste link ảnh <code>https://...</code>. Server không cần lưu file!</span>
             </div>
           </div>
 
           <!-- Real-time Live Preview Window (Right Pane / Xem Trước) -->
           <div id="editorPreviewWrap">
-            <div style="font-weight: 700; color: var(--global-main-color); margin-bottom: 8px; font-size: 0.95rem;">
-              🔍 Live Preview (Xem Trước Thời Gian Thực):
+            <div style="font-weight: 700; color: var(--global-main-color); margin-bottom: 8px; font-size: 0.95rem; display: flex; align-items: center; gap: 6px;">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+              Live Preview (Xem Trước Thời Gian Thực):
             </div>
             <div id="previewRenderArea" class="preview-box reader-content">
               <p style="color: var(--text-muted); font-style: italic;">Nội dung xem trước sẽ hiển thị ở đây...</p>
@@ -345,8 +486,9 @@
         </div>
 
         <div style="margin-top: 24px; display: flex; gap: 12px;">
-          <button type="submit" class="btn-primary" style="font-size: 1rem; padding: 12px 30px;">
-            🚀 Cập Nhật Chương
+          <button type="submit" class="btn-primary" style="font-size: 1rem; padding: 12px 30px; display: inline-flex; align-items: center; gap: 8px;">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+            Cập Nhật Chương
           </button>
           <button type="button" class="btn-preview-toggle" onclick="resetChapterForm()">
             Hủy
@@ -359,8 +501,9 @@
          TAB 3: THAY NỀN HOME & CẤU HÌNH GIAO DIỆN
          ========================================================= -->
     <div id="tab-settings" class="admin-card" style="display: none;">
-      <h3 style="color: var(--global-main-color); font-size: 1.3rem; margin-bottom: 10px;">
-        🖼️ Thay Nền Home & Cấu Hình Giao Diện
+      <h3 style="color: var(--global-main-color); font-size: 1.3rem; margin-bottom: 10px; display: flex; align-items: center; gap: 8px;">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+        Thay Nền Home & Cấu Hình Giao Diện
       </h3>
       <p style="color: var(--text-muted); font-size: 0.92rem; margin-bottom: 24px;">
         Cho phép tùy chỉnh các URL hình ảnh giao diện (Logo, Banner Hero, Ảnh Footer) và câu chữ tiêu đề chuẩn trang mẫu
@@ -432,8 +575,9 @@
           <input type="text" id="setAnnouncementText" class="form-input" placeholder="Chữ thông báo..." />
         </div>
 
-        <button type="submit" class="btn-primary" style="padding: 12px 28px;">
-          💾 Lưu Cấu Hình Giao Diện Site123
+        <button type="submit" class="btn-primary" style="padding: 12px 28px; display: inline-flex; align-items: center; gap: 8px;">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+          Lưu Cấu Hình Giao Diện Site123
         </button>
       </form>
     </div>
@@ -445,7 +589,10 @@
       <div
         style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 10px;">
         <div>
-          <h3 style="color: var(--global-main-color); font-size: 1.3rem;">👤 Quản Lý Tài Khoản Admin</h3>
+          <h3 style="color: var(--global-main-color); font-size: 1.3rem; display: flex; align-items: center; gap: 8px;">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+            Quản Lý Tài Khoản Admin
+          </h3>
           <p style="font-size: 0.88rem; color: var(--text-muted); margin-top: 4px;">Tạo mới, đổi mật khẩu và quản lý
             danh sách tài khoản được phép truy cập Admin Portal.</p>
         </div>
@@ -455,12 +602,14 @@
       <!-- CREDENTIALS INFORMATION NOTICE -->
       <div
         style="margin-bottom: 20px; font-size: 0.88rem; color: #0b2e1c; background: #e8f5e9; padding: 14px 18px; border-radius: 10px; border-left: 5px solid #21783d; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
-        <div style="font-size: 0.95rem; font-weight: 700; color: #1b5e20; margin-bottom: 4px;">🔑 Quản Lý Bảo Mật Tài
-          Khoản:</div>
+        <div style="font-size: 0.95rem; font-weight: 700; color: #1b5e20; margin-bottom: 4px; display: flex; align-items: center; gap: 6px;">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+          Quản Lý Bảo Mật Tài Khoản:
+        </div>
         <ul style="margin-left: 20px; line-height: 1.6;">
           <li><b>Cơ chế bảo mật:</b> Mật khẩu lưu trong hệ thống được mã hóa một chiều bằng thuật toán <b>Bcrypt</b> để
             bảo mật tuyệt đối.</li>
-          <li><b>Đặt lại mật khẩu:</b> Bạn có thể tạo tài khoản mới hoặc bấm trực tiếp nút <b>🔑 Đổi Mật Khẩu</b> ở dòng
+          <li><b>Đặt lại mật khẩu:</b> Bạn có thể tạo tài khoản mới hoặc bấm trực tiếp nút <b>Đổi Mật Khẩu</b> ở dòng
             tài khoản tương ứng bên dưới để cập nhật mật khẩu mới.</li>
         </ul>
       </div>
@@ -478,10 +627,14 @@
       <div
         style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 2px solid var(--menu-thin-border); padding-bottom: 16px; flex-wrap: wrap; gap: 10px;">
         <button type="button" class="btn-preview-toggle" onclick="goBackToStoriesList()"
-          style="padding: 8px 18px; font-weight: 700; font-size: 0.9rem;">
-          ← Quay Lại Danh Sách Truyện
+          style="padding: 8px 18px; font-weight: 700; font-size: 0.9rem; display: inline-flex; align-items: center; gap: 6px;">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+          Quay Lại Danh Sách Truyện
         </button>
-        <h3 style="color: var(--global-main-color); font-size: 1.3rem;">📖 Chi Tiết Truyện</h3>
+        <h3 style="color: var(--global-main-color); font-size: 1.3rem; display: flex; align-items: center; gap: 8px;">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+          Chi Tiết Truyện
+        </h3>
       </div>
 
       <!-- Hero Banner / Story Header Info Component (2 Columns / Stack on Mobile) -->
@@ -512,7 +665,8 @@
 
           <div
             style="font-size: 1rem; font-weight: 700; color: var(--global-main-color); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; display: flex; align-items: center; gap: 6px;">
-            📜 Văn án:
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
+            Văn án:
           </div>
 
           <div id="fullDetailStoryDesc"
@@ -524,13 +678,18 @@
 
       <!-- Action Buttons Bar -->
       <div
-        style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 10px;">
-        <h4 style="color: var(--global-main-color); font-size: 1.15rem;">📚 Danh Sách Tất Cả Các Chương (<span
-            id="fullDetailChapterCount">0</span> chương)</h4>
-        <div style="display: flex; gap: 10px;">
-          <button class="btn-preview-toggle" style="padding: 8px 18px; font-weight: 700; font-size: 0.88rem;"
-            id="fullBtnEditCurrentStory">✏️ Sửa Thông Tin Truyện</button>
-          <button class="btn-primary" style="padding: 8px 18px; font-weight: 700; font-size: 0.88rem;"
+        style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 12px;">
+        <h4 style="color: var(--global-main-color); font-size: 1.15rem; display: flex; align-items: center; gap: 8px; margin: 0;">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon" style="flex-shrink: 0;"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+          <span>Danh Sách Tất Cả Các Chương (<span id="fullDetailChapterCount">0</span> chương)</span>
+        </h4>
+        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+          <button class="btn-preview-toggle" style="padding: 8px 16px; font-weight: 700; font-size: 0.88rem; display: inline-flex; align-items: center; gap: 6px;"
+            id="fullBtnEditCurrentStory">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+            Sửa Thông Tin Truyện
+          </button>
+          <button class="btn-primary" style="padding: 8px 16px; font-weight: 700; font-size: 0.88rem; display: inline-flex; align-items: center; gap: 6px;"
             id="fullBtnAddChapterCurrentStory">+ Thêm Chương Mới</button>
         </div>
       </div>
@@ -733,10 +892,28 @@
       if (menu) menu.classList.toggle('show');
     }
 
+    function toggleMobileDrawer(e) {
+      if (e) e.stopPropagation();
+      const backdrop = document.getElementById('mobileDrawerBackdrop');
+      if (backdrop) {
+        backdrop.classList.add('show');
+        document.body.style.overflow = 'hidden';
+      }
+    }
+
+    function closeMobileDrawer() {
+      const backdrop = document.getElementById('mobileDrawerBackdrop');
+      if (backdrop) {
+        backdrop.classList.remove('show');
+        document.body.style.overflow = '';
+      }
+    }
+
     function selectAdminTab(tabId) {
       const menu = document.getElementById('adminHeaderDropdown');
       if (menu) menu.classList.remove('show');
       switchTab(tabId);
+      closeMobileDrawer();
     }
 
     function formatDate(dateStr) {
@@ -751,8 +928,41 @@
       return `${day}/${month}/${year} ${hours}:${minutes}`;
     }
 
+    const FUNNY_MASCOT_QUOTES = [
+      "Hế lu Sếp! Hôm nay định bão bao nhiêu chương đâyyy? 🚀",
+      "Chờ mãi Sếp mới ghé thăm! Quẩy nhiệt tình luôn nèee! 💃🎉",
+      "Ê hê hê! Đừng bấm tui hoài, nhức cái đầu quá à! 🌀🤪",
+      "Sếp ơi, độc giả đang lóng lòng chờ chương mới lắm rùi đó! 🔥",
+      "Nay Omasake chạy mượt như lụa, Sếp tha hồ đăng truyện nha! ✨",
+      "Bắt sóng hiphop nào! Quẩy lên cún cưng ơi! 🐶🎵",
+      "Sếp đỉnh số 1! Chúc Sếp biên tập hăng say bão bài cực căng! 🏆"
+    ];
+
+    let lastQuoteIdx = 0;
+    function triggerMascotFun() {
+      const mascotImg = document.getElementById('mascotHeroImg');
+      const bubble = document.getElementById('mascotBubbleText');
+      if (!mascotImg || !bubble) return;
+
+      mascotImg.classList.remove('mascot-spin-jump');
+      void mascotImg.offsetWidth;
+      mascotImg.classList.add('mascot-spin-jump');
+
+      let nextIdx = (lastQuoteIdx + 1) % FUNNY_MASCOT_QUOTES.length;
+      lastQuoteIdx = nextIdx;
+      bubble.textContent = FUNNY_MASCOT_QUOTES[nextIdx];
+
+      bubble.style.animation = 'none';
+      void bubble.offsetHeight;
+      bubble.style.animation = 'bubblePop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+
+      setTimeout(() => {
+        mascotImg.classList.remove('mascot-spin-jump');
+      }, 700);
+    }
+
     function switchTab(tabId) {
-      document.querySelectorAll('.admin-menu-item').forEach(item => {
+      document.querySelectorAll('.admin-menu-item, .drawer-nav-item').forEach(item => {
         if (item.getAttribute('data-tab') === tabId) {
           item.classList.add('active');
         } else {
@@ -760,6 +970,8 @@
         }
       });
 
+      const homeTab = document.getElementById('tab-home');
+      if (homeTab) homeTab.style.display = 'none';
       document.getElementById('tab-stories').style.display = 'none';
       document.getElementById('tab-editor').style.display = 'none';
       document.getElementById('tab-settings').style.display = 'none';
@@ -771,6 +983,7 @@
       if (targetTab) targetTab.style.display = 'block';
 
       if (tabId === 'tab-editor') {
+        toggleEditorView('edit');
         renderLivePreview();
       } else if (tabId === 'tab-accounts') {
         loadAdminAccounts();
@@ -789,6 +1002,19 @@
     // ==================== STORIES CRUD ====================
     let allStoriesCache = [];
 
+    async function updateAdminDashboardStats() {
+      const statStories = document.getElementById('statTotalStories');
+      const statChapters = document.getElementById('statTotalChapters');
+      if (statStories) statStories.textContent = allStoriesCache.length;
+      if (statChapters) {
+        let totalChaps = 0;
+        allStoriesCache.forEach(s => {
+          if (s.chapterCount) totalChaps += Number(s.chapterCount);
+        });
+        statChapters.textContent = totalChaps || (allStoriesCache.length > 0 ? '10+' : '0');
+      }
+    }
+
     async function loadAdminStories() {
       try {
         const res = await fetch('/api/v1/admin/stories', {
@@ -800,6 +1026,7 @@
           allStoriesCache = json.data;
           renderStoriesList();
           populateStorySelectOptions();
+          updateAdminDashboardStats();
           handleUrlRouting();
         } else {
           if (res.status === 401 || res.status === 403) logoutAdmin();
@@ -825,16 +1052,28 @@
                 <h4 style="font-size: 1.08rem; color: var(--global-main-color); word-break: break-word; margin-bottom: 2px;">${s.title}</h4>
                 <div style="font-size: 0.85rem; color: var(--text-muted);">Tác giả: ${s.author} | Status: <b>${s.status}</b></div>
                 <div style="font-size: 0.78rem; color: #555; margin-top: 4px; display: flex; gap: 6px; flex-wrap: wrap;">
-                  <span style="background: #e2f0d9; color: #2e7d32; padding: 2px 8px; border-radius: 10px; font-weight: 600;">👤 Tạo bởi: ${s.createdBy || 'admin'}</span>
-                  <span style="background: #e3f2fd; color: #1565c0; padding: 2px 8px; border-radius: 10px; font-weight: 600;">✏️ Cập nhật cuối: ${s.updatedBy || 'admin'} ${s.updatedAt ? '(' + formatDate(s.updatedAt) + ')' : ''}</span>
+                  <span style="background: #e2f0d9; color: #2e7d32; padding: 2px 8px; border-radius: 10px; font-weight: 600; display: inline-flex; align-items: center; gap: 4px;">
+                    <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                    Tạo bởi: ${s.createdBy || 'admin'}
+                  </span>
+                  <span style="background: #e3f2fd; color: #1565c0; padding: 2px 8px; border-radius: 10px; font-weight: 600; display: inline-flex; align-items: center; gap: 4px;">
+                    <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                    Cập nhật cuối: ${s.updatedBy || 'admin'} ${s.updatedAt ? '(' + formatDate(s.updatedAt) + ')' : ''}
+                  </span>
                 </div>
               </div>
             </div>
 
             <!-- CHỈ ĐỂ 2 NÚT: XEM TRUYỆN, XÓA TRUYỆN -->
             <div class="admin-card-story-actions" style="display: flex; gap: 10px; align-items: center; flex-shrink: 0;">
-              <button class="btn-primary" style="padding: 8px 18px; font-size: 0.9rem; font-weight: 700;" onclick="viewStoryDetail('${s._id}')"> Xem Truyện</button>
-              <button class="btn-danger" style="padding: 8px 18px; font-size: 0.9rem; font-weight: 700;" onclick="deleteStory('${s._id}')">🗑️ Xóa Truyện</button>
+              <button class="btn-primary" style="padding: 8px 18px; font-size: 0.9rem; font-weight: 700; display: inline-flex; align-items: center; gap: 6px;" onclick="viewStoryDetail('${s._id}')">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                Xem Truyện
+              </button>
+              <button class="btn-danger" style="padding: 8px 18px; font-size: 0.9rem; font-weight: 700; display: inline-flex; align-items: center; gap: 6px;" onclick="deleteStory('${s._id}')">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                Xóa Truyện
+              </button>
             </div>
           </div>
         </div>
@@ -874,14 +1113,32 @@
       document.getElementById('fullDetailCoverImg').src = s.coverUrl;
       document.getElementById('fullDetailStoryTitle').textContent = s.title;
       document.getElementById('fullDetailStoryMetaCol1').innerHTML = `
-        <div><b>✍️ Tác giả:</b> <span style="font-weight: 600; color: #1c5237;">${s.author || 'Chưa cập nhật'}</span></div>
-        <div><b>🏷️ Thể loại:</b> <div style="display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px;">${(s.genres || []).map(g => `<span style="background: #e0f2fe; color: #0369a1; padding: 2px 8px; border-radius: 6px; font-size: 0.8rem; font-weight: 600;">${g}</span>`).join('')}</div></div>
-        <div><b>📌 Tình trạng:</b> <span style="background: #e8f5e9; color: #2e7d32; padding: 2px 8px; border-radius: 6px; font-weight: 600; font-size: 0.82rem; display: inline-block; margin-top: 2px;">${s.status || 'Đang tiến hành'}</span></div>
+        <div style="display: flex; align-items: center; gap: 6px;">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+          <b>Tác giả:</b> <span style="font-weight: 600; color: #1c5237;">${s.author || 'Chưa cập nhật'}</span>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 4px;">
+          <div style="display: flex; align-items: center; gap: 6px;">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>
+            <b>Thể loại:</b>
+          </div>
+          <div style="display: flex; flex-wrap: wrap; gap: 4px; margin-top: 2px;">${(s.genres || []).map(g => `<span style="background: #e0f2fe; color: #0369a1; padding: 2px 8px; border-radius: 6px; font-size: 0.8rem; font-weight: 600;">${g}</span>`).join('')}</div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 6px; margin-top: 4px;">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+          <b>Tình trạng:</b> <span style="background: #e8f5e9; color: #2e7d32; padding: 2px 8px; border-radius: 6px; font-weight: 600; font-size: 0.82rem; display: inline-block;">${s.status || 'Đang tiến hành'}</span>
+        </div>
       `;
       document.getElementById('fullDetailStoryDesc').textContent = s.description || 'Chưa có văn án.';
       document.getElementById('fullDetailStoryAudit').innerHTML = `
-        <span style="background: #e2f0d9; color: #2e7d32; padding: 3px 8px; border-radius: 8px; font-weight: 600;">👤 Tạo: ${s.createdBy || 'admin'}</span>
-        <span style="background: #e3f2fd; color: #1565c0; padding: 3px 8px; border-radius: 8px; font-weight: 600;">✏️ Sửa: ${s.updatedBy || 'admin'} ${s.updatedAt ? '(' + formatDate(s.updatedAt) + ')' : ''}</span>
+        <span style="background: #e2f0d9; color: #2e7d32; padding: 3px 8px; border-radius: 8px; font-weight: 600; display: inline-flex; align-items: center; gap: 4px;">
+          <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+          Tạo: ${s.createdBy || 'admin'}
+        </span>
+        <span style="background: #e3f2fd; color: #1565c0; padding: 3px 8px; border-radius: 8px; font-weight: 600; display: inline-flex; align-items: center; gap: 4px;">
+          <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+          Sửa: ${s.updatedBy || 'admin'} ${s.updatedAt ? '(' + formatDate(s.updatedAt) + ')' : ''}
+        </span>
       `;
 
       document.getElementById('fullBtnEditCurrentStory').onclick = () => {
@@ -919,8 +1176,8 @@
           container.innerHTML = chapters.map(c => {
             const isScheduled = c.publishedAt && new Date(c.publishedAt) > new Date();
             const statusBadge = isScheduled
-              ? `<span style="background: #fff3e0; color: #e65100; border: 1px solid #ffe0b2; padding: 2px 10px; border-radius: 12px; font-size: 0.78rem; font-weight: 700; display: inline-flex; align-items: center; gap: 4px;">⏰ Đã đặt lịch đăng: ${formatDate(c.publishedAt)}</span>`
-              : `<span style="background: #e8f5e9; color: #2e7d32; padding: 2px 10px; border-radius: 12px; font-size: 0.78rem; font-weight: 600;">✅ Đã hiển thị (${formatDate(c.publishedAt || c.createdAt)})</span>`;
+              ? `<span style="background: #fff3e0; color: #e65100; border: 1px solid #ffe0b2; padding: 2px 10px; border-radius: 12px; font-size: 0.78rem; font-weight: 700; display: inline-flex; align-items: center; gap: 4px;"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg> Đặt lịch: ${formatDate(c.publishedAt)}</span>`
+              : `<span style="background: #e8f5e9; color: #2e7d32; padding: 2px 10px; border-radius: 12px; font-size: 0.78rem; font-weight: 600; display: inline-flex; align-items: center; gap: 4px;"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><polyline points="20 6 9 17 4 12"></polyline></svg> Đã hiển thị (${formatDate(c.publishedAt || c.createdAt)})</span>`;
 
             return `
             <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; background: #ffffff; border: 1px solid var(--menu-thin-border); border-radius: 8px; margin-bottom: 10px; gap: 10px; flex-wrap: wrap;">
@@ -929,17 +1186,19 @@
                   <span style="color: var(--global-main-color);">Chương ${c.chapterNumber}:</span> ${c.title}
                   ${statusBadge}
                 </div>
-                <div style="font-size: 0.78rem; color: #666; margin-top: 4px;">
-                  <span>👤 Tạo bởi: <b>${c.createdBy || 'admin'}</b></span> &bull; 
-                  <span>✏️ Sửa bởi: <b>${c.updatedBy || 'admin'}</b></span>
+                <div style="font-size: 0.78rem; color: #666; margin-top: 6px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+                  <span style="display: inline-flex; align-items: center; gap: 4px; white-space: nowrap;"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon" style="flex-shrink: 0;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg> Tạo bởi: <b>${c.createdBy || 'admin'}</b></span>
+                  <span style="display: inline-flex; align-items: center; gap: 4px; white-space: nowrap;"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon" style="flex-shrink: 0;"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg> Sửa bởi: <b>${c.updatedBy || 'admin'}</b></span>
                 </div>
               </div>
               <div style="display: flex; gap: 8px; flex-shrink: 0;">
-                <button type="button" class="btn-preview-toggle" style="padding: 6px 14px; font-size: 0.82rem;" onclick="prepareEditChapter('${c._id}')">
-                  ✏️ Sửa Chương
+                <button type="button" class="btn-preview-toggle" style="padding: 6px 14px; font-size: 0.82rem; display: inline-flex; align-items: center; gap: 6px;" onclick="prepareEditChapter('${c._id}')">
+                  <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                  Sửa Chương
                 </button>
-                <button type="button" class="btn-danger" style="padding: 6px 14px; font-size: 0.82rem;" onclick="deleteDetailChapter('${c._id}', '${storyId}')">
-                  🗑️ Xóa
+                <button type="button" class="btn-danger" style="padding: 6px 14px; font-size: 0.82rem; display: inline-flex; align-items: center; gap: 6px;" onclick="deleteDetailChapter('${c._id}', '${storyId}')">
+                  <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                  Xóa
                 </button>
               </div>
             </div>
@@ -982,17 +1241,19 @@
             <div style="display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: #ffffff; border: 1px solid var(--menu-thin-border); border-radius: 6px; margin-top: 6px; gap: 10px; flex-wrap: wrap;">
               <div style="font-size: 0.92rem; color: var(--text-main); font-weight: 500;">
                 <span style="color: var(--global-main-color); font-weight: 700;">Chương ${c.chapterNumber}:</span> ${c.title}
-                <div style="font-size: 0.76rem; color: #666; margin-top: 2px;">
-                  <span>👤 Tạo bởi: <b>${c.createdBy || 'admin'}</b></span> &bull; 
-                  <span>✏️ Sửa bởi: <b>${c.updatedBy || 'admin'}</b></span>
+                <div style="font-size: 0.76rem; color: #666; margin-top: 4px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                  <span style="display: inline-flex; align-items: center; gap: 4px; white-space: nowrap;"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon" style="flex-shrink: 0;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg> Tạo bởi: <b>${c.createdBy || 'admin'}</b></span>
+                  <span style="display: inline-flex; align-items: center; gap: 4px; white-space: nowrap;"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon" style="flex-shrink: 0;"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg> Sửa bởi: <b>${c.updatedBy || 'admin'}</b></span>
                 </div>
               </div>
               <div style="display: flex; gap: 6px; flex-shrink: 0;">
-                <button type="button" class="btn-preview-toggle" style="padding: 4px 10px; font-size: 0.78rem;" onclick="prepareEditChapter('${c._id}')">
-                  ✏️ Sửa Chương (URL Riêng)
+                <button type="button" class="btn-preview-toggle" style="padding: 4px 10px; font-size: 0.78rem; display: inline-flex; align-items: center; gap: 4px;" onclick="prepareEditChapter('${c._id}')">
+                  <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                  Sửa Chương
                 </button>
-                <button type="button" class="btn-danger" style="padding: 4px 10px; font-size: 0.78rem;" onclick="deleteChapter('${c._id}', '${storyId}')">
-                  🗑️ Xóa
+                <button type="button" class="btn-danger" style="padding: 4px 10px; font-size: 0.78rem; display: inline-flex; align-items: center; gap: 4px;" onclick="deleteChapter('${c._id}', '${storyId}')">
+                  <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                  Xóa
                 </button>
               </div>
             </div>
@@ -1027,7 +1288,7 @@
       }
 
       document.getElementById('storyEditId').value = s._id;
-      document.getElementById('storyModalTitle').textContent = `✏️ Cập Nhật Truyện: ${s.title}`;
+      document.getElementById('storyModalTitle').textContent = `Cập Nhật Truyện: ${s.title}`;
       document.getElementById('modalStoryTitle').value = s.title;
       document.getElementById('modalStoryCover').value = s.coverUrl;
       document.getElementById('modalCoverPrev').src = s.coverUrl;
@@ -1116,7 +1377,7 @@
       const year = d.getFullYear();
       const hours = String(d.getHours()).padStart(2, '0');
       const minutes = String(d.getMinutes()).padStart(2, '0');
-      displayEl.innerHTML = `⏰ Lịch hẹn đăng: <b>${day}/${month}/${year} ${hours}:${minutes}</b> (dd/mm/yyyy hh:mm)`;
+      displayEl.innerHTML = `<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon" style="vertical-align: -2px; margin-right: 4px;"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg> Lịch hẹn đăng: <b>${day}/${month}/${year} ${hours}:${minutes}</b> (dd/mm/yyyy hh:mm)`;
       displayEl.style.display = 'block';
     }
 
@@ -1138,7 +1399,9 @@
       }
 
       const editorHeading = document.querySelector('#tab-editor h3');
-      if (editorHeading) editorHeading.textContent = '📝 Bộ Soạn Thảo Đăng Chương Mới & Xem Trước (Preview)';
+      if (editorHeading) {
+        editorHeading.innerHTML = `<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg> Bộ Soạn Thảo Đăng Chương Mới & Xem Trước (Preview)`;
+      }
       renderLivePreview();
     }
 
@@ -1232,6 +1495,8 @@
       const btnPreview = document.getElementById('btnPreviewTab');
       const rawWrap = document.getElementById('editorRawWrap');
       const previewWrap = document.getElementById('editorPreviewWrap');
+      const quickImgRow = document.querySelector('.quick-img-inserter-row');
+      if (!btnEdit || !btnPreview || !rawWrap || !previewWrap) return;
 
       if (window.innerWidth <= 992) {
         if (mode === 'preview') {
@@ -1239,18 +1504,35 @@
           btnPreview.classList.add('active');
           rawWrap.style.display = 'none';
           previewWrap.style.display = 'block';
-
+          if (quickImgRow) quickImgRow.style.display = 'none';
           renderLivePreview();
         } else {
           btnPreview.classList.remove('active');
           btnEdit.classList.add('active');
           previewWrap.style.display = 'none';
           rawWrap.style.display = 'block';
+          if (quickImgRow) quickImgRow.style.display = '';
         }
       } else {
+        btnEdit.classList.add('active');
+        btnPreview.classList.remove('active');
+        rawWrap.style.display = '';
+        previewWrap.style.display = '';
+        if (quickImgRow) quickImgRow.style.display = '';
         renderLivePreview();
       }
     }
+
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 992) {
+        const rawWrap = document.getElementById('editorRawWrap');
+        const previewWrap = document.getElementById('editorPreviewWrap');
+        const quickImgRow = document.querySelector('.quick-img-inserter-row');
+        if (rawWrap) rawWrap.style.display = '';
+        if (previewWrap) previewWrap.style.display = '';
+        if (quickImgRow) quickImgRow.style.display = '';
+      }
+    });
 
     let livePreviewTimer = null;
     function debouncedLivePreview() {
@@ -1475,8 +1757,9 @@
               ${allAccountsCache.map((acc, index) => `
                 <tr style="border-bottom: 1px solid var(--menu-thin-border); background: ${index % 2 === 0 ? '#ffffff' : '#f9fdfa'};">
                   <td style="padding: 12px 14px; font-weight: 700;">${index + 1}</td>
-                  <td style="padding: 12px 14px; font-weight: 700; color: #0b2e1c;">
-                    👤 ${acc.username}
+                  <td style="padding: 12px 14px; font-weight: 700; color: #0b2e1c; display: flex; align-items: center; gap: 6px;">
+                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                    ${acc.username}
                   </td>
                   <td style="padding: 12px 14px;">
                     <span style="background: #e8f5e9; color: #1b5e20; padding: 3px 8px; border-radius: 12px; font-weight: 700; font-size: 0.8rem;">${acc.role || 'ADMIN'}</span>
@@ -1491,8 +1774,14 @@
                     ${formatDate(acc.createdAt)}
                   </td>
                   <td style="padding: 12px 14px; text-align: right;">
-                    <button class="btn-preview-toggle" style="padding: 4px 10px; font-size: 0.8rem;" onclick="openEditAccountModal('${acc._id}')">🔑 Đổi Mật Khẩu</button>
-                    <button class="btn-danger" style="padding: 4px 10px; font-size: 0.8rem; margin-left: 4px;" onclick="deleteAccount('${acc._id}', '${acc.username}')">🗑️ Xóa</button>
+                    <button class="btn-preview-toggle" style="padding: 4px 10px; font-size: 0.8rem; display: inline-flex; align-items: center; gap: 4px;" onclick="openEditAccountModal('${acc._id}')">
+                      <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                      Đổi Mật Khẩu
+                    </button>
+                    <button class="btn-danger" style="padding: 4px 10px; font-size: 0.8rem; margin-left: 4px; display: inline-flex; align-items: center; gap: 4px;" onclick="deleteAccount('${acc._id}', '${acc.username}')">
+                      <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                      Xóa
+                    </button>
                   </td>
                 </tr>
               `).join('')}
@@ -1519,7 +1808,7 @@
       if (!acc) return;
 
       document.getElementById('accountEditId').value = acc._id;
-      document.getElementById('accountModalTitle').textContent = `🔑 Đổi Mật Khẩu Tài Khoản: ${acc.username}`;
+      document.getElementById('accountModalTitle').textContent = `Đổi Mật Khẩu Tài Khoản: ${acc.username}`;
       document.getElementById('modalAccountUsername').value = acc.username;
       document.getElementById('modalAccountUsername').disabled = true;
       document.getElementById('modalAccountPassword').value = '';
