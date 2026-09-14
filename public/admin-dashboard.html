@@ -413,15 +413,14 @@
           </div>
 
           <div class="form-group">
-            <label class="form-label" style="display: flex; align-items: center; justify-content: space-between;">
+            <label class="form-label" style="display: flex; align-items: flex-start; justify-content: space-between; gap: 6px; flex-wrap: wrap;">
               <span style="display: inline-flex; align-items: center; gap: 6px;">
                 <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
                 Đặt Lịch Đăng Tự Động
               </span>
-              <small style="font-weight: normal; color: var(--text-muted); font-size: 0.75rem;">(Trống = Đăng
-                ngay)</small>
+              <small style="font-weight: normal; color: var(--text-muted); font-size: 0.75rem; white-space: nowrap;">(Trống = Đăng ngay)</small>
             </label>
-            <input type="datetime-local" id="chapPublishAt" lang="vi-VN" class="form-input" style="font-size: 0.88rem;"
+            <input type="datetime-local" id="chapPublishAt" lang="vi-VN" class="form-input" style="font-size: 0.88rem; width: 100%; max-width: 100%;"
               oninput="updatePublishAtDisplay()" onchange="updatePublishAtDisplay()" />
             <div id="publishAtFormattedDisplay"
               style="font-size: 0.82rem; font-weight: 700; color: #1b5e20; background: #e8f5e9; padding: 4px 10px; border-radius: 6px; border: 1px solid #a5d6a7; margin-top: 6px; display: none;">
@@ -433,7 +432,7 @@
         <div class="editor-sticky-toolbar">
           <!-- Quick Image URL Inserter Helper -->
           <div class="quick-img-inserter-row">
-            <div class="quick-img-inserter" style="display: flex; gap: 8px; align-items: center; flex-wrap: nowrap; width: 100%;">
+            <div class="quick-img-inserter" style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap; width: 100%;">
               <input type="url" id="quickImgUrl" class="form-input" placeholder="Dán link ảnh (https://...)"
                 style="flex: 1; min-width: 0; padding: 8px 12px; font-size: 0.88rem;" />
               <button type="button" onclick="insertQuickImage()" class="btn-primary"

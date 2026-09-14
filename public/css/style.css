@@ -1580,6 +1580,7 @@ body.home-page-body .brand-title-text {
 
   .admin-card {
     padding: 16px;
+    overflow-x: hidden;
   }
 
   .admin-card-story-row {
@@ -1607,12 +1608,12 @@ body.home-page-body .brand-title-text {
   .quick-img-inserter {
     width: 100% !important;
     flex-direction: row !important;
-    flex-wrap: nowrap !important;
+    flex-wrap: wrap !important;
     gap: 8px !important;
   }
 
   .quick-img-inserter input {
-    flex: 1 !important;
+    flex: 1 1 160px !important;
     min-width: 0 !important;
     width: auto !important;
   }
