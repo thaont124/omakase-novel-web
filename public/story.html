@@ -23,10 +23,16 @@
 
       <div class="nav-buttons-right">
         <a href="/omakase/" class="nav-btn-equal" title="Trang chủ">
-          <span class="btn-icon">🏠</span><span class="btn-text">Trang Chủ</span>
+          <span class="btn-icon">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+          </span>
+          <span class="btn-text">Trang Chủ</span>
         </a>
         <a href="/omakase/stories" class="nav-btn-equal" title="Danh sách chương / truyện">
-          <span class="btn-icon">📚</span><span class="btn-text">Danh Sách Chương</span>
+          <span class="btn-icon">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+          </span>
+          <span class="btn-text">Danh Sách Chương</span>
         </a>
       </div>
     </div>
@@ -51,12 +57,21 @@
 
         <div
           style="font-size: 0.9rem; line-height: 1.6; color: var(--text-main); display: flex; flex-direction: column; gap: 10px;">
-          <div><b>✍️ Tác giả:</b> <span id="storyAuthor" style="font-weight: 600; color: #1c5237;">--</span></div>
-          <div><b>🏷️ Thể loại:</b>
-            <div id="storyGenres" style="display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px;">--</div>
+          <div style="display: flex; align-items: center; gap: 6px;">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+            <b>Tác giả:</b> <span id="storyAuthor" style="font-weight: 600; color: #1c5237;">--</span>
           </div>
-          <div><b>📌 Tình trạng:</b> <span id="storyStatus"
-              style="background: #e8f5e9; color: #2e7d32; padding: 2px 8px; border-radius: 6px; font-weight: 600; font-size: 0.82rem; display: inline-block; margin-top: 2px;">--</span>
+          <div style="display: flex; flex-direction: column; gap: 4px;">
+            <div style="display: flex; align-items: center; gap: 6px;">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>
+              <b>Thể loại:</b>
+            </div>
+            <div id="storyGenres" style="display: flex; flex-wrap: wrap; gap: 4px; margin-top: 2px;">--</div>
+          </div>
+          <div style="display: flex; align-items: center; gap: 6px;">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+            <b>Tình trạng:</b> <span id="storyStatus"
+              style="background: #e8f5e9; color: #2e7d32; padding: 2px 8px; border-radius: 6px; font-weight: 600; font-size: 0.82rem; display: inline-block;">--</span>
           </div>
         </div>
       </div>
@@ -70,7 +85,8 @@
 
         <div
           style="font-size: 1.05rem; font-weight: 700; color: var(--global-main-color); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; display: flex; align-items: center; gap: 6px;">
-          📜 Văn án:
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
+          VĂN ÁN:
         </div>
 
         <div id="storyDescription" class="detail-desc"
@@ -136,8 +152,9 @@
 
           if (chapters.length > 0) {
             document.getElementById('firstChapterBtnWrap').innerHTML = `
-              <a href="/omakase/chapter/${chapters[0]._id}" class="btn-primary" style="display: inline-block;">
-                🚀 Đọc Từ Chương 1
+              <a href="/omakase/chapter/${chapters[0]._id}" class="btn-primary" style="display: inline-flex; align-items: center; gap: 8px;">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                Đọc Từ Chương 1
               </a>
             `;
 
@@ -163,7 +180,7 @@
 
   <!-- Admin Portal Access Badge (Bottom Left Gear Icon) -->
   <a href="/omakase/admin/dashboard" class="admin-gear-btn" title="Bảng quản trị Admin">
-    ⚙️
+    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
   </a>
 </body>
 

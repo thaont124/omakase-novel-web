@@ -2142,3 +2142,57 @@ select {
     transform: scale(1) translateY(0);
   }
 }
+
+/* =========================================================
+   ADMIN STORIES PAGINATION
+   ========================================================= */
+#adminStoriesPagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+  padding: 8px 0 4px;
+}
+
+.pg-btn {
+  min-width: 36px;
+  height: 36px;
+  padding: 0 10px;
+  border: 1.5px solid var(--menu-thin-border);
+  border-radius: 8px;
+  background: #ffffff;
+  color: var(--global-main-color);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  transition: background 0.18s, border-color 0.18s, color 0.18s, transform 0.15s;
+}
+
+.pg-btn:hover:not(:disabled) {
+  background: #e4f4e9;
+  border-color: var(--global-main-color);
+  transform: translateY(-1px);
+}
+
+.pg-btn-active {
+  background: var(--global-main-color) !important;
+  color: #ffffff !important;
+  border-color: var(--global-main-color) !important;
+  cursor: default;
+}
+
+.pg-btn-nav {
+  background: #f6fbf7;
+}
+
+.pg-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  pointer-events: none;
+}

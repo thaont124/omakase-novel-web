@@ -377,6 +377,7 @@
       <div id="adminStoriesList">
         <p style="color: var(--text-muted);">Đang tải danh sách truyện...</p>
       </div>
+      <div id="adminStoriesPagination" style="display: none;"></div>
     </div>
 
     <!-- =========================================================
@@ -698,6 +699,7 @@
       <div id="fullDetailChaptersList">
         <p style="color: var(--text-muted);">Đang tải danh sách chương...</p>
       </div>
+      <div id="detailChaptersPagination" style="display: none;"></div>
     </div>
 
   </main>
@@ -1036,14 +1038,29 @@
       }
     }
 
+    let storiesCurrentPage = 1;
+    const STORIES_PER_PAGE = 10;
+
     function renderStoriesList() {
+      storiesCurrentPage = 1;
+      renderStoriesPage();
+    }
+
+    function renderStoriesPage() {
       const container = document.getElementById('adminStoriesList');
+      const pagination = document.getElementById('adminStoriesPagination');
+
       if (allStoriesCache.length === 0) {
         container.innerHTML = '<p style="color: var(--text-muted);">Chưa có truyện nào. Hãy bấm "Thêm Truyện Mới".</p>';
+        pagination.style.display = 'none';
         return;
       }
 
-      container.innerHTML = allStoriesCache.map(s => `
+      const totalPages = Math.ceil(allStoriesCache.length / STORIES_PER_PAGE);
+      const start = (storiesCurrentPage - 1) * STORIES_PER_PAGE;
+      const pageItems = allStoriesCache.slice(start, start + STORIES_PER_PAGE);
+
+      container.innerHTML = pageItems.map(s => `
         <div class="admin-card-story-block" style="background: #f6fbf7; border: 1px solid var(--menu-thin-border); border-radius: 12px; padding: 16px; margin-bottom: 14px;">
           <div class="admin-card-story-row" style="display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap;">
             <div style="display: flex; align-items: center; gap: 14px; min-width: 250px; flex: 1;">
@@ -1078,7 +1095,43 @@
           </div>
         </div>
       `).join('');
+
+      // Render pagination only when more than STORIES_PER_PAGE
+      if (totalPages <= 1) {
+        pagination.style.display = 'none';
+        return;
+      }
+
+      pagination.style.display = 'flex';
+      const prevDisabled = storiesCurrentPage === 1 ? 'disabled' : '';
+      const nextDisabled = storiesCurrentPage === totalPages ? 'disabled' : '';
+
+      let pageButtons = '';
+      for (let p = 1; p <= totalPages; p++) {
+        const isActive = p === storiesCurrentPage;
+        pageButtons += `<button class="pg-btn${isActive ? ' pg-btn-active' : ''}" onclick="goToStoriesPage(${p})" ${isActive ? 'aria-current="page"' : ''}>${p}</button>`;
+      }
+
+      pagination.innerHTML = `
+        <button class="pg-btn pg-btn-nav" onclick="goToStoriesPage(${storiesCurrentPage - 1})" ${prevDisabled}>
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+        </button>
+        ${pageButtons}
+        <button class="pg-btn pg-btn-nav" onclick="goToStoriesPage(${storiesCurrentPage + 1})" ${nextDisabled}>
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        </button>
+      `;
     }
+
+    function goToStoriesPage(page) {
+      const totalPages = Math.ceil(allStoriesCache.length / STORIES_PER_PAGE);
+      if (page < 1 || page > totalPages) return;
+      storiesCurrentPage = page;
+      renderStoriesPage();
+      document.getElementById('tab-stories').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+
 
     // ==================== STORY DETAIL FULL PAGE ====================
     let currentDetailStoryId = null;
@@ -1156,58 +1209,113 @@
       viewStoryDetail(storyId);
     }
 
+    let detailChaptersCache = [];
+    let detailChaptersCurrentPage = 1;
+    const CHAPTERS_PER_PAGE = 10;
+    let detailChaptersStoryId = null;
+
     async function loadDetailChapters(storyId) {
+      detailChaptersStoryId = storyId;
+      detailChaptersCurrentPage = 1;
       const container = document.getElementById('fullDetailChaptersList');
+      const pagination = document.getElementById('detailChaptersPagination');
       container.innerHTML = '<p style="color: var(--text-muted);">Đang tải danh sách chương...</p>';
+      pagination.style.display = 'none';
       try {
         const res = await fetch(`/api/v1/admin/stories/${storyId}/chapters`, {
           headers: { 'Authorization': `Bearer ${adminToken}` }
         });
         const json = await res.json();
         if (json.success && json.data) {
-          const chapters = json.data;
-          document.getElementById('fullDetailChapterCount').textContent = chapters.length;
-
-          if (chapters.length === 0) {
-            container.innerHTML = '<div style="text-align: center; padding: 30px; color: var(--text-muted); font-style: italic;">Truyện này chưa có chương nào. Bấm nút "+ Thêm Chương Mới" ở trên để bắt đầu viết.</div>';
-            return;
-          }
-
-          container.innerHTML = chapters.map(c => {
-            const isScheduled = c.publishedAt && new Date(c.publishedAt) > new Date();
-            const statusBadge = isScheduled
-              ? `<span style="background: #fff3e0; color: #e65100; border: 1px solid #ffe0b2; padding: 2px 10px; border-radius: 12px; font-size: 0.78rem; font-weight: 700; display: inline-flex; align-items: center; gap: 4px;"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg> Đặt lịch: ${formatDate(c.publishedAt)}</span>`
-              : `<span style="background: #e8f5e9; color: #2e7d32; padding: 2px 10px; border-radius: 12px; font-size: 0.78rem; font-weight: 600; display: inline-flex; align-items: center; gap: 4px;"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><polyline points="20 6 9 17 4 12"></polyline></svg> Đã hiển thị (${formatDate(c.publishedAt || c.createdAt)})</span>`;
-
-            return `
-            <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; background: #ffffff; border: 1px solid var(--menu-thin-border); border-radius: 8px; margin-bottom: 10px; gap: 10px; flex-wrap: wrap;">
-              <div>
-                <div style="font-size: 0.98rem; color: var(--text-main); font-weight: 700; display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
-                  <span style="color: var(--global-main-color);">Chương ${c.chapterNumber}:</span> ${c.title}
-                  ${statusBadge}
-                </div>
-                <div style="font-size: 0.78rem; color: #666; margin-top: 6px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
-                  <span style="display: inline-flex; align-items: center; gap: 4px; white-space: nowrap;"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon" style="flex-shrink: 0;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg> Tạo bởi: <b>${c.createdBy || 'admin'}</b></span>
-                  <span style="display: inline-flex; align-items: center; gap: 4px; white-space: nowrap;"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon" style="flex-shrink: 0;"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg> Sửa bởi: <b>${c.updatedBy || 'admin'}</b></span>
-                </div>
-              </div>
-              <div style="display: flex; gap: 8px; flex-shrink: 0;">
-                <button type="button" class="btn-preview-toggle" style="padding: 6px 14px; font-size: 0.82rem; display: inline-flex; align-items: center; gap: 6px;" onclick="prepareEditChapter('${c._id}')">
-                  <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
-                  Sửa Chương
-                </button>
-                <button type="button" class="btn-danger" style="padding: 6px 14px; font-size: 0.82rem; display: inline-flex; align-items: center; gap: 6px;" onclick="deleteDetailChapter('${c._id}', '${storyId}')">
-                  <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
-                  Xóa
-                </button>
-              </div>
-            </div>
-          `;
-          }).join('');
+          detailChaptersCache = json.data;
+          document.getElementById('fullDetailChapterCount').textContent = detailChaptersCache.length;
+          renderDetailChaptersPage();
         }
       } catch (e) {
         container.innerHTML = '<p style="color: red;">Lỗi tải danh sách chương.</p>';
       }
+    }
+
+    function renderDetailChaptersPage() {
+      const container = document.getElementById('fullDetailChaptersList');
+      const pagination = document.getElementById('detailChaptersPagination');
+      const storyId = detailChaptersStoryId;
+
+      if (detailChaptersCache.length === 0) {
+        container.innerHTML = '<div style="text-align: center; padding: 30px; color: var(--text-muted); font-style: italic;">Truyện này chưa có chương nào. Bấm nút "+ Thêm Chương Mới" ở trên để bắt đầu viết.</div>';
+        pagination.style.display = 'none';
+        return;
+      }
+
+      const totalPages = Math.ceil(detailChaptersCache.length / CHAPTERS_PER_PAGE);
+      const start = (detailChaptersCurrentPage - 1) * CHAPTERS_PER_PAGE;
+      const pageItems = detailChaptersCache.slice(start, start + CHAPTERS_PER_PAGE);
+
+      container.innerHTML = pageItems.map(c => {
+        const isScheduled = c.publishedAt && new Date(c.publishedAt) > new Date();
+        const statusBadge = isScheduled
+          ? `<span style="background: #fff3e0; color: #e65100; border: 1px solid #ffe0b2; padding: 2px 10px; border-radius: 12px; font-size: 0.78rem; font-weight: 700; display: inline-flex; align-items: center; gap: 4px;"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg> Đặt lịch: ${formatDate(c.publishedAt)}</span>`
+          : `<span style="background: #e8f5e9; color: #2e7d32; padding: 2px 10px; border-radius: 12px; font-size: 0.78rem; font-weight: 600; display: inline-flex; align-items: center; gap: 4px;"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><polyline points="20 6 9 17 4 12"></polyline></svg> Đã hiển thị (${formatDate(c.publishedAt || c.createdAt)})</span>`;
+
+        return `
+          <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; background: #ffffff; border: 1px solid var(--menu-thin-border); border-radius: 8px; margin-bottom: 10px; gap: 10px; flex-wrap: wrap;">
+            <div>
+              <div style="font-size: 0.98rem; color: var(--text-main); font-weight: 700; display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                <span style="color: var(--global-main-color);">Chương ${c.chapterNumber}:</span> ${c.title}
+                ${statusBadge}
+              </div>
+              <div style="font-size: 0.78rem; color: #666; margin-top: 6px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+                <span style="display: inline-flex; align-items: center; gap: 4px; white-space: nowrap;"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon" style="flex-shrink: 0;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg> Tạo bởi: <b>${c.createdBy || 'admin'}</b></span>
+                <span style="display: inline-flex; align-items: center; gap: 4px; white-space: nowrap;"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon" style="flex-shrink: 0;"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg> Sửa bởi: <b>${c.updatedBy || 'admin'}</b></span>
+              </div>
+            </div>
+            <div style="display: flex; gap: 8px; flex-shrink: 0;">
+              <button type="button" class="btn-preview-toggle" style="padding: 6px 14px; font-size: 0.82rem; display: inline-flex; align-items: center; gap: 6px;" onclick="prepareEditChapter('${c._id}')">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                Sửa Chương
+              </button>
+              <button type="button" class="btn-danger" style="padding: 6px 14px; font-size: 0.82rem; display: inline-flex; align-items: center; gap: 6px;" onclick="deleteDetailChapter('${c._id}', '${storyId}')">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                Xóa
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      // Pagination controls
+      if (totalPages <= 1) {
+        pagination.style.display = 'none';
+        return;
+      }
+
+      pagination.style.display = 'flex';
+      const prevDisabled = detailChaptersCurrentPage === 1 ? 'disabled' : '';
+      const nextDisabled = detailChaptersCurrentPage === totalPages ? 'disabled' : '';
+
+      let pageButtons = '';
+      for (let p = 1; p <= totalPages; p++) {
+        const isActive = p === detailChaptersCurrentPage;
+        pageButtons += `<button class="pg-btn${isActive ? ' pg-btn-active' : ''}" onclick="goToChaptersPage(${p})" ${isActive ? 'aria-current="page"' : ''}>${p}</button>`;
+      }
+
+      pagination.innerHTML = `
+        <button class="pg-btn pg-btn-nav" onclick="goToChaptersPage(${detailChaptersCurrentPage - 1})" ${prevDisabled}>
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+        </button>
+        ${pageButtons}
+        <button class="pg-btn pg-btn-nav" onclick="goToChaptersPage(${detailChaptersCurrentPage + 1})" ${nextDisabled}>
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        </button>
+      `;
+    }
+
+    function goToChaptersPage(page) {
+      const totalPages = Math.ceil(detailChaptersCache.length / CHAPTERS_PER_PAGE);
+      if (page < 1 || page > totalPages) return;
+      detailChaptersCurrentPage = page;
+      renderDetailChaptersPage();
+      document.getElementById('tab-story-detail').scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
     async function deleteDetailChapter(chapId, storyId) {
