@@ -3,7 +3,8 @@
 
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover, interactive-widget=resizes-content">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover, interactive-widget=resizes-content">
   <title>Bảng Quản Trị Admin - Omasake</title>
   <link rel="shortcut icon" href="https://files.cdn-files-a.com/uploads/12065718/400_69f17ca68bc4f.png"
     type="image/x-icon">
@@ -180,14 +181,20 @@
         </a>
         <div>
           <a href="/omakase/" class="brand-title"
-            style="color: #0b2e1c !important; font-weight: 700; font-size: 1.25rem; text-transform: uppercase; text-decoration: none; text-shadow: none;">Omasake Admin</a>
+            style="color: #0b2e1c !important; font-weight: 700; font-size: 1.25rem; text-transform: uppercase; text-decoration: none; text-shadow: none;">Omasake
+            Admin</a>
         </div>
       </div>
 
       <nav class="main-nav" style="display: flex; align-items: center; gap: 12px;">
         <a href="/omakase/" class="nav-link desktop-only-btn" target="_blank"
           style="background: #ffffff !important; color: #0b2e1c !important; border: 1px solid rgba(11,46,28,0.2); padding: 7px 16px; border-radius: 20px; font-weight: 700; font-size: 0.85rem; text-decoration: none; box-shadow: 0 2px 8px rgba(0,0,0,0.06); display: inline-flex; align-items: center; gap: 6px;">
-          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" class="line-icon">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="2" y1="12" x2="22" y2="12"></line>
+            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+          </svg>
           Xem Trực Tiếp Web
         </a>
 
@@ -195,32 +202,58 @@
         <div class="admin-menu-dropdown-wrap desktop-only-btn">
           <button type="button" class="admin-menu-toggle-btn" onclick="toggleAdminMenu(event)"
             style="background: #ffffff !important; color: #0b2e1c !important; border: 1px solid rgba(11,46,28,0.2) !important;">
-            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round" class="line-icon">
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
             <span style="color: #0b2e1c !important;">Menu Quản Trị</span>
           </button>
           <div class="admin-menu-dropdown" id="adminHeaderDropdown">
             <button type="button" class="admin-menu-item active" data-tab="tab-home"
               onclick="selectAdminTab('tab-home')">
-              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" class="line-icon">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+              </svg>
               Trang Chào Đón
             </button>
             <button type="button" class="admin-menu-item" data-tab="tab-stories"
               onclick="selectAdminTab('tab-stories')">
-              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" class="line-icon">
+                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+              </svg>
               Quản Lý Truyện
             </button>
             <button type="button" class="admin-menu-item" data-tab="tab-editor" onclick="selectAdminTab('tab-editor')">
-              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" class="line-icon">
+                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+              </svg>
               Biên Soạn & Đăng Bài
             </button>
             <button type="button" class="admin-menu-item" data-tab="tab-accounts"
               onclick="selectAdminTab('tab-accounts')">
-              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" class="line-icon">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+              </svg>
               Quản Lý Tài Khoản
             </button>
             <button type="button" class="admin-menu-item" data-tab="tab-settings"
               onclick="selectAdminTab('tab-settings')">
-              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" class="line-icon">
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                <polyline points="21 15 16 10 5 21"></polyline>
+              </svg>
               Thay Nền Home
             </button>
           </div>
@@ -228,13 +261,23 @@
 
         <button onclick="logoutAdmin()" class="btn-danger desktop-only-btn"
           style="padding: 7px 16px; font-size: 0.85rem; border-radius: 20px; font-weight: 700; display: inline-flex; align-items: center; gap: 6px;">
-          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" class="line-icon">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+            <polyline points="16 17 21 12 16 7"></polyline>
+            <line x1="21" y1="12" x2="9" y2="12"></line>
+          </svg>
           Đăng Xuất
         </button>
 
         <!-- Mobile 3-Dash Hamburger Icon Button -->
         <button type="button" class="mobile-hamburger-btn" onclick="toggleMobileDrawer(event)" title="Mở menu quản trị">
-          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" class="line-icon">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
         </button>
       </nav>
     </div>
@@ -245,18 +288,30 @@
     <div class="mobile-drawer-content" onclick="event.stopPropagation()">
       <div class="mobile-drawer-header">
         <div style="display: flex; align-items: center; gap: 10px;">
-          <img src="https://files.cdn-files-a.com/uploads/12065718/400_69f17ca68bc4f.png" style="width: 32px; height: 32px; border-radius: 50%;" />
-          <span style="font-weight: 800; color: #0b2e1c; font-size: 1.1rem; text-transform: uppercase;">Menu Admin</span>
+          <img src="https://files.cdn-files-a.com/uploads/12065718/400_69f17ca68bc4f.png"
+            style="width: 32px; height: 32px; border-radius: 50%;" />
+          <span style="font-weight: 800; color: #0b2e1c; font-size: 1.1rem; text-transform: uppercase;">Menu
+            Admin</span>
         </div>
         <button type="button" class="mobile-drawer-close" onclick="closeMobileDrawer()">
-          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" class="line-icon">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
         </button>
       </div>
 
       <div class="mobile-drawer-body">
         <a href="/omakase/" target="_blank" class="drawer-nav-item" onclick="closeMobileDrawer()">
           <span class="drawer-icon">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round" class="line-icon">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="2" y1="12" x2="22" y2="12"></line>
+              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z">
+              </path>
+            </svg>
           </span>
           <span>Xem Trực Tiếp Web</span>
         </a>
@@ -265,44 +320,71 @@
 
         <button type="button" class="drawer-nav-item active" data-tab="tab-home" onclick="selectAdminTab('tab-home')">
           <span class="drawer-icon">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round" class="line-icon">
+              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+              <polyline points="9 22 9 12 15 12 15 22"></polyline>
+            </svg>
           </span>
           <span>Trang Chào Đón</span>
         </button>
 
         <button type="button" class="drawer-nav-item" data-tab="tab-stories" onclick="selectAdminTab('tab-stories')">
           <span class="drawer-icon">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round" class="line-icon">
+              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+            </svg>
           </span>
           <span>Quản Lý Truyện</span>
         </button>
 
         <button type="button" class="drawer-nav-item" data-tab="tab-editor" onclick="selectAdminTab('tab-editor')">
           <span class="drawer-icon">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round" class="line-icon">
+              <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+              <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+            </svg>
           </span>
           <span>Biên Soạn & Đăng Bài</span>
         </button>
 
         <button type="button" class="drawer-nav-item" data-tab="tab-accounts" onclick="selectAdminTab('tab-accounts')">
           <span class="drawer-icon">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round" class="line-icon">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
           </span>
           <span>Quản Lý Tài Khoản</span>
         </button>
 
         <button type="button" class="drawer-nav-item" data-tab="tab-settings" onclick="selectAdminTab('tab-settings')">
           <span class="drawer-icon">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round" class="line-icon">
+              <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+              <circle cx="8.5" cy="8.5" r="1.5"></circle>
+              <polyline points="21 15 16 10 5 21"></polyline>
+            </svg>
           </span>
           <span>Thay Nền Home</span>
         </button>
 
         <div class="drawer-divider"></div>
 
-        <button type="button" class="drawer-nav-item text-danger" onclick="logoutAdmin()" style="color: #dc3545 !important;">
+        <button type="button" class="drawer-nav-item text-danger" onclick="logoutAdmin()"
+          style="color: #dc3545 !important;">
           <span class="drawer-icon">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round" class="line-icon">
+              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+              <polyline points="16 17 21 12 16 7"></polyline>
+              <line x1="21" y1="12" x2="9" y2="12"></line>
+            </svg>
           </span>
           <span style="font-weight: 700;">Đăng Xuất Admin</span>
         </button>
@@ -327,7 +409,7 @@
          TAB 0: MÀN HOME CHÀO ĐÓN ADMIN (DANCING MASCOT & QUICK STATS)
          ========================================================= -->
     <div id="tab-home" class="admin-card" style="text-align: center; padding: 35px 20px;">
-      
+
       <!-- Speech Bubble -->
       <div style="display: flex; justify-content: center; margin-bottom: 12px;">
         <div class="mascot-speech-bubble" id="mascotBubbleText">
@@ -337,7 +419,9 @@
 
       <!-- Animated Mascot Character -->
       <div style="margin-bottom: 20px; display: flex; justify-content: center;">
-        <img id="mascotHeroImg" src="https://files.cdn-files-a.com/uploads/12065718/400_69f17ca68bc4f.png" alt="Omasake Mascot" class="dancing-mascot-img" onclick="triggerMascotFun()" title="Bấm vào tui đi tui quẩy cho xem nè!" />
+        <img id="mascotHeroImg" src="https://files.cdn-files-a.com/uploads/12065718/400_69f17ca68bc4f.png"
+          alt="Omasake Mascot" class="dancing-mascot-img" onclick="triggerMascotFun()"
+          title="Bấm vào tui đi tui quẩy cho xem nè!" />
       </div>
 
       <h2 style="color: var(--global-main-color); font-size: 1.6rem; font-weight: 800; margin-bottom: 6px;">
@@ -349,13 +433,23 @@
 
       <!-- Quick Action Buttons -->
       <div style="display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin-bottom: 30px;">
-        <button type="button" class="btn-primary" onclick="prepareAddChapter()" style="padding: 10px 20px; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 8px;">
-          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+        <button type="button" class="btn-primary" onclick="prepareAddChapter()"
+          style="padding: 10px 20px; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 8px;">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" class="line-icon">
+            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+          </svg>
           + Đăng Chương Mới
         </button>
 
-        <button type="button" class="btn-primary" onclick="selectAdminTab('tab-stories')" style="background: #ffffff !important; color: #0b2e1c !important; border: 1px solid #b5e4c4 !important; padding: 10px 20px; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 8px;">
-          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+        <button type="button" class="btn-primary" onclick="selectAdminTab('tab-stories')"
+          style="background: #ffffff !important; color: #0b2e1c !important; border: 1px solid #b5e4c4 !important; padding: 10px 20px; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 8px;">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" class="line-icon">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+          </svg>
           Quản Lý Truyện
         </button>
       </div>
@@ -369,7 +463,11 @@
       <div class="tab-header-row">
         <h3 class="tab-header-title">Danh Sách Truyện</h3>
         <button class="btn-primary btn-add-story-compact" onclick="openCreateStoryModal()">
-          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5"
+            stroke-linecap="round" stroke-linejoin="round" class="line-icon">
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+          </svg>
           <span>Thêm Truyện Mới</span>
         </button>
       </div>
@@ -384,8 +482,13 @@
          TAB 2: BIÊN SOẠN & PREVIEW TRƯỚC KHI ĐĂNG
          ========================================================= -->
     <div id="tab-editor" class="admin-card" style="display: none;">
-      <h3 style="color: var(--global-main-color); font-size: 1.3rem; margin-bottom: 16px; display: flex; align-items: center; gap: 8px;">
-        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+      <h3
+        style="color: var(--global-main-color); font-size: 1.3rem; margin-bottom: 16px; display: flex; align-items: center; gap: 8px;">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round" class="line-icon">
+          <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+          <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+        </svg>
         Bộ Soạn Thảo Đăng Chương & Xem Trước (Preview)
       </h3>
 
@@ -413,15 +516,23 @@
           </div>
 
           <div class="form-group">
-            <label class="form-label" style="display: flex; align-items: flex-start; justify-content: space-between; gap: 6px; flex-wrap: wrap;">
+            <label class="form-label"
+              style="display: flex; align-items: flex-start; justify-content: space-between; gap: 6px; flex-wrap: wrap;">
               <span style="display: inline-flex; align-items: center; gap: 6px;">
-                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round" class="line-icon">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <polyline points="12 6 12 12 16 14"></polyline>
+                </svg>
                 Đặt Lịch Đăng Tự Động
               </span>
-              <small style="font-weight: normal; color: var(--text-muted); font-size: 0.75rem; white-space: nowrap;">(Trống = Đăng ngay)</small>
+              <small
+                style="font-weight: normal; color: var(--text-muted); font-size: 0.75rem; white-space: nowrap;">(Trống =
+                Đăng ngay)</small>
             </label>
-            <input type="datetime-local" id="chapPublishAt" lang="vi-VN" class="form-input" style="font-size: 0.88rem; width: 100%; max-width: 100%;"
-              oninput="updatePublishAtDisplay()" onchange="updatePublishAtDisplay()" />
+            <input type="datetime-local" id="chapPublishAt" lang="vi-VN" class="form-input"
+              style="font-size: 0.88rem; width: 100%; max-width: 100%;" oninput="updatePublishAtDisplay()"
+              onchange="updatePublishAtDisplay()" />
             <div id="publishAtFormattedDisplay"
               style="font-size: 0.82rem; font-weight: 700; color: #1b5e20; background: #e8f5e9; padding: 4px 10px; border-radius: 6px; border: 1px solid #a5d6a7; margin-top: 6px; display: none;">
             </div>
@@ -430,28 +541,43 @@
 
         <!-- Sticky Editor Toolbar (Quick Image Inserter & Mode Switcher Tabs) -->
         <div class="editor-sticky-toolbar">
-          <!-- Quick Image URL Inserter Helper -->
-          <div class="quick-img-inserter-row">
-            <div class="quick-img-inserter" style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap; width: 100%;">
-              <input type="url" id="quickImgUrl" class="form-input" placeholder="Dán link ảnh (https://...)"
-                style="flex: 1; min-width: 0; padding: 8px 12px; font-size: 0.88rem;" />
-              <button type="button" onclick="insertQuickImage()" class="btn-primary"
-                style="padding: 8px 14px; font-size: 0.85rem; white-space: nowrap; flex-shrink: 0; display: inline-flex; align-items: center; gap: 6px;">
-                <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
-                + Chèn Link Ảnh
-              </button>
-            </div>
+          <!-- Row 1: [Dán link ảnh input] + [(+) Button] -->
+          <div style="display: flex; align-items: center; gap: 8px; width: 100%;">
+            <input type="url" id="quickImgUrl" class="form-input editor-img-input"
+              placeholder="Dán link ảnh (https://...)"
+              style="flex: 1; min-width: 0; padding: 7px 10px; font-size: 0.85rem;" />
+            <button type="button" onclick="insertQuickImage()" class="btn-primary editor-img-btn"
+              title="Chèn link ảnh vào nội dung"
+              style="flex-shrink: 0; white-space: nowrap; display: inline-flex; align-items: center; justify-content: center; gap: 4px; padding: 7px 14px; font-size: 0.88rem; font-weight: 700;">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"
+                stroke-linecap="round" stroke-linejoin="round" class="line-icon">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+              </svg>
+
+            </button>
           </div>
 
-          <!-- Mode Switcher Tabs -->
-          <div class="preview-tabs-wrap" id="editorMobileTabs">
-            <button type="button" id="btnEditTab" class="btn-preview-toggle active" onclick="toggleEditorView('edit')" style="display: inline-flex; align-items: center; gap: 6px;">
-              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
-              Soạn Thảo
+          <!-- Row 2: Mode Switcher Tabs (Soạn Thảo - Xem Trước) -->
+          <div class="preview-tabs-wrap" id="editorMobileTabs"
+            style="display: flex; gap: 8px; width: 100%; width: 100% !important;">
+            <button type="button" id="btnEditTab" class="btn-preview-toggle active" onclick="toggleEditorView('edit')"
+              style="flex: 1; justify-content: center; display: inline-flex; align-items: center; gap: 6px; padding: 7px 12px; font-weight: 700;">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" class="line-icon">
+                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+              </svg>
+              <span class="mode-btn-text">Soạn Thảo</span>
             </button>
-            <button type="button" id="btnPreviewTab" class="btn-preview-toggle" onclick="toggleEditorView('preview')" style="display: inline-flex; align-items: center; gap: 6px;">
-              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
-              Xem Trước
+            <button type="button" id="btnPreviewTab" class="btn-preview-toggle" onclick="toggleEditorView('preview')"
+              style="flex: 1; justify-content: center; display: inline-flex; align-items: center; gap: 6px; padding: 7px 12px; font-weight: 700;">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" class="line-icon">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+              </svg>
+              <span class="mode-btn-text">Xem Trước</span>
             </button>
           </div>
         </div>
@@ -460,23 +586,42 @@
         <div class="editor-split-container">
           <!-- Raw Content Textarea (Left Pane / Soạn Thảo) -->
           <div id="editorRawWrap">
-            <div style="font-weight: 700; color: var(--global-main-color); margin-bottom: 8px; font-size: 0.95rem; display: flex; align-items: center; gap: 6px;">
-              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+            <div
+              style="font-weight: 700; color: var(--global-main-color); margin-bottom: 8px; font-size: 0.95rem; display: flex; align-items: center; gap: 6px;">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" class="line-icon">
+                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+              </svg>
               Ô Nhập Content & Link Ảnh:
             </div>
             <textarea id="chapContent" class="form-textarea" rows="16"
               placeholder="Nhập nội dung văn bản. Chèn hình ảnh bằng cú pháp Markdown: ![Mô tả ảnh](https://link-anh.jpg) hoặc dán đường dẫn link URL trực tiếp vào dòng riêng..."
               required></textarea>
-            <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 6px; display: flex; align-items: center; gap: 6px;">
-              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><line x1="9" y1="18" x2="15" y2="18"></line><line x1="10" y1="22" x2="14" y2="22"></line><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"></path></svg>
-              <span>Hướng dẫn chèn ảnh bằng link: Sử dụng dạng <code>![Tên ảnh](https://domain.com/photo.jpg)</code> hoặc paste link ảnh <code>https://...</code>. Server không cần lưu file!</span>
+            <div
+              style="font-size: 0.85rem; color: var(--text-muted); margin-top: 6px; display: flex; align-items: center; gap: 6px;">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" class="line-icon">
+                <line x1="9" y1="18" x2="15" y2="18"></line>
+                <line x1="10" y1="22" x2="14" y2="22"></line>
+                <path
+                  d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14">
+                </path>
+              </svg>
+              <span>Hướng dẫn chèn ảnh bằng link: Sử dụng dạng <code>![Tên ảnh](https://domain.com/photo.jpg)</code>
+                hoặc paste link ảnh <code>https://...</code>. Server không cần lưu file!</span>
             </div>
           </div>
 
           <!-- Real-time Live Preview Window (Right Pane / Xem Trước) -->
           <div id="editorPreviewWrap">
-            <div style="font-weight: 700; color: var(--global-main-color); margin-bottom: 8px; font-size: 0.95rem; display: flex; align-items: center; gap: 6px;">
-              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            <div
+              style="font-weight: 700; color: var(--global-main-color); margin-bottom: 8px; font-size: 0.95rem; display: flex; align-items: center; gap: 6px;">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" class="line-icon">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
               Live Preview (Xem Trước Thời Gian Thực):
             </div>
             <div id="previewRenderArea" class="preview-box reader-content">
@@ -486,8 +631,14 @@
         </div>
 
         <div style="margin-top: 24px; display: flex; gap: 12px;">
-          <button type="submit" class="btn-primary" style="font-size: 1rem; padding: 12px 30px; display: inline-flex; align-items: center; gap: 8px;">
-            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+          <button type="submit" class="btn-primary"
+            style="font-size: 1rem; padding: 12px 30px; display: inline-flex; align-items: center; gap: 8px;">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round" class="line-icon">
+              <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+              <polyline points="17 21 17 13 7 13 7 21"></polyline>
+              <polyline points="7 3 7 8 15 8"></polyline>
+            </svg>
             Cập Nhật Chương
           </button>
           <button type="button" class="btn-preview-toggle" onclick="resetChapterForm()">
@@ -501,8 +652,14 @@
          TAB 3: THAY NỀN HOME & CẤU HÌNH GIAO DIỆN
          ========================================================= -->
     <div id="tab-settings" class="admin-card" style="display: none;">
-      <h3 style="color: var(--global-main-color); font-size: 1.3rem; margin-bottom: 10px; display: flex; align-items: center; gap: 8px;">
-        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+      <h3
+        style="color: var(--global-main-color); font-size: 1.3rem; margin-bottom: 10px; display: flex; align-items: center; gap: 8px;">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round" class="line-icon">
+          <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+          <circle cx="8.5" cy="8.5" r="1.5"></circle>
+          <polyline points="21 15 16 10 5 21"></polyline>
+        </svg>
         Thay Nền Home & Cấu Hình Giao Diện
       </h3>
       <p style="color: var(--text-muted); font-size: 0.92rem; margin-bottom: 24px;">
@@ -575,8 +732,14 @@
           <input type="text" id="setAnnouncementText" class="form-input" placeholder="Chữ thông báo..." />
         </div>
 
-        <button type="submit" class="btn-primary" style="padding: 12px 28px; display: inline-flex; align-items: center; gap: 8px;">
-          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+        <button type="submit" class="btn-primary"
+          style="padding: 12px 28px; display: inline-flex; align-items: center; gap: 8px;">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" class="line-icon">
+            <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+            <polyline points="17 21 17 13 7 13 7 21"></polyline>
+            <polyline points="7 3 7 8 15 8"></polyline>
+          </svg>
           Lưu Cấu Hình Giao Diện Site123
         </button>
       </form>
@@ -590,7 +753,11 @@
         style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 10px;">
         <div>
           <h3 style="color: var(--global-main-color); font-size: 1.3rem; display: flex; align-items: center; gap: 8px;">
-            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round" class="line-icon">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
             Quản Lý Tài Khoản Admin
           </h3>
           <p style="font-size: 0.88rem; color: var(--text-muted); margin-top: 4px;">Tạo mới, đổi mật khẩu và quản lý
@@ -602,8 +769,13 @@
       <!-- CREDENTIALS INFORMATION NOTICE -->
       <div
         style="margin-bottom: 20px; font-size: 0.88rem; color: #0b2e1c; background: #e8f5e9; padding: 14px 18px; border-radius: 10px; border-left: 5px solid #21783d; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
-        <div style="font-size: 0.95rem; font-weight: 700; color: #1b5e20; margin-bottom: 4px; display: flex; align-items: center; gap: 6px;">
-          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+        <div
+          style="font-size: 0.95rem; font-weight: 700; color: #1b5e20; margin-bottom: 4px; display: flex; align-items: center; gap: 6px;">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" class="line-icon">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+          </svg>
           Quản Lý Bảo Mật Tài Khoản:
         </div>
         <ul style="margin-left: 20px; line-height: 1.6;">
@@ -628,11 +800,19 @@
         style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 2px solid var(--menu-thin-border); padding-bottom: 16px; flex-wrap: wrap; gap: 10px;">
         <button type="button" class="btn-preview-toggle" onclick="goBackToStoriesList()"
           style="padding: 8px 18px; font-weight: 700; font-size: 0.9rem; display: inline-flex; align-items: center; gap: 6px;">
-          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" class="line-icon">
+            <line x1="19" y1="12" x2="5" y2="12"></line>
+            <polyline points="12 19 5 12 12 5"></polyline>
+          </svg>
           Quay Lại Danh Sách Truyện
         </button>
         <h3 style="color: var(--global-main-color); font-size: 1.3rem; display: flex; align-items: center; gap: 8px;">
-          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" class="line-icon">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+          </svg>
           Chi Tiết Truyện
         </h3>
       </div>
@@ -665,7 +845,13 @@
 
           <div
             style="font-size: 1rem; font-weight: 700; color: var(--global-main-color); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; display: flex; align-items: center; gap: 6px;">
-            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round" class="line-icon">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="16" y1="13" x2="8" y2="13"></line>
+              <line x1="16" y1="17" x2="8" y2="17"></line>
+            </svg>
             Văn án:
           </div>
 
@@ -679,17 +865,28 @@
       <!-- Action Buttons Bar -->
       <div
         style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 12px;">
-        <h4 style="color: var(--global-main-color); font-size: 1.15rem; display: flex; align-items: center; gap: 8px; margin: 0;">
-          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon" style="flex-shrink: 0;"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+        <h4
+          style="color: var(--global-main-color); font-size: 1.15rem; display: flex; align-items: center; gap: 8px; margin: 0;">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" class="line-icon" style="flex-shrink: 0;">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+          </svg>
           <span>Danh Sách Tất Cả Các Chương (<span id="fullDetailChapterCount">0</span> chương)</span>
         </h4>
         <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-          <button class="btn-preview-toggle" style="padding: 8px 16px; font-weight: 700; font-size: 0.88rem; display: inline-flex; align-items: center; gap: 6px;"
+          <button class="btn-preview-toggle"
+            style="padding: 8px 16px; font-weight: 700; font-size: 0.88rem; display: inline-flex; align-items: center; gap: 6px;"
             id="fullBtnEditCurrentStory">
-            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round" class="line-icon">
+              <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+              <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+            </svg>
             Sửa Thông Tin Truyện
           </button>
-          <button class="btn-primary" style="padding: 8px 16px; font-weight: 700; font-size: 0.88rem; display: inline-flex; align-items: center; gap: 6px;"
+          <button class="btn-primary"
+            style="padding: 8px 16px; font-weight: 700; font-size: 0.88rem; display: inline-flex; align-items: center; gap: 6px;"
             id="fullBtnAddChapterCurrentStory">+ Thêm Chương Mới</button>
         </div>
       </div>
