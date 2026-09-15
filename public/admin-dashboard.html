@@ -114,6 +114,15 @@
       width: fit-content;
     }
 
+    #btnToolbarUndo:disabled,
+    #btnToolbarRedo:disabled {
+      opacity: 0.45 !important;
+      cursor: not-allowed !important;
+      background: #757575 !important;
+      color: #ffffff !important;
+      border-color: #757575 !important;
+    }
+
     /* FULL HEIGHT FILL LAYOUT FOR MAIN CONTENT CARDS ONLY */
     main.admin-container {
       min-height: calc(100vh - 120px);
@@ -156,6 +165,8 @@
       flex: 1;
       min-height: 480px;
       max-height: none;
+      padding-bottom: 220px !important;
+      line-height: 1.6;
     }
 
     .preview-box {
@@ -541,20 +552,37 @@
 
         <!-- Sticky Editor Toolbar (Quick Image Inserter & Mode Switcher Tabs) -->
         <div class="editor-sticky-toolbar">
-          <!-- Row 1: [Dán link ảnh input] + [(+) Button] -->
-          <div style="display: flex; align-items: center; gap: 8px; width: 100%;">
+          <!-- Row 1: [Dán link ảnh input] + [(+) Button] + [Undo] + [Redo] -->
+          <div style="display: flex; align-items: center; gap: 6px; width: 100%;">
             <input type="url" id="quickImgUrl" class="form-input editor-img-input"
               placeholder="Dán link ảnh (https://...)"
               style="flex: 1; min-width: 0; padding: 7px 10px; font-size: 0.85rem;" />
             <button type="button" onclick="insertQuickImage()" class="btn-primary editor-img-btn"
-              title="Chèn link ảnh vào nội dung"
-              style="flex-shrink: 0; white-space: nowrap; display: inline-flex; align-items: center; justify-content: center; gap: 4px; padding: 7px 14px; font-size: 0.88rem; font-weight: 700;">
+              title="Sao chép link ảnh Markdown vào bộ nhớ tạm"
+              style="flex-shrink: 0; white-space: nowrap; display: inline-flex; align-items: center; justify-content: center; gap: 4px; padding: 7px 12px; font-size: 0.88rem; font-weight: 700;">
               <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"
                 stroke-linecap="round" stroke-linejoin="round" class="line-icon">
                 <line x1="12" y1="5" x2="12" y2="19"></line>
                 <line x1="5" y1="12" x2="19" y2="12"></line>
               </svg>
-
+            </button>
+            <button type="button" id="btnToolbarUndo" onmousedown="event.preventDefault()" onclick="editorHistory.undo()" class="btn-secondary btn-undo"
+              title="Hoàn tác (Ctrl+Z)"
+              style="flex-shrink: 0; white-space: nowrap; display: inline-flex; align-items: center; justify-content: center; padding: 7px 12px; font-size: 0.85rem; font-weight: 700; background: #e8f5e9; color: #1b5e20; border: 1px solid #a5d6a7;">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"
+                stroke-linecap="round" stroke-linejoin="round" class="line-icon">
+                <polyline points="1 4 1 10 7 10"></polyline>
+                <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
+              </svg>
+            </button>
+            <button type="button" id="btnToolbarRedo" onmousedown="event.preventDefault()" onclick="editorHistory.redo()" class="btn-secondary btn-redo"
+              title="Quay lại (Ctrl+Y)"
+              style="flex-shrink: 0; white-space: nowrap; display: inline-flex; align-items: center; justify-content: center; padding: 7px 12px; font-size: 0.85rem; font-weight: 700; background: #e8f5e9; color: #1b5e20; border: 1px solid #a5d6a7;">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"
+                stroke-linecap="round" stroke-linejoin="round" class="line-icon">
+                <polyline points="23 4 23 10 17 10"></polyline>
+                <path d="M20.49 15a9 9 0 1 1-2.13-9.36L23 10"></path>
+              </svg>
             </button>
           </div>
 
@@ -1706,6 +1734,7 @@
       if (editorHeading) {
         editorHeading.innerHTML = `<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg> Bộ Soạn Thảo Đăng Chương Mới & Xem Trước (Preview)`;
       }
+      editorHistory.reset('');
       renderLivePreview();
     }
 
@@ -1755,6 +1784,7 @@
           const editorHeading = document.querySelector('#tab-editor h3');
           if (editorHeading) editorHeading.textContent = `✏️ Cập Nhật Chương #${c.chapterNumber}: ${c.title}`;
 
+          editorHistory.reset(c.content || '');
           renderLivePreview();
         } else {
           showAlert('Không tìm thấy dữ liệu chương.', false);
@@ -1781,17 +1811,30 @@
       }
     }
 
-    function insertQuickImage() {
+    async function insertQuickImage() {
       const urlInput = document.getElementById('quickImgUrl');
-      const url = urlInput.value.trim();
+      const url = urlInput ? urlInput.value.trim() : '';
       if (!url) return alert('Vui lòng dán link hình ảnh vào ô trước!');
 
-      const textarea = document.getElementById('chapContent');
-      const markdownTag = `\n![Hình ảnh minh họa](${url})\n`;
-      textarea.value += markdownTag;
+      const markdownTag = `![Hình ảnh minh họa](${url})`;
+
+      try {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          await navigator.clipboard.writeText(markdownTag);
+        } else {
+          throw new Error('Clipboard API not available');
+        }
+      } catch (e) {
+        const tempTextarea = document.createElement('textarea');
+        tempTextarea.value = markdownTag;
+        document.body.appendChild(tempTextarea);
+        tempTextarea.select();
+        document.execCommand('copy');
+        document.body.removeChild(tempTextarea);
+      }
+
       urlInput.value = '';
-      showAlert('Đã chèn link ảnh vào ô soạn thảo!');
-      debouncedLivePreview();
+      showAlert('Đã sao chép link ảnh vào bộ nhớ tạm! Hãy dán (Ctrl+V) vào vị trí bạn muốn.');
     }
 
     function toggleEditorView(mode) {
@@ -2206,6 +2249,203 @@
     window.addEventListener('resize', updateStickyOffset);
     window.addEventListener('scroll', updateStickyOffset);
 
+    function getCaretInfo(textarea) {
+      if (!textarea) return null;
+      const cursorPos = textarea.selectionStart || 0;
+      const textBefore = textarea.value.substring(0, cursorPos);
+      const lines = textBefore.split('\n');
+
+      const textareaWidth = Math.max(100, textarea.clientWidth - 24);
+      const charsPerLine = Math.max(15, Math.floor(textareaWidth / 8.2));
+
+      let visualLineIndex = 0;
+      for (let i = 0; i < lines.length; i++) {
+        visualLineIndex += Math.max(1, Math.ceil(lines[i].length / charsPerLine));
+      }
+      visualLineIndex = Math.max(0, visualLineIndex - 1);
+
+      const lineHeight = 24;
+      const paddingTop = 12;
+
+      const cursorYInTextarea = paddingTop + (visualLineIndex * lineHeight);
+      const textareaRect = textarea.getBoundingClientRect();
+
+      return {
+        screenY: textareaRect.top + (cursorYInTextarea - textarea.scrollTop),
+        cursorYInTextarea: cursorYInTextarea,
+        textareaTop: textareaRect.top
+      };
+    }
+
+    function ensureCursorVisibleAndUncovered(textarea) {
+      if (!textarea) return;
+
+      const stickyToolbar = document.querySelector('.editor-sticky-toolbar');
+      const toolbarBottom = stickyToolbar ? stickyToolbar.getBoundingClientRect().bottom : 160;
+
+      const textareaRect = textarea.getBoundingClientRect();
+      if (textareaRect.top < toolbarBottom + 8) {
+        const pageAdjustment = (toolbarBottom + 8) - textareaRect.top;
+        window.scrollBy({ top: -pageAdjustment, behavior: 'instant' });
+      }
+
+      const caretInfo = getCaretInfo(textarea);
+      if (!caretInfo) return;
+
+      const currentToolbarBottom = stickyToolbar ? stickyToolbar.getBoundingClientRect().bottom : 160;
+      const minAllowedY = currentToolbarBottom + 12;
+
+      const viewportH = window.visualViewport ? window.visualViewport.height : window.innerHeight;
+      const maxAllowedY = viewportH - 85;
+
+      const currentCursorY = caretInfo.screenY;
+
+      if (currentCursorY < minAllowedY) {
+        const diff = minAllowedY - currentCursorY;
+        if (textarea.scrollTop > 0) {
+          textarea.scrollTop = Math.max(0, textarea.scrollTop - diff);
+        } else {
+          window.scrollBy({ top: -diff, behavior: 'smooth' });
+        }
+      } else if (currentCursorY > maxAllowedY) {
+        const diff = currentCursorY - maxAllowedY;
+        textarea.scrollTop += diff;
+      }
+    }
+
+    // Editor Undo/Redo History Stack Manager
+    const editorHistory = {
+      stack: [],
+      index: -1,
+      isPerforming: false,
+      maxSize: 100,
+      pushState(content, cursorPos, scrollTop) {
+        if (this.isPerforming) return;
+        const textarea = document.getElementById('chapContent');
+        const currentCursor = typeof cursorPos === 'number' ? cursorPos : (textarea ? textarea.selectionStart : 0);
+        const currentScroll = typeof scrollTop === 'number' ? scrollTop : (textarea ? textarea.scrollTop : 0);
+
+        if (this.index >= 0 && this.stack[this.index] && this.stack[this.index].content === content) {
+          this.stack[this.index].cursorPos = currentCursor;
+          this.stack[this.index].scrollTop = currentScroll;
+          return;
+        }
+        if (this.index < this.stack.length - 1) {
+          this.stack = this.stack.slice(0, this.index + 1);
+        }
+        this.stack.push({ content, cursorPos: currentCursor, scrollTop: currentScroll });
+        if (this.stack.length > this.maxSize) {
+          this.stack.shift();
+        }
+        this.index = this.stack.length - 1;
+        this.updateButtons();
+      },
+      restoreState(state) {
+        if (!state) return;
+        const textarea = document.getElementById('chapContent');
+        if (!textarea) return;
+
+        this.isPerforming = true;
+        const savedWindowY = window.scrollY || window.pageYOffset;
+
+        textarea.value = state.content;
+
+        let cursorPos = typeof state.cursorPos === 'number' ? state.cursorPos : 0;
+        if (cursorPos > state.content.length) cursorPos = state.content.length;
+        textarea.setSelectionRange(cursorPos, cursorPos);
+
+        const textBefore = state.content.substring(0, cursorPos);
+        const lines = textBefore.split('\n');
+        const textareaWidth = Math.max(100, textarea.clientWidth - 24);
+        const charsPerLine = Math.max(15, Math.floor(textareaWidth / 8.2));
+
+        let visualLineIndex = 0;
+        for (let i = 0; i < lines.length; i++) {
+          visualLineIndex += Math.max(1, Math.ceil(lines[i].length / charsPerLine));
+        }
+        visualLineIndex = Math.max(0, visualLineIndex - 1);
+
+        const lineHeight = 24;
+        const paddingTop = 12;
+        const cursorYInTextarea = paddingTop + (visualLineIndex * lineHeight);
+        const targetScrollTop = Math.max(0, cursorYInTextarea - (textarea.clientHeight / 3));
+
+        textarea.scrollTop = targetScrollTop;
+
+        try {
+          textarea.focus({ preventScroll: true });
+        } catch (e) {
+          textarea.focus();
+        }
+
+        textarea.scrollTop = targetScrollTop;
+        window.scrollTo(window.scrollX, savedWindowY);
+
+        this.isPerforming = false;
+        this.updateButtons();
+        debouncedLivePreview();
+      },
+      undo() {
+        if (this.index > 0) {
+          this.index--;
+          const state = this.stack[this.index];
+          this.restoreState(state);
+          showAlert('Đã hoàn tác (Undo)');
+        } else {
+          showAlert('Không thể hoàn tác thêm nữa.', false);
+        }
+      },
+      redo() {
+        if (this.index < this.stack.length - 1) {
+          this.index++;
+          const state = this.stack[this.index];
+          this.restoreState(state);
+          showAlert('Đã quay lại (Redo)');
+        } else {
+          showAlert('Không thể quay lại thêm nữa.', false);
+        }
+      },
+      updateButtons() {
+        const canUndo = this.index > 0;
+        const canRedo = this.index < this.stack.length - 1;
+        document.querySelectorAll('.btn-undo, #btnToolbarUndo').forEach(btn => {
+          btn.disabled = !canUndo;
+          btn.style.opacity = canUndo ? '1' : '0.45';
+          btn.style.cursor = canUndo ? 'pointer' : 'not-allowed';
+        });
+        document.querySelectorAll('.btn-redo, #btnToolbarRedo').forEach(btn => {
+          btn.disabled = !canRedo;
+          btn.style.opacity = canRedo ? '1' : '0.45';
+          btn.style.cursor = canRedo ? 'pointer' : 'not-allowed';
+        });
+      },
+      reset(initialContent = '') {
+        this.stack = [{ content: initialContent, cursorPos: 0, scrollTop: 0 }];
+        this.index = 0;
+        this.isPerforming = false;
+        this.updateButtons();
+      }
+    };
+
+    let debounceHistoryTimer = null;
+    function handleChapContentInput(e) {
+      debouncedLivePreview();
+      const textarea = e.target;
+      const content = textarea.value;
+      const cursorPos = textarea.selectionStart;
+      const scrollTop = textarea.scrollTop;
+
+      if (debounceHistoryTimer) clearTimeout(debounceHistoryTimer);
+
+      if (e.inputType === 'insertLineBreak' || e.inputType === 'insertFromPaste' || e.inputType === 'deleteContentBackward' || (e.data === ' ')) {
+        editorHistory.pushState(content, cursorPos, scrollTop);
+        return;
+      }
+      debounceHistoryTimer = setTimeout(() => {
+        editorHistory.pushState(content, cursorPos, scrollTop);
+      }, 150);
+    }
+
     document.addEventListener('DOMContentLoaded', () => {
       checkAuth();
       loadAdminStories();
@@ -2215,7 +2455,43 @@
       const chapContent = document.getElementById('chapContent');
       const chapTitle = document.getElementById('chapTitle');
       const chapStorySelect = document.getElementById('chapStorySelect');
-      if (chapContent) chapContent.addEventListener('input', debouncedLivePreview);
+      if (chapContent) {
+        chapContent.addEventListener('input', (e) => {
+          handleChapContentInput(e);
+          ensureCursorVisibleAndUncovered(chapContent);
+        });
+        chapContent.addEventListener('focus', () => {
+          setTimeout(() => ensureCursorVisibleAndUncovered(chapContent), 300);
+        });
+        chapContent.addEventListener('click', () => {
+          editorHistory.pushState(chapContent.value, chapContent.selectionStart, chapContent.scrollTop);
+          setTimeout(() => ensureCursorVisibleAndUncovered(chapContent), 100);
+        });
+        chapContent.addEventListener('keydown', (e) => {
+          if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'z') {
+            if (e.shiftKey) {
+              e.preventDefault();
+              editorHistory.redo();
+            } else {
+              e.preventDefault();
+              editorHistory.undo();
+            }
+          } else if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'y') {
+            e.preventDefault();
+            editorHistory.redo();
+          }
+        });
+        editorHistory.reset(chapContent.value || '');
+      }
+
+      if (window.visualViewport) {
+        window.visualViewport.addEventListener('resize', () => {
+          const textarea = document.getElementById('chapContent');
+          if (textarea && document.activeElement === textarea) {
+            setTimeout(() => ensureCursorVisibleAndUncovered(textarea), 250);
+          }
+        });
+      }
       if (chapTitle) chapTitle.addEventListener('input', debouncedLivePreview);
       if (chapStorySelect) {
         chapStorySelect.addEventListener('change', (e) => {
@@ -2225,8 +2501,19 @@
           }
         });
       }
+
+      const quickImgUrlInput = document.getElementById('quickImgUrl');
+      if (quickImgUrlInput) {
+        quickImgUrlInput.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter') {
+            e.preventDefault();
+            insertQuickImage();
+          }
+        });
+      }
     });
   </script>
+
 </body>
 
 </html>
