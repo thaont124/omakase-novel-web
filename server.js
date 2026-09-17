@@ -61,11 +61,16 @@ app.get('/omakase/*', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
+const Story = require('./models/Story');
+const Chapter = require('./models/Chapter');
+const { startViewFlusher } = require('./services/cacheService');
+
 // Start server listening on 0.0.0.0 for cloud platform compatibility
 async function startServer() {
   try {
     await connectDB();
     await initData();
+    startViewFlusher(Story, Chapter);
 
     const isProduction = process.env.NODE_ENV === 'production' || process.env.PORT;
     const host = '0.0.0.0';

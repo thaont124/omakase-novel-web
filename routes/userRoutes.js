@@ -4,12 +4,29 @@ const mongoose = require('mongoose');
 const Story = require('../models/Story');
 const Chapter = require('../models/Chapter');
 const Settings = require('../models/Settings');
+const { cache, addStoryView, addChapterView } = require('../services/cacheService');
+
+// Helper to set Edge CDN Cache headers for Vercel / Cloudflare
+function setEdgeCacheHeader(res, maxAge = 60, sMaxAge = 120) {
+  res.setHeader('Cache-Control', `public, max-age=${maxAge}, s-maxage=${sMaxAge}, stale-while-revalidate=300`);
+}
 
 // 1. GET /api/v1/user/settings - Get site UI settings
 router.get('/settings', async (req, res) => {
   try {
+    const cacheKey = 'user_settings';
+    const cachedData = cache.get(cacheKey);
+    if (cachedData) {
+      setEdgeCacheHeader(res, 300, 600);
+      return res.json(cachedData);
+    }
+
     const settings = await Settings.findOne();
-    return res.json({ success: true, data: settings || {} });
+    const responsePayload = { success: true, data: settings || {} };
+    cache.set(cacheKey, responsePayload, 300);
+
+    setEdgeCacheHeader(res, 300, 600);
+    return res.json(responsePayload);
   } catch (err) {
     return res.status(500).json({ success: false, message: err.message });
   }
@@ -19,6 +36,14 @@ router.get('/settings', async (req, res) => {
 router.get('/stories', async (req, res) => {
   try {
     const { search, genre } = req.query;
+    const cacheKey = `user_stories_${search || ''}_${genre || ''}`;
+
+    const cachedData = cache.get(cacheKey);
+    if (cachedData) {
+      setEdgeCacheHeader(res, 60, 120);
+      return res.json(cachedData);
+    }
+
     let filter = { isPublic: { $ne: false } };
     if (search) {
       filter.title = { $regex: search, $options: 'i' };
@@ -27,7 +52,11 @@ router.get('/stories', async (req, res) => {
       filter.genres = genre;
     }
     const stories = await Story.find(filter).sort({ updatedAt: -1 });
-    return res.json({ success: true, count: stories.length, data: stories });
+    const responsePayload = { success: true, count: stories.length, data: stories };
+
+    cache.set(cacheKey, responsePayload, 60); // 1-minute RAM cache
+    setEdgeCacheHeader(res, 60, 120);
+    return res.json(responsePayload);
   } catch (err) {
     return res.status(500).json({ success: false, message: err.message });
   }
@@ -43,14 +72,20 @@ router.get('/stories/:id', async (req, res) => {
       return res.status(404).json({ success: false, message: 'ID truyện không hợp lệ' });
     }
 
+    // Buffer view count in RAM asynchronously (zero DB write locks!)
+    addStoryView(storyId);
+
+    const cacheKey = `user_story_detail_${storyId}`;
+    const cachedData = cache.get(cacheKey);
+    if (cachedData) {
+      setEdgeCacheHeader(res, 60, 120);
+      return res.json(cachedData);
+    }
+
     const story = await Story.findById(storyId);
     if (!story || story.isPublic === false) {
       return res.status(404).json({ success: false, message: 'Không tìm thấy truyện hoặc truyện đang ở chế độ riêng tư' });
     }
-
-    // Increment views count
-    story.views = (story.views || 0) + 1;
-    await story.save();
 
     const chapters = await Chapter.find({
       storyId: story._id,
@@ -63,13 +98,17 @@ router.get('/stories/:id', async (req, res) => {
       .select('_id chapterNumber title createdAt publishedAt views')
       .sort({ chapterNumber: 1 });
 
-    return res.json({
+    const responsePayload = {
       success: true,
       data: {
         ...story.toObject(),
         chapters
       }
-    });
+    };
+
+    cache.set(cacheKey, responsePayload, 60); // 1-minute RAM cache
+    setEdgeCacheHeader(res, 60, 120);
+    return res.json(responsePayload);
   } catch (err) {
     return res.status(500).json({ success: false, message: err.message });
   }
@@ -83,6 +122,16 @@ router.get('/chapters/:id', async (req, res) => {
 
     if (!mongoose.Types.ObjectId.isValid(chapterId)) {
       return res.status(404).json({ success: false, message: 'ID chương không hợp lệ' });
+    }
+
+    // Buffer chapter view count in RAM asynchronously
+    addChapterView(chapterId);
+
+    const cacheKey = `user_chapter_detail_${chapterId}`;
+    const cachedData = cache.get(cacheKey);
+    if (cachedData) {
+      setEdgeCacheHeader(res, 120, 300);
+      return res.json(cachedData);
     }
 
     const chapter = await Chapter.findById(chapterId);
@@ -99,8 +148,6 @@ router.get('/chapters/:id', async (req, res) => {
       return res.status(404).json({ success: false, message: 'Truyện của chương này đang ở chế độ riêng tư.' });
     }
 
-    chapter.views = (chapter.views || 0) + 1;
-    await chapter.save();
     const allChapters = await Chapter.find({
       storyId: chapter.storyId,
       $or: [
@@ -116,7 +163,7 @@ router.get('/chapters/:id', async (req, res) => {
     const prevChapter = currentIndex > 0 ? allChapters[currentIndex - 1] : null;
     const nextChapter = currentIndex < allChapters.length - 1 ? allChapters[currentIndex + 1] : null;
 
-    return res.json({
+    const responsePayload = {
       success: true,
       data: {
         ...chapter.toObject(),
@@ -125,7 +172,11 @@ router.get('/chapters/:id', async (req, res) => {
         prevChapter,
         nextChapter
       }
-    });
+    };
+
+    cache.set(cacheKey, responsePayload, 180); // 3-minute RAM cache for chapter content
+    setEdgeCacheHeader(res, 120, 300);
+    return res.json(responsePayload);
   } catch (err) {
     return res.status(500).json({ success: false, message: err.message });
   }

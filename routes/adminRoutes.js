@@ -9,6 +9,7 @@ const Settings = require('../models/Settings');
 const Story = require('../models/Story');
 const Chapter = require('../models/Chapter');
 const { verifyAdminToken, JWT_SECRET } = require('../middleware/auth');
+const { cache } = require('../services/cacheService');
 
 // Helper to convert Markdown image tags or image URLs in content into rendered HTML <img>
 function parseContentToHtml(content) {
@@ -134,6 +135,7 @@ router.put('/settings', verifyAdminToken, async (req, res) => {
       Object.assign(settings, updateFields);
     }
     await settings.save();
+    cache.flush();
     return res.json({ success: true, message: 'Đã cập nhật giao diện Site123 thành công!', data: settings });
   } catch (err) {
     return res.status(500).json({ success: false, message: err.message });
@@ -175,6 +177,7 @@ router.post('/stories', verifyAdminToken, async (req, res) => {
     };
 
     const newStory = await Story.create(storyData);
+    cache.flush();
     return res.status(201).json({ success: true, message: 'Thêm truyện thành công!', data: newStory });
   } catch (err) {
     return res.status(500).json({ success: false, message: err.message });
@@ -206,6 +209,7 @@ router.put('/stories/:id', verifyAdminToken, async (req, res) => {
     story.updatedAt = new Date();
 
     await story.save();
+    cache.flush();
     return res.json({ success: true, message: 'Cập nhật truyện thành công!', data: story });
   } catch (err) {
     return res.status(500).json({ success: false, message: err.message });
@@ -223,6 +227,7 @@ router.delete('/stories/:id', verifyAdminToken, async (req, res) => {
 
     await Story.findByIdAndDelete(storyId);
     await Chapter.deleteMany({ storyId });
+    cache.flush();
     return res.json({ success: true, message: 'Đã xóa truyện và các chương liên quan.' });
   } catch (err) {
     return res.status(500).json({ success: false, message: err.message });
@@ -324,6 +329,7 @@ const createChapterHandler = async (req, res) => {
     });
 
     await Story.findByIdAndUpdate(storyId, { updatedAt: new Date(), updatedBy: adminUser });
+    cache.flush();
 
     return res.status(201).json({ success: true, message: successMsg, data: newChap });
   } catch (err) {
@@ -371,6 +377,7 @@ router.put('/chapters/:id', verifyAdminToken, async (req, res) => {
 
     await chap.save();
     await Story.findByIdAndUpdate(chap.storyId, { updatedAt: new Date(), updatedBy: adminUser });
+    cache.flush();
 
     const isScheduled = chap.publishedAt && new Date(chap.publishedAt) > new Date();
     const msg = isScheduled
@@ -393,6 +400,7 @@ router.delete('/chapters/:id', verifyAdminToken, async (req, res) => {
     }
 
     await Chapter.findByIdAndDelete(chapId);
+    cache.flush();
     return res.json({ success: true, message: 'Đã xóa chương.' });
   } catch (err) {
     return res.status(500).json({ success: false, message: err.message });
