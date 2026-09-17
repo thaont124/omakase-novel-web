@@ -4,3 +4,4 @@ atlas-credentials.env
 .env.*
 !.env.example
 npm-debug.log*
+logo.png

@@ -27,7 +27,10 @@ const connectDB = async () => {
   try {
     mongoose.set('strictQuery', false);
     await mongoose.connect(mongoURI, {
-      serverSelectionTimeoutMS: 10000
+      maxPoolSize: 2,
+      minPoolSize: 1,
+      serverSelectionTimeoutMS: 5000,
+      socketTimeoutMS: 45000
     });
     console.log('MongoDB Atlas Connected Successfully.');
   } catch (err) {

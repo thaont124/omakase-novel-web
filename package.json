@@ -4,8 +4,8 @@
   "description": "Omakase Light Green Novel Website with Node.js Backend and Image URL Editor",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",
-    "dev": "node --watch server.js"
+    "start": "node --max-old-space-size=256 server.js",
+    "dev": "node --watch --max-old-space-size=256 server.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

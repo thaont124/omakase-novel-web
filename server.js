@@ -11,12 +11,16 @@ const app = express();
 let PORT = process.env.PORT || 3000;
 
 // Middleware
+app.disable('x-powered-by');
 app.use(cors());
-app.use(express.json({ limit: '10mb' }));
-app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+app.use(express.json({ limit: '3mb' }));
+app.use(express.urlencoded({ extended: true, limit: '3mb' }));
 
-// Serve static assets
-app.use(express.static(path.join(__dirname, 'public')));
+// Serve static assets with cache headers
+app.use(express.static(path.join(__dirname, 'public'), {
+  maxAge: '1d',
+  etag: true
+}));
 
 // API Routes
 app.use('/api/v1/user', userRoutes);
@@ -57,33 +61,34 @@ app.get('/omakase/*', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-// Start server with automatic port retry if port is busy
-async function listenWithFallback(portToUse) {
-  const server = app.listen(portToUse, () => {
-    console.log(`=======================================================`);
-    console.log(`🚀 Omasake Site123 Server is running!`);
-    console.log(`🌐 Website Frontend URL : http://localhost:${portToUse}/omakase/`);
-    console.log(`🔑 Admin Login URL     : http://localhost:${portToUse}/omakase/admin/login`);
-    console.log(`📊 Admin Dashboard URL : http://localhost:${portToUse}/omakase/admin/dashboard`);
-    console.log(`📡 User API Base Path  : http://localhost:${portToUse}/api/v1/user/...`);
-    console.log(`🔐 Admin API Base Path : http://localhost:${portToUse}/api/v1/admin/...`);
-    console.log(`=======================================================`);
-  });
-
-  server.on('error', (err) => {
-    if (err.code === 'EADDRINUSE') {
-      console.warn(`Cổng ${portToUse} đã bận. Đang chuyển sang cổng ${portToUse + 1}...`);
-      listenWithFallback(portToUse + 1);
-    } else {
-      console.error('Lỗi server:', err);
-    }
-  });
-}
-
+// Start server listening on 0.0.0.0 for cloud platform compatibility
 async function startServer() {
-  await connectDB();
-  await initData();
-  await listenWithFallback(PORT);
+  try {
+    await connectDB();
+    await initData();
+
+    const isProduction = process.env.NODE_ENV === 'production' || process.env.PORT;
+    const host = '0.0.0.0';
+
+    const server = app.listen(PORT, host, () => {
+      console.log(`=======================================================`);
+      console.log(`🚀 Omasake Site123 Server running on ${host}:${PORT}`);
+      console.log(`🌐 Website Frontend URL : http://localhost:${PORT}/omakase/`);
+      console.log(`=======================================================`);
+    });
+
+    server.on('error', (err) => {
+      if (err.code === 'EADDRINUSE' && !process.env.PORT) {
+        console.warn(`Cổng ${PORT} đã bận. Đang thử cổng ${Number(PORT) + 1}...`);
+        app.listen(Number(PORT) + 1, host);
+      } else {
+        console.error('Lỗi server:', err);
+      }
+    });
+  } catch (err) {
+    console.error('Không thể khởi động server:', err);
+    process.exit(1);
+  }
 }
 
 startServer();
