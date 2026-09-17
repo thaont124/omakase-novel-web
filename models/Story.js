@@ -27,6 +27,10 @@ const storySchema = new mongoose.Schema({
     type: String,
     default: ''
   },
+  isPublic: {
+    type: Boolean,
+    default: true
+  },
   views: {
     type: Number,
     default: 0

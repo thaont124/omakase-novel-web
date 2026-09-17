@@ -153,7 +153,7 @@ router.get('/stories', verifyAdminToken, async (req, res) => {
 // POST /api/v1/admin/stories - Create new story
 router.post('/stories', verifyAdminToken, async (req, res) => {
   try {
-    const { title, coverUrl, author, status, genres, description } = req.body;
+    const { title, coverUrl, author, status, genres, description, isPublic } = req.body;
     const adminUser = req.admin ? req.admin.username : 'admin';
 
     if (!title) {
@@ -167,6 +167,7 @@ router.post('/stories', verifyAdminToken, async (req, res) => {
       status: status || 'Đang tiến hành',
       genres: Array.isArray(genres) ? genres : (genres ? genres.split(',').map(g => g.trim()) : ['Khác']),
       description: description || '',
+      isPublic: isPublic !== undefined ? Boolean(isPublic) : true,
       createdBy: adminUser,
       updatedBy: adminUser,
       createdAt: new Date(),
@@ -184,7 +185,7 @@ router.post('/stories', verifyAdminToken, async (req, res) => {
 router.put('/stories/:id', verifyAdminToken, async (req, res) => {
   try {
     const storyId = req.params.id;
-    const { title, coverUrl, author, status, genres, description } = req.body;
+    const { title, coverUrl, author, status, genres, description, isPublic } = req.body;
     const adminUser = req.admin ? req.admin.username : 'admin';
 
     if (!mongoose.Types.ObjectId.isValid(storyId)) {
@@ -200,6 +201,7 @@ router.put('/stories/:id', verifyAdminToken, async (req, res) => {
     if (status !== undefined) story.status = status;
     if (genres !== undefined) story.genres = Array.isArray(genres) ? genres : genres.split(',').map(g => g.trim());
     if (description !== undefined) story.description = description;
+    if (isPublic !== undefined) story.isPublic = Boolean(isPublic);
     story.updatedBy = adminUser;
     story.updatedAt = new Date();
 

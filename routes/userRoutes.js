@@ -15,11 +15,11 @@ router.get('/settings', async (req, res) => {
   }
 });
 
-// 2. GET /api/v1/user/stories - Get stories list (with search & genre filter)
+// 2. GET /api/v1/user/stories - Get stories list (only public stories)
 router.get('/stories', async (req, res) => {
   try {
     const { search, genre } = req.query;
-    let filter = {};
+    let filter = { isPublic: { $ne: false } };
     if (search) {
       filter.title = { $regex: search, $options: 'i' };
     }
@@ -44,8 +44,8 @@ router.get('/stories/:id', async (req, res) => {
     }
 
     const story = await Story.findById(storyId);
-    if (!story) {
-      return res.status(404).json({ success: false, message: 'Không tìm thấy truyện' });
+    if (!story || story.isPublic === false) {
+      return res.status(404).json({ success: false, message: 'Không tìm thấy truyện hoặc truyện đang ở chế độ riêng tư' });
     }
 
     // Increment views count
@@ -94,10 +94,13 @@ router.get('/chapters/:id', async (req, res) => {
       return res.status(404).json({ success: false, message: 'Chương này chưa đến thời gian xuất bản.' });
     }
 
+    const story = await Story.findById(chapter.storyId);
+    if (!story || story.isPublic === false) {
+      return res.status(404).json({ success: false, message: 'Truyện của chương này đang ở chế độ riêng tư.' });
+    }
+
     chapter.views = (chapter.views || 0) + 1;
     await chapter.save();
-
-    const story = await Story.findById(chapter.storyId);
     const allChapters = await Chapter.find({
       storyId: chapter.storyId,
       $or: [
