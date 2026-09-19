@@ -291,13 +291,13 @@ const createChapterHandler = async (req, res) => {
       return res.status(400).json({ success: false, message: 'Vui lòng chọn bộ truyện hợp lệ.' });
     }
 
-    if (!chapterNumber || !title || !content) {
+    if (chapterNumber === undefined || chapterNumber === null || chapterNumber === '' || !title || !content) {
       return res.status(400).json({ success: false, message: 'Số chương, tiêu đề và nội dung là bắt buộc.' });
     }
 
     const chapNum = Number(chapterNumber);
-    if (isNaN(chapNum) || chapNum <= 0) {
-      return res.status(400).json({ success: false, message: 'Số chương phải là một số nguyên dương.' });
+    if (isNaN(chapNum) || chapNum < 0) {
+      return res.status(400).json({ success: false, message: 'Số chương phải là một số không âm (từ 0 trở lên).' });
     }
 
     let publishDate = new Date();

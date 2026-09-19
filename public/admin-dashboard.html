@@ -503,6 +503,28 @@
         Bộ Soạn Thảo Đăng Chương & Xem Trước (Preview)
       </h3>
 
+      <!-- Draft Management & Auto-Save Bar -->
+      <div id="draftToolbarRow" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; background: rgba(232, 245, 233, 0.6); padding: 10px 14px; border-radius: 10px; border: 1px solid rgba(165, 214, 167, 0.6); margin-bottom: 18px;">
+        <div id="draftStatusDisplay" style="font-size: 0.85rem; font-weight: 600; color: #1b5e20; display: flex; align-items: center; gap: 6px;">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon" style="vertical-align: -2px;"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+          <span>Trạng thái: <b>Chưa có bản nháp</b> (Tự động lưu mỗi 5 phút)</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+          <button type="button" class="btn-preview-toggle" onclick="saveDraftManually()" title="Lưu bản nháp hiện tại vào trình duyệt" style="padding: 5px 12px; font-size: 0.82rem; display: inline-flex; align-items: center; gap: 6px;">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+            <span>Lưu Nháp</span>
+          </button>
+          <button type="button" id="btnRestoreDraft" class="btn-preview-toggle" onclick="loadDraft()" title="Khôi phục nội dung bản nháp vừa lưu" style="padding: 5px 12px; font-size: 0.82rem; display: none; align-items: center; gap: 6px; background: #fff3e0; color: #e65100; border-color: #ffe0b2;">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><polyline points="1 4 1 10 7 10"></polyline><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path></svg>
+            <span>Khôi Phục Nháp</span>
+          </button>
+          <button type="button" id="btnClearDraft" class="btn-danger" onclick="confirmClearDraft()" title="Xóa bỏ bản nháp đã lưu" style="padding: 5px 12px; font-size: 0.82rem; display: none; align-items: center; gap: 6px;">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+            <span>Xóa Nháp</span>
+          </button>
+        </div>
+      </div>
+
       <form id="chapterForm" onsubmit="saveChapter(event)">
         <input type="hidden" id="chapEditId" value="" />
 
@@ -523,7 +545,7 @@
 
           <div class="form-group">
             <label class="form-label">Số Chương</label>
-            <input type="number" id="chapNumber" class="form-input" value="1" min="1" required />
+            <input type="number" id="chapNumber" class="form-input" value="1" min="0" required />
           </div>
 
           <div class="form-group">
@@ -1738,6 +1760,152 @@
       displayEl.style.display = 'block';
     }
 
+    // ==================== DRAFT MANAGEMENT & AUTO-SAVE (5 MINS) ====================
+    let autoSaveIntervalTimer = null;
+
+    function getDraftStorageKey() {
+      const chapEditId = document.getElementById('chapEditId').value;
+      const storyId = document.getElementById('chapStorySelect').value;
+      if (chapEditId) {
+        return `novel_draft_chap_edit_${chapEditId}`;
+      } else if (storyId) {
+        return `novel_draft_chap_new_${storyId}`;
+      }
+      return `novel_draft_chap_general`;
+    }
+
+    function getDraftDataFromForm() {
+      return {
+        storyId: document.getElementById('chapStorySelect').value,
+        title: document.getElementById('chapTitle').value,
+        chapterNumber: document.getElementById('chapNumber').value,
+        content: document.getElementById('chapContent').value,
+        publishedAt: document.getElementById('chapPublishAt').value,
+        savedAt: new Date().toISOString()
+      };
+    }
+
+    function saveDraft(isAuto = false) {
+      const key = getDraftStorageKey();
+      const data = getDraftDataFromForm();
+
+      if (!data.title.trim() && !data.content.trim()) {
+        if (!isAuto) showAlert('Vui lòng nhập tiêu đề hoặc nội dung trước khi lưu nháp.', false);
+        return false;
+      }
+
+      try {
+        localStorage.setItem(key, JSON.stringify(data));
+        updateDraftUIStatus();
+        if (!isAuto) {
+          showAlert('💾 Đã lưu bản nháp vào trình duyệt!');
+        }
+        return true;
+      } catch (e) {
+        console.error('Lỗi lưu nháp vào localStorage:', e);
+        if (!isAuto) showAlert('Không thể lưu nháp do bộ nhớ trình duyệt bị đầy.', false);
+        return false;
+      }
+    }
+
+    function saveDraftManually() {
+      saveDraft(false);
+    }
+
+    function updateDraftUIStatus() {
+      const key = getDraftStorageKey();
+      const raw = localStorage.getItem(key);
+      const statusEl = document.getElementById('draftStatusDisplay');
+      const btnRestore = document.getElementById('btnRestoreDraft');
+      const btnClear = document.getElementById('btnClearDraft');
+
+      if (!raw) {
+        if (statusEl) {
+          statusEl.innerHTML = `
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon" style="vertical-align: -2px; margin-right: 4px;"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+            <span>Trạng thái: <b style="color: #757575;">Chưa có bản nháp</b> (Tự động lưu mỗi 5 phút)</span>
+          `;
+        }
+        if (btnRestore) btnRestore.style.display = 'none';
+        if (btnClear) btnClear.style.display = 'none';
+        return null;
+      }
+
+      try {
+        const draft = JSON.parse(raw);
+        const d = new Date(draft.savedAt);
+        const timeStr = isNaN(d.getTime()) ? '' : d.toLocaleTimeString('vi-VN');
+        const day = String(d.getDate()).padStart(2, '0');
+        const month = String(d.getMonth() + 1).padStart(2, '0');
+        const dateStr = isNaN(d.getTime()) ? '' : `${day}/${month} lúc ${timeStr}`;
+
+        if (statusEl) {
+          statusEl.innerHTML = `
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="line-icon" style="vertical-align: -2px; margin-right: 4px;"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+            <span>⏰ Đã tự động lưu nháp: <b>${dateStr}</b></span>
+          `;
+        }
+        if (btnRestore) btnRestore.style.display = 'inline-flex';
+        if (btnClear) btnClear.style.display = 'inline-flex';
+        return draft;
+      } catch (e) {
+        if (btnRestore) btnRestore.style.display = 'none';
+        if (btnClear) btnClear.style.display = 'none';
+        return null;
+      }
+    }
+
+    function loadDraft() {
+      const key = getDraftStorageKey();
+      const raw = localStorage.getItem(key);
+      if (!raw) return showAlert('Không tìm thấy bản nháp nào.', false);
+
+      try {
+        const draft = JSON.parse(raw);
+        if (draft.storyId) document.getElementById('chapStorySelect').value = draft.storyId;
+        if (draft.title !== undefined) document.getElementById('chapTitle').value = draft.title;
+        if (draft.chapterNumber !== undefined) document.getElementById('chapNumber').value = draft.chapterNumber;
+        if (draft.content !== undefined) document.getElementById('chapContent').value = draft.content;
+        if (draft.publishedAt !== undefined) {
+          document.getElementById('chapPublishAt').value = draft.publishedAt;
+          updatePublishAtDisplay();
+        }
+
+        editorHistory.reset(draft.content || '');
+        debouncedLivePreview();
+        showAlert('📥 Đã khôi phục bản nháp thành công!');
+      } catch (e) {
+        showAlert('Lỗi đọc bản nháp.', false);
+      }
+    }
+
+    function clearDraftFromStorage() {
+      const key = getDraftStorageKey();
+      localStorage.removeItem(key);
+      updateDraftUIStatus();
+    }
+
+    function confirmClearDraft() {
+      if (!confirm('Bạn có chắc chắn muốn xóa bản nháp đã lưu của chương này không?')) return;
+      clearDraftFromStorage();
+      showAlert('🗑️ Đã xóa bản nháp.');
+    }
+
+    function initAutoSaveTimer() {
+      if (autoSaveIntervalTimer) clearInterval(autoSaveIntervalTimer);
+      // Auto-save every 5 minutes (300,000 ms)
+      autoSaveIntervalTimer = setInterval(() => {
+        const editorTab = document.getElementById('tab-editor');
+        if (editorTab && editorTab.style.display !== 'none') {
+          const content = document.getElementById('chapContent').value;
+          const title = document.getElementById('chapTitle').value;
+          if (content.trim() || title.trim()) {
+            saveDraft(true);
+          }
+        }
+      }, 5 * 60 * 1000);
+    }
+
     // ==================== EDITOR & LIVE PREVIEW ====================
     async function prepareAddChapter(storyId) {
       if (!window.location.pathname.includes('/admin/dashboard')) {
@@ -1761,6 +1929,11 @@
       }
       editorHistory.reset('');
       renderLivePreview();
+
+      const draft = updateDraftUIStatus();
+      if (draft && (draft.content.trim() || draft.title.trim())) {
+        showAlert('💡 Phát hiện bản nháp chưa lưu! Bấm "Khôi Phục Nháp" để tiếp tục.');
+      }
     }
 
     async function autoSuggestNextChapterNumber(storyId) {
@@ -1811,6 +1984,7 @@
 
           editorHistory.reset(c.content || '');
           renderLivePreview();
+          updateDraftUIStatus();
         } else {
           showAlert('Không tìm thấy dữ liệu chương.', false);
         }
@@ -1971,9 +2145,14 @@
 
         if (json.success) {
           showAlert(json.message);
+          clearDraftFromStorage();
           resetChapterForm();
-          switchTab('tab-stories');
-          loadAdminStories();
+          if (storyId) {
+            viewStoryDetail(storyId);
+          } else {
+            switchTab('tab-stories');
+            loadAdminStories();
+          }
         } else {
           showAlert(json.message || 'Không thể lưu chương. Vui lòng kiểm tra lại.', false);
         }
@@ -1987,6 +2166,7 @@
       document.getElementById('chapPublishAt').value = '';
       updatePublishAtDisplay();
       document.getElementById('chapterForm').reset();
+      updateDraftUIStatus();
       const editorHeading = document.querySelector('#tab-editor h3');
       if (editorHeading) editorHeading.textContent = '📝 Bộ Soạn Thảo Đăng Chương & Xem Trước (Preview)';
       toggleEditorView('edit');
@@ -2482,6 +2662,8 @@
       loadAdminStories();
       loadAdminSettings();
       updateStickyOffset();
+      initAutoSaveTimer();
+      updateDraftUIStatus();
 
       const chapContent = document.getElementById('chapContent');
       const chapTitle = document.getElementById('chapTitle');
@@ -2530,6 +2712,7 @@
           if (!chapEditId) {
             autoSuggestNextChapterNumber(e.target.value);
           }
+          updateDraftUIStatus();
         });
       }
 
