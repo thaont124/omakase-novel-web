@@ -243,7 +243,7 @@ router.get('/stories/:id/chapters', verifyAdminToken, async (req, res) => {
       return res.json({ success: true, data: [] });
     }
 
-    const chapters = await Chapter.find({ storyId }).sort({ chapterNumber: 1 });
+    const chapters = await Chapter.find({ storyId }).select('-content').sort({ chapterNumber: 1 });
     return res.json({ success: true, data: chapters });
   } catch (err) {
     return res.status(500).json({ success: false, message: err.message });
